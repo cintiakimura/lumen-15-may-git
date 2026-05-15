@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 
 export default function UploadForm({ onCourseCreated, onClose }) {
   const [step, setStep] = useState(1);
@@ -58,7 +58,7 @@ export default function UploadForm({ onCourseCreated, onClose }) {
     setError('');
 
     try {
-      const response = await base44.functions.invoke('structureCourse', {
+      const response = await lumen.functions.invoke('structureCourse', {
         content: courseData.content,
         title: courseData.title
       });
@@ -79,8 +79,8 @@ export default function UploadForm({ onCourseCreated, onClose }) {
 
   const saveCourse = async () => {
     try {
-      const user = await base44.auth.me();
-      await base44.entities.Course.create({
+      const user = await lumen.auth.me();
+      await lumen.entities.Course.create({
         title: courseData.title,
         description: courseData.description || '',
         content: courseData.content,

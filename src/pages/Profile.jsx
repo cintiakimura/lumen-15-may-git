@@ -25,7 +25,7 @@ import BottomNav from '@/components/BottomNav';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -36,9 +36,9 @@ export default function Profile() {
   const branding = storageService.getBranding();
 
   useEffect(() => {
-    base44.auth.isAuthenticated().then(isAuth => {
+    lumen.auth.isAuthenticated().then(isAuth => {
       if (!isAuth) {
-        base44.auth.redirectToLogin();
+        lumen.auth.redirectToLogin();
       }
     });
     setUser(authService.getCurrentUser());

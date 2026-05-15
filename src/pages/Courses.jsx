@@ -9,7 +9,7 @@ import BottomNav from '@/components/BottomNav';
 import CourseCard from '@/components/CourseCard';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 import { useQuery } from '@tanstack/react-query';
 
 const CATEGORIES = [
@@ -30,14 +30,14 @@ export default function Courses() {
 
   const { data: courses = [] } = useQuery({
     queryKey: ['all-courses'],
-    queryFn: () => base44.entities.Course.filter({ is_published: true }),
+    queryFn: () => lumen.entities.Course.filter({ is_published: true }),
     initialData: []
   });
 
   useEffect(() => {
-    base44.auth.isAuthenticated().then(isAuth => {
+    lumen.auth.isAuthenticated().then(isAuth => {
       if (!isAuth) {
-        base44.auth.redirectToLogin();
+        lumen.auth.redirectToLogin();
       }
     });
   }, [navigate]);

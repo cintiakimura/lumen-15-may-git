@@ -1,10 +1,10 @@
-import { createClient } from '@base44/sdk';
+import { createClient } from '@lumen/sdk';
 import { appParams } from '@/lib/app-params';
 
 const { appId, token, functionsVersion, appBaseUrl } = appParams;
 
 //Create a client with authentication required
-export const base44 = createClient({
+export const lumen = createClient({
   appId,
   token,
   functionsVersion,

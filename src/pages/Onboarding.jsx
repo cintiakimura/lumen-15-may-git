@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 
 export default function Onboarding() {
   const [step, setStep] = useState(1);
@@ -59,9 +59,9 @@ export default function Onboarding() {
       console.log(`Mock email sent to ${teacherEmail}: You've been invited to teach at ${company}`);
     });
     
-    await base44.auth.updateMe({ onboarded: true });
+    await lumen.auth.updateMe({ onboarded: true });
     
-    const user = await base44.auth.me();
+    const user = await lumen.auth.me();
     if (user?.role === 'teacher') {
       navigate('/teacher/dashboard');
     } else {

@@ -24,7 +24,7 @@ import CourseCard from '@/components/CourseCard';
 import UploadForm from '@/components/UploadForm';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 import { useQuery } from '@tanstack/react-query';
 
 export default function TeacherCourses() {
@@ -36,9 +36,9 @@ export default function TeacherCourses() {
   const branding = storageService.getBranding();
 
   useEffect(() => {
-    base44.auth.isAuthenticated().then(isAuth => {
+    lumen.auth.isAuthenticated().then(isAuth => {
       if (!isAuth) {
-        base44.auth.redirectToLogin();
+        lumen.auth.redirectToLogin();
       }
     });
   }, [navigate]);
@@ -46,8 +46,8 @@ export default function TeacherCourses() {
   const { data: courses = [], refetch } = useQuery({
     queryKey: ['teacher-courses'],
     queryFn: async () => {
-      const user = await base44.auth.me();
-      return await base44.entities.Course.filter({ teacher_id: user.id });
+      const user = await lumen.auth.me();
+      return await lumen.entities.Course.filter({ teacher_id: user.id });
     },
     initialData: []
   });

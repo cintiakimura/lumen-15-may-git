@@ -16,7 +16,7 @@ import TeacherSidebar from '@/components/TeacherSidebar';
 import ProgressBar from '@/components/ui/ProgressBar';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 
 export default function TeacherAnalytics() {
   const navigate = useNavigate();
@@ -28,9 +28,9 @@ export default function TeacherAnalytics() {
   const branding = storageService.getBranding();
 
   useEffect(() => {
-    base44.auth.isAuthenticated().then(isAuth => {
+    lumen.auth.isAuthenticated().then(isAuth => {
       if (!isAuth) {
-        base44.auth.redirectToLogin();
+        lumen.auth.redirectToLogin();
       }
     });
   }, [navigate]);

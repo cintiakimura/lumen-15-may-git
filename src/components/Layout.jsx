@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import GrokChat from './GrokChat';
@@ -14,7 +14,7 @@ export default function Layout({ children, currentPageName }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const currentUser = await base44.auth.me();
+        const currentUser = await lumen.auth.me();
         setUser(currentUser);
       } catch (error) {
         setUser(null);

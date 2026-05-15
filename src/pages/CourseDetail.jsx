@@ -24,7 +24,7 @@ import ChatBox from '@/components/ChatBox';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
 import certificateService from '@/components/services/certificateService';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 import { useQuery } from '@tanstack/react-query';
 
 export default function CourseDetail() {
@@ -39,9 +39,9 @@ export default function CourseDetail() {
   const branding = storageService.getBranding();
 
   useEffect(() => {
-    base44.auth.isAuthenticated().then(isAuth => {
+    lumen.auth.isAuthenticated().then(isAuth => {
       if (!isAuth) {
-        base44.auth.redirectToLogin();
+        lumen.auth.redirectToLogin();
       }
     });
   }, [navigate]);
@@ -49,7 +49,7 @@ export default function CourseDetail() {
   const { data: course } = useQuery({
     queryKey: ['course', courseId],
     queryFn: async () => {
-      const courses = await base44.entities.Course.list();
+      const courses = await lumen.entities.Course.list();
       return courses.find(c => c.id === courseId);
     },
     enabled: !!courseId
@@ -58,8 +58,8 @@ export default function CourseDetail() {
   const { data: progress = { completedLessons: [], mastery: 0 }, refetch: refetchProgress } = useQuery({
     queryKey: ['progress', courseId],
     queryFn: async () => {
-      const user = await base44.auth.me();
-      const allProgress = await base44.entities.StudentProgress.filter({
+      const user = await lumen.auth.me();
+      const allProgress = await lumen.entities.StudentProgress.filter({
         student_id: user.id,
         course_id: courseId
       });
@@ -92,7 +92,7 @@ export default function CourseDetail() {
   };
 
   const handleLessonComplete = async (lessonId) => {
-    const user = await base44.auth.me();
+    const user = await lumen.auth.me();
     const newCompletedLessons = [...(progress.completedLessons || []), lessonId];
     
     const progressData = {
@@ -104,9 +104,9 @@ export default function CourseDetail() {
     };
 
     if (progress.id) {
-      await base44.entities.StudentProgress.update(progress.id, progressData);
+      await lumen.entities.StudentProgress.update(progress.id, progressData);
     } else {
-      await base44.entities.StudentProgress.create(progressData);
+      await lumen.entities.StudentProgress.create(progressData);
     }
     
     if (progressData.certificate_earned) {
@@ -117,7 +117,7 @@ export default function CourseDetail() {
   };
 
   const handleMasteryUpdate = async (score) => {
-    const user = await base44.auth.me();
+    const user = await lumen.auth.me();
     const progressData = {
       student_id: user.id,
       course_id: courseId,
@@ -126,9 +126,9 @@ export default function CourseDetail() {
     };
 
     if (progress.id) {
-      await base44.entities.StudentProgress.update(progress.id, progressData);
+      await lumen.entities.StudentProgress.update(progress.id, progressData);
     } else {
-      await base44.entities.StudentProgress.create(progressData);
+      await lumen.entities.StudentProgress.create(progressData);
     }
     
     refetchProgress();
@@ -432,7 +432,7 @@ export default function CourseDetail() {
 
               <Button
                 onClick={async () => {
-                  const user = await base44.auth.me();
+                  const user = await lumen.auth.me();
                   certificateService.generateCertificate(
                     course.title,
                     user?.full_name || 'Student',

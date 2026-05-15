@@ -18,7 +18,7 @@ import CourseCard from '@/components/CourseCard';
 import ProgressBar from '@/components/ui/ProgressBar';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 import { useQuery } from '@tanstack/react-query';
 
 export default function StudentDashboard() {
@@ -29,16 +29,16 @@ export default function StudentDashboard() {
   const branding = storageService.getBranding();
 
   useEffect(() => {
-    base44.auth.isAuthenticated().then(isAuth => {
+    lumen.auth.isAuthenticated().then(isAuth => {
       if (!isAuth) {
-        base44.auth.redirectToLogin();
+        lumen.auth.redirectToLogin();
       }
     });
   }, [navigate]);
 
   const { data: courses = [] } = useQuery({
     queryKey: ['all-courses'],
-    queryFn: () => base44.entities.Course.filter({ is_published: true }),
+    queryFn: () => lumen.entities.Course.filter({ is_published: true }),
     initialData: []
   });
 

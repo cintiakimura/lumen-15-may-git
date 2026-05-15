@@ -1,9 +1,9 @@
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 
 export const grokService = {
   // Structure course content into lessons using Lumen Academy method
   async structureCourse(rawContent, courseTitle) {
-    const response = await base44.integrations.Core.InvokeLLM({
+    const response = await lumen.integrations.Core.InvokeLLM({
       prompt: `You are an expert instructional designer using the Lumen Academy method for vocational training.
 
 Transform the following content into a structured micro-learning course following these STRICT rules:
@@ -86,7 +86,7 @@ Return structured course following the format.`,
   async chatWithStudent(lessonContent, conversationHistory, studentMessage) {
     const historyText = conversationHistory.map(m => `${m.role}: ${m.content}`).join('\n');
     
-    const response = await base44.integrations.Core.InvokeLLM({
+    const response = await lumen.integrations.Core.InvokeLLM({
       prompt: `You are a friendly, encouraging vocational training tutor powered by Grok. You're helping a student understand this lesson:
 
 LESSON CONTENT:
@@ -122,7 +122,7 @@ Provide your response and your internal assessment of their mastery level (0-100
 
   // Generate mastery assessment questions
   async generateAssessment(lessonContent) {
-    const response = await base44.integrations.Core.InvokeLLM({
+    const response = await lumen.integrations.Core.InvokeLLM({
       prompt: `Create 3 practical assessment questions for this vocational training lesson:
 
 ${lessonContent}
@@ -150,7 +150,7 @@ Questions should test real-world application, not just memorization. Make them c
 
   // Evaluate student's answer
   async evaluateAnswer(question, answer, keyConceptsToCover) {
-    const response = await base44.integrations.Core.InvokeLLM({
+    const response = await lumen.integrations.Core.InvokeLLM({
       prompt: `Evaluate this student's answer to a vocational training question:
 
 QUESTION: ${question}

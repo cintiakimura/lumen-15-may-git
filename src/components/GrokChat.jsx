@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 
 export default function GrokChat({ user, onClose }) {
   const [messages, setMessages] = useState([]);
@@ -33,7 +33,7 @@ export default function GrokChat({ user, onClose }) {
 
     try {
       const context = conversationHistory.map(m => `${m.role}: ${m.content}`).join('\n');
-      const response = await base44.integrations.Core.InvokeLLM({
+      const response = await lumen.integrations.Core.InvokeLLM({
         prompt: `Context:\n${context}\n\nUser: ${input}\n\nProvide a helpful, concise response.`
       });
 

@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import VoiceButton from './ui/VoiceButton';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 
 export default function ChatBox({ 
   lessonContent,
@@ -55,7 +55,7 @@ export default function ChatBox({
     setIsLoading(true);
 
     try {
-      const response = await base44.functions.invoke('chatWithGrok', {
+      const response = await lumen.functions.invoke('chatWithGrok', {
         lessonContent,
         messageHistory: messages.map(m => ({ role: m.role, content: m.content })),
         userMessage: text.trim()

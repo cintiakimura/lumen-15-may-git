@@ -1,14 +1,14 @@
-**Welcome to your Base44 project** 
+**Welcome to your Lumen project** 
 
 **About**
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+View and Edit  your app on [Lumen.com](http://Lumen.com) 
 
 This project contains everything you need to run your app locally.
 
 **Edit the code in your local development environment**
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+Any change pushed to the repo will also be reflected in the Lumen Builder.
 
 **Prerequisites:** 
 
@@ -18,22 +18,24 @@ Any change pushed to the repo will also be reflected in the Base44 Builder.
 4. Create an `.env.local` file and set the right environment variables
 
 ```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
+VITE_LUMEN_APP_ID=your_app_id
+VITE_LUMEN_APP_BASE_URL=your_backend_url
 
 e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
+VITE_LUMEN_APP_ID=cbef744a8545c389ef439ea6
+VITE_LUMEN_APP_BASE_URL=https://my-to-do-list-81bfaad7.lumen.app
 ```
 
 Run the app: `npm run dev`
 
+**Environment variables:** Prefer `VITE_LUMEN_*`. The Vite plugin from the platform SDK still looks for `VITE_BASE44_*` in a few places; `vite.config.js` mirrors your Lumen-prefixed values when the legacy names are missing, and `app-params.js` accepts either prefix.
+
 **Publish your changes**
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+Open [Lumen.com](http://Lumen.com) and click on Publish.
 
 **Docs & Support**
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
+Documentation: [https://docs.lumen.com/Integrations/Using-GitHub](https://docs.lumen.com/Integrations/Using-GitHub)
 
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+Support: [https://app.lumen.com/support](https://app.lumen.com/support)

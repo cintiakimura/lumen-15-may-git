@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 
 export default function Landing() {
   const [showBooking, setShowBooking] = useState(false);
@@ -8,7 +8,7 @@ export default function Landing() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogin = () => {
-    base44.auth.redirectToLogin();
+    lumen.auth.redirectToLogin();
   };
 
   const getNextFriday2PM = () => {
@@ -50,14 +50,14 @@ export default function Landing() {
           <div className="grid grid-cols-2 h-full">
             <div className="relative h-full">
               <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69816fdfc8b62c2372da0c4b/ee482fc99_Screenshot2026-02-03at074623.png" 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/lumen-prod/public/69816fdfc8b62c2372da0c4b/ee482fc99_Screenshot2026-02-03at074623.png" 
                 alt="Professional learning" 
                 className="w-full h-full object-cover opacity-70"
               />
             </div>
             <div className="relative h-full">
               <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69816fdfc8b62c2372da0c4b/32b64ee3c_Screenshot2026-02-03at074745.png" 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/lumen-prod/public/69816fdfc8b62c2372da0c4b/32b64ee3c_Screenshot2026-02-03at074745.png" 
                 alt="Student learning" 
                 className="w-full h-full object-cover opacity-70"
               />

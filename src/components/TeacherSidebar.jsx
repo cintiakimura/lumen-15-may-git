@@ -77,7 +77,7 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
         {/* Logo */}
         <div className="sidebar-header flex items-center px-6 border-b" style={{ borderColor: 'var(--glass-border)' }}>
           <img 
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69816fdfc8b62c2372da0c4b/1cf3c4952_lumenlogo.png"
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/lumen-prod/public/69816fdfc8b62c2372da0c4b/1cf3c4952_lumenlogo.png"
             alt="LUMEN"
             style={{ height: '40px' }}
           />

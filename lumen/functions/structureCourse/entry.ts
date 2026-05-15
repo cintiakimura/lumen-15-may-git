@@ -24,8 +24,8 @@ const stripTrackers = (code) => {
 
 Deno.serve(async (req) => {
   try {
-    const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
+    const lumen = createClientFromRequest(req);
+    const user = await lumen.auth.me();
 
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
@@ -39,7 +39,7 @@ Deno.serve(async (req) => {
 
     const cleanContent = stripLinks(stripTrackers(content));
 
-    const result = await base44.integrations.Core.InvokeLLM({
+    const result = await lumen.integrations.Core.InvokeLLM({
       prompt: `You are an expert course designer for Lumen Academy, specializing in micro-learning for vocational training.
 
 Transform the following content into a structured course using these guidelines:

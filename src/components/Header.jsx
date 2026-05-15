@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 
 export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'Dashboard' }) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await base44.auth.logout();
+    await lumen.auth.logout();
     navigate('/');
   };
 

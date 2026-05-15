@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { lumen } from '@/api/lumenClient';
 import Layout from '@/components/Layout';
 import Landing from './Landing';
 import Onboarding from './Onboarding';
@@ -83,7 +83,7 @@ export default function App() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const currentUser = await base44.auth.me();
+        const currentUser = await lumen.auth.me();
         setUser(currentUser);
       } catch (error) {
         setUser(null);
