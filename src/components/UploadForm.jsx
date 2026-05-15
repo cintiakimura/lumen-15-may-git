@@ -1,12 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { Upload, FileText, X, Loader2, Sparkles, CheckCircle } from 'lucide-react';
+import { Upload, X, Loader2, Sparkles, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { lumen } from '@/api/lumenClient';
+import { runtimeInvokeStructureCourse, runtimeCreateCourse, runtimeAuthMe } from '@/lib/appRuntime';
 
 export default function UploadForm({ onCourseCreated, onClose }) {
   const [step, setStep] = useState(1);
@@ -58,7 +57,7 @@ export default function UploadForm({ onCourseCreated, onClose }) {
     setError('');
 
     try {
-      const response = await lumen.functions.invoke('structureCourse', {
+      const response = await runtimeInvokeStructureCourse({
         content: courseData.content,
         title: courseData.title
       });
@@ -79,8 +78,8 @@ export default function UploadForm({ onCourseCreated, onClose }) {
 
   const saveCourse = async () => {
     try {
-      const user = await lumen.auth.me();
-      await lumen.entities.Course.create({
+      const user = await runtimeAuthMe();
+      await runtimeCreateCourse({
         title: courseData.title,
         description: courseData.description || '',
         content: courseData.content,

@@ -13,22 +13,24 @@ import {
   Bell,
   Shield,
   HelpCircle,
-  Palette,
-  Sun,
-  Moon
+  Palette
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
 import { motion } from 'framer-motion';
 import BottomNav from '@/components/BottomNav';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
-import { lumen } from '@/api/lumenClient';
+import {
+  runtimeAuthIsAuthenticated,
+  runtimeRedirectToLogin,
+} from '@/lib/appRuntime';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function Profile() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [user, setUser] = useState(null);
   const [courses, setCourses] = useState([]);
   const [progress, setProgress] = useState({});
@@ -36,9 +38,9 @@ export default function Profile() {
   const branding = storageService.getBranding();
 
   useEffect(() => {
-    lumen.auth.isAuthenticated().then(isAuth => {
+    runtimeAuthIsAuthenticated().then((isAuth) => {
       if (!isAuth) {
-        lumen.auth.redirectToLogin();
+        runtimeRedirectToLogin();
       }
     });
     setUser(authService.getCurrentUser());
@@ -46,9 +48,8 @@ export default function Profile() {
     setProgress(storageService.getProgress(authService.getCurrentUser()?.id));
   }, [navigate]);
 
-  const handleLogout = () => {
-    authService.logout();
-    navigate(createPageUrl('Landing'));
+  const handleLogout = async () => {
+    await logout(true);
   };
 
   const completedCourses = Object.values(progress).filter(p => 

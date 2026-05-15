@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { lumen } from '@/api/lumenClient';
 import { useQuery } from '@tanstack/react-query';
-
+import { runtimeAuthMe } from '@/lib/appRuntime';
 
 export default function PageNotFound({}) {
     const location = useLocation();
@@ -11,7 +10,7 @@ export default function PageNotFound({}) {
         queryKey: ['user'],
         queryFn: async () => {
             try {
-                const user = await lumen.auth.me();
+                const user = await runtimeAuthMe();
                 return { user, isAuthenticated: true };
             } catch (error) {
                 return { user: null, isAuthenticated: false };

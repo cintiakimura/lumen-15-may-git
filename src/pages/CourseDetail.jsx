@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { 
   ArrowLeft, 
-  Play, 
   CheckCircle, 
   Lock,
   Clock,
@@ -21,10 +20,17 @@ import { Card, CardContent } from '@/components/ui/card';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProgressBar from '@/components/ui/ProgressBar';
 import ChatBox from '@/components/ChatBox';
-import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
 import certificateService from '@/components/services/certificateService';
-import { lumen } from '@/api/lumenClient';
+import {
+  runtimeAuthIsAuthenticated,
+  runtimeRedirectToLogin,
+  runtimeListCoursesForLookup,
+  runtimeStudentProgress,
+  runtimeSaveLessonProgress,
+  runtimeSaveMasteryProgress,
+  runtimeAuthMe,
+} from '@/lib/appRuntime';
 import { useQuery } from '@tanstack/react-query';
 
 export default function CourseDetail() {
@@ -39,9 +45,9 @@ export default function CourseDetail() {
   const branding = storageService.getBranding();
 
   useEffect(() => {
-    lumen.auth.isAuthenticated().then(isAuth => {
+    runtimeAuthIsAuthenticated().then((isAuth) => {
       if (!isAuth) {
-        lumen.auth.redirectToLogin();
+        runtimeRedirectToLogin();
       }
     });
   }, [navigate]);
@@ -49,7 +55,7 @@ export default function CourseDetail() {
   const { data: course } = useQuery({
     queryKey: ['course', courseId],
     queryFn: async () => {
-      const courses = await lumen.entities.Course.list();
+      const courses = await runtimeListCoursesForLookup();
       return courses.find(c => c.id === courseId);
     },
     enabled: !!courseId
@@ -57,14 +63,7 @@ export default function CourseDetail() {
 
   const { data: progress = { completedLessons: [], mastery: 0 }, refetch: refetchProgress } = useQuery({
     queryKey: ['progress', courseId],
-    queryFn: async () => {
-      const user = await lumen.auth.me();
-      const allProgress = await lumen.entities.StudentProgress.filter({
-        student_id: user.id,
-        course_id: courseId
-      });
-      return allProgress[0] || { completedLessons: [], mastery: 0 };
-    },
+    queryFn: () => runtimeStudentProgress(courseId),
     enabled: !!courseId,
     initialData: { completedLessons: [], mastery: 0 }
   });
@@ -92,45 +91,17 @@ export default function CourseDetail() {
   };
 
   const handleLessonComplete = async (lessonId) => {
-    const user = await lumen.auth.me();
-    const newCompletedLessons = [...(progress.completedLessons || []), lessonId];
-    
-    const progressData = {
-      student_id: user.id,
-      course_id: courseId,
-      completed_lessons: newCompletedLessons,
-      mastery_score: progress.mastery || 0,
-      certificate_earned: newCompletedLessons.length === course?.lessons?.length
-    };
-
-    if (progress.id) {
-      await lumen.entities.StudentProgress.update(progress.id, progressData);
-    } else {
-      await lumen.entities.StudentProgress.create(progressData);
-    }
-    
-    if (progressData.certificate_earned) {
+    await runtimeSaveLessonProgress(courseId, progress, course, lessonId);
+    const done =
+      [...(progress.completedLessons || []), lessonId].length === course?.lessons?.length;
+    if (done) {
       setShowCertificate(true);
     }
-    
     refetchProgress();
   };
 
   const handleMasteryUpdate = async (score) => {
-    const user = await lumen.auth.me();
-    const progressData = {
-      student_id: user.id,
-      course_id: courseId,
-      completed_lessons: progress.completedLessons || [],
-      mastery_score: score
-    };
-
-    if (progress.id) {
-      await lumen.entities.StudentProgress.update(progress.id, progressData);
-    } else {
-      await lumen.entities.StudentProgress.create(progressData);
-    }
-    
+    await runtimeSaveMasteryProgress(courseId, progress, score);
     refetchProgress();
   };
 
@@ -432,11 +403,11 @@ export default function CourseDetail() {
 
               <Button
                 onClick={async () => {
-                  const user = await lumen.auth.me();
+                  const user = await runtimeAuthMe();
                   certificateService.generateCertificate(
                     course.title,
                     user?.full_name || 'Student',
-                    progress.mastery_score || 85
+                    progress.mastery_score || progress.mastery || 85
                   );
                 }}
                 className="w-full py-6 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold"

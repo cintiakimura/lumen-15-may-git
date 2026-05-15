@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { lumen } from '@/api/lumenClient';
+import { createPageUrl } from '@/utils';
+import { isDemoMode, withDemoParam } from '@/lib/demoMode';
+import authService from '@/components/services/authService';
+import storageService from '@/components/services/storageService';
 
 export default function Onboarding() {
   const [step, setStep] = useState(1);
@@ -59,13 +63,22 @@ export default function Onboarding() {
       console.log(`Mock email sent to ${teacherEmail}: You've been invited to teach at ${company}`);
     });
     
+    if (isDemoMode()) {
+      authService.completeOnboarding({ logo, color, font });
+      storageService.setOnboarded(true);
+      const user = authService.getCurrentUser();
+      const page = user?.role === 'teacher' ? 'TeacherDashboard' : 'StudentDashboard';
+      navigate(withDemoParam(createPageUrl(page)));
+      return;
+    }
+
     await lumen.auth.updateMe({ onboarded: true });
-    
+
     const user = await lumen.auth.me();
     if (user?.role === 'teacher') {
-      navigate('/teacher/dashboard');
+      navigate(createPageUrl('TeacherDashboard'));
     } else {
-      navigate('/student/dashboard');
+      navigate(createPageUrl('StudentDashboard'));
     }
   };
 

@@ -14,10 +14,11 @@ import {
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import authService from './services/authService';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function TeacherSidebar({ isOpen, onToggle }) {
   const location = useLocation();
+  const { logout } = useAuth();
   
   const navItems = [
     { icon: LayoutDashboard, label: 'Dashboard', page: 'TeacherDashboard' },
@@ -30,9 +31,8 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
     return location.pathname === createPageUrl(page);
   };
 
-  const handleLogout = () => {
-    authService.logout();
-    window.location.href = createPageUrl('Landing');
+  const handleLogout = async () => {
+    await logout(true);
   };
 
   return (

@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Sparkles, RefreshCw } from 'lucide-react';
+import { Send, Bot, User, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import VoiceButton from './ui/VoiceButton';
-import { lumen } from '@/api/lumenClient';
+import { runtimeInvokeChatWithGrok } from '@/lib/appRuntime';
 
 export default function ChatBox({ 
   lessonContent,
@@ -55,7 +55,7 @@ export default function ChatBox({
     setIsLoading(true);
 
     try {
-      const response = await lumen.functions.invoke('chatWithGrok', {
+      const response = await runtimeInvokeChatWithGrok({
         lessonContent,
         messageHistory: messages.map(m => ({ role: m.role, content: m.content })),
         userMessage: text.trim()

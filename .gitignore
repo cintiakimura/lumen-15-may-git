@@ -1,9 +1,17 @@
-#env
+# Dependencies
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+
+# Environment & secrets
 .env
 .env.*
+!.env.example
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -11,23 +19,24 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Local / OS
 *.local
+.DS_Store
+Thumbs.db
 
-# Editor directories and files
+# Editor
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-.envpackage-lock.json
-package-lock.json
-node_modules/
-package-lock.json
+# Vite / caches
+.vite/
+*.tsbuildinfo
+
+# Test / coverage
+coverage/

@@ -1,0 +1,8 @@
+{
+  "name": "Lumen Academy",
+  "short_name": "Lumen",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#212121",
+  "theme_color": "#00c600"
+}

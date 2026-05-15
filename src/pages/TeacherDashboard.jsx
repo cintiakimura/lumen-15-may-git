@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
 import { 
   Plus, 
   BookOpen, 
   Users, 
   TrendingUp,
   Clock,
-  BarChart3,
   ArrowUpRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import TeacherSidebar from '@/components/TeacherSidebar';
 import UploadForm from '@/components/UploadForm';
@@ -19,7 +17,11 @@ import CourseCard from '@/components/CourseCard';
 import ProgressBar from '@/components/ui/ProgressBar';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
-import { lumen } from '@/api/lumenClient';
+import {
+  runtimeAuthIsAuthenticated,
+  runtimeRedirectToLogin,
+  runtimeTeacherCourses,
+} from '@/lib/appRuntime';
 import { useQuery } from '@tanstack/react-query';
 
 export default function TeacherDashboard() {
@@ -33,19 +35,16 @@ export default function TeacherDashboard() {
   const branding = storageService.getBranding();
 
   useEffect(() => {
-    lumen.auth.isAuthenticated().then(isAuth => {
+    runtimeAuthIsAuthenticated().then((isAuth) => {
       if (!isAuth) {
-        lumen.auth.redirectToLogin();
+        runtimeRedirectToLogin();
       }
     });
   }, [navigate]);
 
   const { data: courses = [] } = useQuery({
     queryKey: ['teacher-courses'],
-    queryFn: async () => {
-      const user = await lumen.auth.me();
-      return await lumen.entities.Course.filter({ teacher_id: user.id });
-    },
+    queryFn: () => runtimeTeacherCourses(),
     initialData: []
   });
 

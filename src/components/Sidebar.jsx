@@ -1,44 +1,49 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 
 export default function Sidebar({ open, onToggle, isTeacher, isStudent }) {
   const location = useLocation();
 
   const teacherLinks = [
-    { label: 'Dashboard', icon: '📊', path: '/teacher/dashboard' },
-    { label: 'Courses', icon: '📚', path: '/teacher/courses' },
-    { label: 'Students', icon: '👥', path: '/teacher/students' },
-    { label: 'Analytics', icon: '📈', path: '/teacher/analytics' }
+    { label: 'Dashboard', icon: '📊', page: 'TeacherDashboard' },
+    { label: 'Courses', icon: '📚', page: 'TeacherCourses' },
+    { label: 'Students', icon: '👥', page: 'TeacherStudents' },
+    { label: 'Analytics', icon: '📈', page: 'TeacherAnalytics' },
   ];
 
   const studentLinks = [
-    { label: 'Dashboard', icon: '🏠', path: '/student/dashboard' },
-    { label: 'Browse Courses', icon: '🔍', path: '/courses' },
-    { label: 'Profile', icon: '👤', path: '/profile' }
+    { label: 'Dashboard', icon: '🏠', page: 'StudentDashboard' },
+    { label: 'Browse Courses', icon: '🔍', page: 'Courses' },
+    { label: 'Profile', icon: '👤', page: 'Profile' },
   ];
 
-  const links = isTeacher ? teacherLinks : studentLinks;
+  const links = (isTeacher ? teacherLinks : studentLinks).map((item) => ({
+    ...item,
+    path: createPageUrl(item.page),
+  }));
 
   const isActive = (path) => location.pathname === path;
 
   return (
     <>
-      {/* Sidebar */}
-      <div style={{
-        position: 'fixed',
-        left: 0,
-        top: '80px',
-        height: 'calc(100vh - 80px)',
-        width: open ? '280px' : '80px',
-        background: 'rgba(255, 255, 255, 0.05)',
-        backdropFilter: 'blur(12px)',
-        border: '1px solid #333333',
-        padding: open ? '24px 0' : '24px 0',
-        overflowY: 'auto',
-        transition: 'width 0.3s ease',
-        zIndex: 20,
-        borderRight: '1px solid #333333'
-      }}>
+      <div
+        style={{
+          position: 'fixed',
+          left: 0,
+          top: '80px',
+          height: 'calc(100vh - 80px)',
+          width: open ? '280px' : '80px',
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid #333333',
+          padding: open ? '24px 0' : '24px 0',
+          overflowY: 'auto',
+          transition: 'width 0.3s ease',
+          zIndex: 20,
+          borderRight: '1px solid #333333',
+        }}
+      >
         {links.map((link) => (
           <Link
             key={link.path}
@@ -54,7 +59,7 @@ export default function Sidebar({ open, onToggle, isTeacher, isStudent }) {
               transition: 'all 0.2s ease',
               cursor: 'pointer',
               marginBottom: '8px',
-              justifyContent: open ? 'flex-start' : 'center'
+              justifyContent: open ? 'flex-start' : 'center',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = 'rgba(0, 198, 0, 0.1)';
@@ -69,24 +74,22 @@ export default function Sidebar({ open, onToggle, isTeacher, isStudent }) {
         ))}
       </div>
 
-      {/* Mobile Bottom Nav */}
-      <div style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: '60px',
-        background: 'rgba(255, 255, 255, 0.05)',
-        backdropFilter: 'blur(12px)',
-        border: '1px solid #333333',
-        display: 'none',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        zIndex: 20,
-        '@media (max-width: 768px)': {
-          display: 'flex'
-        }
-      }}>
+      <div
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '60px',
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid #333333',
+          display: 'none',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          zIndex: 20,
+        }}
+      >
         {links.map((link) => (
           <Link
             key={link.path}
@@ -100,7 +103,7 @@ export default function Sidebar({ open, onToggle, isTeacher, isStudent }) {
               textDecoration: 'none',
               fontSize: '12px',
               flex: 1,
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
           >
             <span style={{ fontSize: '20px' }}>{link.icon}</span>

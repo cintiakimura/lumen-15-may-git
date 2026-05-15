@@ -22,6 +22,14 @@ export default defineConfig(({ mode }) => {
   mirrorLumenEnvForBundledPlugin(mode, process.cwd())
   return {
     logLevel: 'error', // Suppress warnings, only show errors
+    server: {
+      port: Number(process.env.PORT) || 5173,
+      host: true,
+    },
+    preview: {
+      port: Number(process.env.PORT) || 4173,
+      host: true,
+    },
     plugins: [
       lumenVitePlugin({
         // Support for legacy code that imports the platform SDK with @/integrations, @/entities, etc.

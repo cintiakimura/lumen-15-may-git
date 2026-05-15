@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Search, Filter, BookOpen } from 'lucide-react';
+import { Search, BookOpen } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import BottomNav from '@/components/BottomNav';
 import CourseCard from '@/components/CourseCard';
-import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
-import { lumen } from '@/api/lumenClient';
+import {
+  runtimeAuthIsAuthenticated,
+  runtimeRedirectToLogin,
+  runtimePublishedCourses,
+} from '@/lib/appRuntime';
 import { useQuery } from '@tanstack/react-query';
 
 const CATEGORIES = [
@@ -30,14 +33,14 @@ export default function Courses() {
 
   const { data: courses = [] } = useQuery({
     queryKey: ['all-courses'],
-    queryFn: () => lumen.entities.Course.filter({ is_published: true }),
+    queryFn: () => runtimePublishedCourses(),
     initialData: []
   });
 
   useEffect(() => {
-    lumen.auth.isAuthenticated().then(isAuth => {
+    runtimeAuthIsAuthenticated().then((isAuth) => {
       if (!isAuth) {
-        lumen.auth.redirectToLogin();
+        runtimeRedirectToLogin();
       }
     });
   }, [navigate]);

@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { lumen } from '@/api/lumenClient';
 import { pagesConfig } from '@/pages.config';
+import { isDemoMode } from '@/lib/demoMode';
 
 export default function NavigationTracker() {
     const location = useLocation();
@@ -12,6 +13,8 @@ export default function NavigationTracker() {
 
     // Log user activity when navigating to a page
     useEffect(() => {
+        if (isDemoMode()) return;
+
         // Extract page name from pathname
         const pathname = location.pathname;
         let pageName;

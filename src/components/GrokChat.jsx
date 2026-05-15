@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { lumen } from '@/api/lumenClient';
+import { isDemoMode } from '@/lib/demoMode';
 
 export default function GrokChat({ user, onClose }) {
   const [messages, setMessages] = useState([]);
@@ -33,11 +34,17 @@ export default function GrokChat({ user, onClose }) {
 
     try {
       const context = conversationHistory.map(m => `${m.role}: ${m.content}`).join('\n');
-      const response = await lumen.integrations.Core.InvokeLLM({
-        prompt: `Context:\n${context}\n\nUser: ${input}\n\nProvide a helpful, concise response.`
-      });
+      let text;
+      if (isDemoMode()) {
+        text = 'Demo mode: assistant replies are disabled. Connect the hosted app for live AI.';
+      } else {
+        const response = await lumen.integrations.Core.InvokeLLM({
+          prompt: `Context:\n${context}\n\nUser: ${input}\n\nProvide a helpful, concise response.`
+        });
+        text = typeof response === 'string' ? response : JSON.stringify(response);
+      }
 
-      const assistantMessage = { role: 'assistant', content: response };
+      const assistantMessage = { role: 'assistant', content: text };
       const updatedMessages = [...newMessages, assistantMessage];
       setMessages(updatedMessages);
       setConversationHistory([...conversationHistory, userMessage, assistantMessage]);

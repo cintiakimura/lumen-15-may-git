@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { lumen } from '@/api/lumenClient';
+import React from 'react';
+import { useAuth } from '@/lib/AuthContext';
 
 export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'Dashboard' }) {
-  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
-    await lumen.auth.logout();
-    navigate('/');
+    await logout(true);
   };
 
   return (
@@ -25,9 +23,9 @@ export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'D
       padding: '0 24px',
       zIndex: 30
     }}>
-      {/* Left: Menu + Logo + Page Title */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
         <button
+          type="button"
           onClick={onMenuToggle}
           style={{
             background: 'transparent',
@@ -78,7 +76,6 @@ export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'D
         </div>
       </div>
 
-      {/* Right: User Info + Logout */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <div style={{
           width: '40px',
@@ -112,6 +109,7 @@ export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'D
           </span>
         </div>
         <button
+          type="button"
           onClick={handleLogout}
           style={{
             background: 'transparent',

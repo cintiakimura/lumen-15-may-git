@@ -1,27 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { lumen } from '@/api/lumenClient';
+import { useAuth } from '@/lib/AuthContext';
+import { createPageUrl } from '@/utils';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import GrokChat from './GrokChat';
 
 export default function Layout({ children, currentPageName }) {
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const currentUser = await lumen.auth.me();
-        setUser(currentUser);
-      } catch (error) {
-        setUser(null);
-      }
-    };
-    checkAuth();
-  }, []);
 
   useEffect(() => {
     const savedChat = localStorage.getItem('grokChatOpen');
@@ -34,8 +23,12 @@ export default function Layout({ children, currentPageName }) {
     localStorage.setItem('grokChatOpen', newState);
   };
 
-  // Check if current page should show sidebar
-  const showSidebar = user && !['/'].includes(location.pathname);
+  const isLandingLike =
+    location.pathname === '/' ||
+    location.pathname === createPageUrl('Landing') ||
+    location.pathname === createPageUrl('Login');
+
+  const showSidebar = user && !isLandingLike;
   const isTeacher = user?.role === 'teacher';
   const isStudent = user?.role === 'student';
 
@@ -134,65 +127,65 @@ export default function Layout({ children, currentPageName }) {
         }
       `}</style>
 
-      {/* Header */}
-      {user && <Header user={user} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} sidebarOpen={sidebarOpen} />}
+      {user && (
+        <Header user={user} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} sidebarOpen={sidebarOpen} />
+      )}
 
       <div style={{ display: 'flex', flex: 1 }}>
-        {/* Sidebar */}
         {showSidebar && (
-          <Sidebar 
-            open={sidebarOpen} 
+          <Sidebar
+            open={sidebarOpen}
             onToggle={() => setSidebarOpen(!sidebarOpen)}
             isTeacher={isTeacher}
             isStudent={isStudent}
           />
         )}
 
-        {/* Main Content */}
-        <div style={{
-          flex: 1,
-          overflowY: 'auto',
-          paddingBottom: user ? '100px' : '0px',
-          transition: 'margin-left 0.3s ease',
-          width: '100%'
-        }}>
+        <div
+          style={{
+            flex: 1,
+            overflowY: 'auto',
+            paddingBottom: user ? '100px' : '0px',
+            transition: 'margin-left 0.3s ease',
+            width: '100%',
+          }}
+        >
           {children}
         </div>
       </div>
 
-      {/* Floating Chatbot */}
       {user && (
         <>
           <button
-           onClick={toggleChat}
-           style={{
-             position: 'fixed',
-             bottom: '32px',
-             right: '32px',
-             width: '64px',
-             height: '64px',
-             background: '#00c600',
-             border: 'none',
-             borderRadius: '9999px',
-             cursor: 'pointer',
-             display: 'flex',
-             alignItems: 'center',
-             justifyContent: 'center',
-             zIndex: 40,
-             boxShadow: '0 4px 12px rgba(0, 198, 0, 0.3)',
-             transition: 'all 0.2s ease'
-           }}
-           onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            type="button"
+            onClick={toggleChat}
+            style={{
+              position: 'fixed',
+              bottom: '32px',
+              right: '32px',
+              width: '64px',
+              height: '64px',
+              background: '#00c600',
+              border: 'none',
+              borderRadius: '9999px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 40,
+              boxShadow: '0 4px 12px rgba(0, 198, 0, 0.3)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
           >
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
           </button>
 
-          {/* Chat Panel */}
           {chatOpen && (
-            <GrokChat 
+            <GrokChat
               user={user}
               onClose={() => {
                 setChatOpen(false);

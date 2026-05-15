@@ -14,7 +14,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
-import { lumen } from '@/api/lumenClient';
+import {
+  runtimeAuthIsAuthenticated,
+  runtimeRedirectToLogin,
+} from '@/lib/appRuntime';
 
 const COLORS = [
   { name: 'Blue', value: '#3B82F6' },
@@ -41,9 +44,9 @@ export default function Settings() {
   const user = authService.getCurrentUser();
 
   useEffect(() => {
-    lumen.auth.isAuthenticated().then(isAuth => {
+    runtimeAuthIsAuthenticated().then((isAuth) => {
       if (!isAuth) {
-        lumen.auth.redirectToLogin();
+        runtimeRedirectToLogin();
       }
     });
   }, [navigate]);

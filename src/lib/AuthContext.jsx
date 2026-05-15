@@ -2,6 +2,9 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { lumen } from '@/api/lumenClient';
 import { appParams } from '@/lib/app-params';
 import { createAxiosClient } from '@lumen/sdk/dist/utils/axios-client';
+import { isDemoMode, withDemoParam } from '@/lib/demoMode';
+import { createPageUrl } from '@/utils';
+import authService from '@/components/services/authService';
 
 const AuthContext = createContext();
 
@@ -14,6 +17,25 @@ export const AuthProvider = ({ children }) => {
   const [appPublicSettings, setAppPublicSettings] = useState(null); // Contains only { id, public_settings }
 
   useEffect(() => {
+    if (isDemoMode()) {
+      setIsLoadingPublicSettings(false);
+      setAuthError(null);
+      const u = authService.getCurrentUser();
+      if (u) {
+        setUser({
+          id: u.id,
+          email: u.email,
+          full_name: u.name,
+          role: u.role,
+        });
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+      setIsLoadingAuth(false);
+      return;
+    }
     checkAppState();
   }, []);
 
@@ -113,18 +135,27 @@ export const AuthProvider = ({ children }) => {
   const logout = (shouldRedirect = true) => {
     setUser(null);
     setIsAuthenticated(false);
-    
+
+    if (isDemoMode()) {
+      authService.logout();
+      if (shouldRedirect) {
+        window.location.assign(withDemoParam(createPageUrl('Landing')));
+      }
+      return;
+    }
+
     if (shouldRedirect) {
-      // Use the SDK's logout method which handles token cleanup and redirect
       lumen.auth.logout(window.location.href);
     } else {
-      // Just remove the token without redirect
       lumen.auth.logout();
     }
   };
 
   const navigateToLogin = () => {
-    // Use the SDK's redirectToLogin method
+    if (isDemoMode()) {
+      window.location.assign(withDemoParam(createPageUrl('Login')));
+      return;
+    }
     lumen.auth.redirectToLogin(window.location.href);
   };
 

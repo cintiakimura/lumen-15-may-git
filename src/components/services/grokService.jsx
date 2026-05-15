@@ -1,8 +1,27 @@
 import { lumen } from '@/api/lumenClient';
+import { isDemoMode } from '@/lib/demoMode';
 
 export const grokService = {
   // Structure course content into lessons using Lumen Academy method
   async structureCourse(rawContent, courseTitle) {
+    if (isDemoMode()) {
+      return {
+        course_title: courseTitle,
+        description: 'Demo mode: structured outline preview.',
+        lessons: [
+          {
+            id: 'l1',
+            title: 'Demo concept',
+            format: 'theory',
+            content: 'Placeholder lesson content.',
+            duration: 5,
+            keyPoints: ['Demo key point'],
+          },
+        ],
+        summary: 'Demo mode summary.',
+      };
+    }
+
     const response = await lumen.integrations.Core.InvokeLLM({
       prompt: `You are an expert instructional designer using the Lumen Academy method for vocational training.
 
@@ -84,6 +103,16 @@ Return structured course following the format.`,
 
   // Chat with student - assess mastery
   async chatWithStudent(lessonContent, conversationHistory, studentMessage) {
+    if (isDemoMode()) {
+      return {
+        response: 'Demo mode: tutor reply placeholder.',
+        mastery_score: 72,
+        is_frustrated: false,
+        ready_for_next: false,
+        suggestion: 'Review the key terms from this lesson.',
+      };
+    }
+
     const historyText = conversationHistory.map(m => `${m.role}: ${m.content}`).join('\n');
     
     const response = await lumen.integrations.Core.InvokeLLM({
@@ -122,6 +151,18 @@ Provide your response and your internal assessment of their mastery level (0-100
 
   // Generate mastery assessment questions
   async generateAssessment(lessonContent) {
+    if (isDemoMode()) {
+      return {
+        questions: [
+          {
+            question: 'Demo: what is one takeaway from this lesson?',
+            hint: 'Keep it practical.',
+            keyConceptsToCover: ['basics'],
+          },
+        ],
+      };
+    }
+
     const response = await lumen.integrations.Core.InvokeLLM({
       prompt: `Create 3 practical assessment questions for this vocational training lesson:
 
@@ -150,6 +191,15 @@ Questions should test real-world application, not just memorization. Make them c
 
   // Evaluate student's answer
   async evaluateAnswer(question, answer, keyConceptsToCover) {
+    if (isDemoMode()) {
+      return {
+        score: 80,
+        feedback: 'Demo mode feedback.',
+        conceptsCovered: keyConceptsToCover.slice(0, 1),
+        conceptsMissed: [],
+      };
+    }
+
     const response = await lumen.integrations.Core.InvokeLLM({
       prompt: `Evaluate this student's answer to a vocational training question:
 
