@@ -29,6 +29,12 @@ export default defineConfig(({ mode }) => {
     preview: {
       port: Number(process.env.PORT) || 4173,
       host: true,
+      allowedHosts: [
+        'lumen-15-may-git.onrender.com',
+        '.onrender.com',
+        'localhost',
+        '127.0.0.1',
+      ],
     },
     plugins: [
       lumenVitePlugin({
