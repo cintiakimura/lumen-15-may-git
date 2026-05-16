@@ -62,11 +62,11 @@ export default function TeacherCourses() {
   );
 
   return (
-    <div className="min-h-screen bg-background lg:flex">
+    <div className="min-h-screen bg-background lg:flex lg:gap-8">
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
       
-      <main className="flex-1">
-        <header className="lumen-glass-nav px-6 py-4 lg:px-8">
+      <main className="min-w-0 flex-1">
+        <header className="lumen-glass-nav px-4 py-4 md:px-10">
           <div className="flex items-center justify-between">
             <div className="lg:hidden" />
             <div>
@@ -83,7 +83,7 @@ export default function TeacherCourses() {
           </div>
         </header>
 
-        <div className="p-6 lg:p-8 space-y-6">
+        <div className="space-y-5 px-4 py-5 md:px-10 md:py-8">
           {/* Search */}
           <div className="relative max-w-md">
             <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 stroke-[1.5] text-muted-foreground" />
@@ -96,16 +96,16 @@ export default function TeacherCourses() {
           </div>
 
           {/* Courses Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-3">
             {filteredCourses.map((course, index) => (
               <motion.div
                 key={course.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="relative group"
+                className="group relative h-full min-h-0"
               >
-                <CourseCard course={course} onClick={() => {}} />
+                <CourseCard course={course} onClick={() => {}} className="h-full" />
                 
                 {/* Actions overlay */}
                 <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">

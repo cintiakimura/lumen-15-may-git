@@ -176,7 +176,7 @@ export default function ChatBox({
   return (
     <div
       className={cn(
-        'flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm',
+        'glass-card-static flex h-full flex-col overflow-hidden text-card-foreground',
         className
       )}
     >
@@ -186,7 +186,7 @@ export default function ChatBox({
             <Sparkles className="h-5 w-5" aria-hidden />
           </div>
           <div className="min-w-0">
-            <h3 className="font-semibold text-foreground">Coach</h3>
+            <h3 className="font-normal text-foreground">Coach</h3>
             <p className="text-xs text-muted-foreground">
               {variant === 'mental_scenario'
                 ? 'Mental scenario — warm help, no judgment'

@@ -80,11 +80,11 @@ export default function TeacherDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-background lg:flex">
+    <div className="min-h-screen bg-background lg:flex lg:gap-8">
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
 
-      <main className="flex-1 lg:ml-0">
-        <header className="lumen-glass-nav px-4 py-4 sm:px-6">
+      <main className="min-w-0 flex-1">
+        <header className="lumen-glass-nav px-4 py-4 md:px-10">
           <div className="flex items-center justify-between">
             <div className="lg:hidden" />
             <div>
@@ -98,9 +98,9 @@ export default function TeacherDashboard() {
           </div>
         </header>
 
-        <div className="p-6 lg:p-8 space-y-8 pb-64">
+        <div className="space-y-5 px-4 py-5 pb-64 md:px-10 md:py-8">
           {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+          <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.title}
@@ -108,8 +108,8 @@ export default function TeacherDashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="glass-panel border border-black/[0.06] shadow-none transition-shadow hover:shadow-sm">
-                  <CardContent className="p-5">
+                <Card>
+                  <CardContent>
                     <div className="flex items-start justify-between">
                       <div className="flex h-10 w-10 items-center justify-center rounded-[6px] border border-black/[0.06] bg-primary/10">
                         <stat.icon className="h-5 w-5 stroke-[1.5] text-primary" />
@@ -129,22 +129,24 @@ export default function TeacherDashboard() {
 
           {/* Recent Courses */}
           <section>
-            <div className="flex items-center justify-between mb-4">
+            <div className="mb-6 flex items-center justify-between">
               <h2 className="text-lg font-normal text-foreground">Your Courses</h2>
               <Button variant="ghost" size="sm" className="text-primary">
                 View All
               </Button>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-3">
               {courses.slice(0, 3).map((course, index) => (
                 <motion.div
                   key={course.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
+                  className="h-full min-h-0"
                 >
-                  <CourseCard 
+                  <CourseCard
+                    className="h-full" 
                     course={course}
                     onClick={() => {}}
                   />
@@ -155,14 +157,14 @@ export default function TeacherDashboard() {
 
           {/* Student Progress */}
           <section>
-            <div className="flex items-center justify-between mb-4">
+            <div className="mb-6 flex items-center justify-between">
               <h2 className="text-lg font-normal text-foreground">Student Progress</h2>
               <Button variant="ghost" size="sm" className="text-primary">
                 View All
               </Button>
             </div>
             
-            <Card className="glass-panel overflow-hidden border border-black/[0.06] shadow-none">
+            <Card className="overflow-hidden p-0 gap-0">
               <CardContent className="p-0">
                 <div className="divide-y divide-border">
                   {students.slice(0, 5).map((student, index) => {

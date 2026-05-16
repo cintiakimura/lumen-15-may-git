@@ -60,8 +60,8 @@ export default function Courses() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <header className="lumen-glass-nav sticky top-0 z-30 px-6 py-4">
-        <h1 className="mb-4 text-2xl font-light text-foreground">Explore Courses</h1>
+      <header className="lumen-glass-nav sticky top-0 z-30 px-0 py-4 text-left">
+        <h1 className="mb-6 text-2xl font-light text-foreground">Explore Courses</h1>
 
         {/* Search */}
         <div className="relative">
@@ -75,9 +75,9 @@ export default function Courses() {
         </div>
       </header>
 
-      <div className="px-6 py-4">
+      <div className="space-y-5 py-4 text-left">
         {/* Category Filters */}
-        <div className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-4 scrollbar-hide">
+        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-hide md:-mx-10 md:px-10">
           {CATEGORIES.map((category) => (
             <Button
               key={category.id}
@@ -102,15 +102,17 @@ export default function Courses() {
 
         {/* Course Grid */}
         {filteredCourses.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid auto-rows-fr gap-5 md:grid-cols-2 lg:grid-cols-3">
             {filteredCourses.map((course, index) => (
               <motion.div
                 key={course.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
+                className="h-full min-h-0"
               >
                 <CourseCard
+                  className="h-full"
                   course={course}
                   onClick={() => handleCourseClick(course)}
                 />
@@ -118,8 +120,8 @@ export default function Courses() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <BookOpen className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+          <div className="py-20 text-left">
+            <BookOpen className="mx-auto mb-4 h-16 w-16 text-slate-200" />
             <h3 className="text-lg font-semibold text-slate-600 mb-2">No courses found</h3>
             <p className="text-slate-500">Try adjusting your search or filters</p>
           </div>

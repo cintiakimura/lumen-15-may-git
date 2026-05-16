@@ -74,7 +74,7 @@ export default function StudentDashboard() {
   return (
     <div className="min-h-screen bg-background pb-64">
       {/* Header */}
-      <header className="lumen-glass-nav rounded-b-[2.5rem] px-6 pb-8 pt-12 shadow-soft">
+      <header className="lumen-glass-nav rounded-b-[2.5rem] px-0 pb-8 pt-12 text-left shadow-soft">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -89,7 +89,7 @@ export default function StudentDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <Card className="glass-panel border border-black/[0.06] shadow-sm">
+              <Card>
                 <CardContent className="p-4">
                   <p className="mb-2 text-xs uppercase tracking-wider text-muted-foreground">Continue Learning</p>
                   <div className="flex items-center gap-4">
@@ -121,9 +121,9 @@ export default function StudentDashboard() {
         </motion.div>
       </header>
 
-      <div className="px-6 -mt-4 space-y-6">
+      <div className="-mt-4 space-y-5 text-left">
         {/* Quick Stats */}
-        <Card className="glass-panel max-w-full overflow-hidden border-0 p-0 shadow-glass">
+        <Card className="max-w-full overflow-hidden border-0 p-0">
           <CardContent className="p-0">
             <div className="grid grid-cols-3 divide-x divide-border/80">
               {[
@@ -149,7 +149,7 @@ export default function StudentDashboard() {
 
         {/* My Courses */}
         <section>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-normal text-foreground">My Courses</h2>
             <Button
               variant="ghost"
@@ -162,7 +162,7 @@ export default function StudentDashboard() {
             </Button>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             {enrolledCourses.map((course, index) => {
               const courseProgress = progress[course.id];
               return (
@@ -186,23 +186,24 @@ export default function StudentDashboard() {
 
         {/* Recommended */}
         <section>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
               <h2 className="text-xl font-normal text-foreground">Recommended</h2>
             </div>
           </div>
 
-          <div className="flex gap-4 overflow-x-auto pb-2 -mx-6 px-6 scrollbar-hide">
+          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:-mx-10 md:px-10">
             {browseCourses.slice(0, 4).map((course, index) => (
               <motion.div
                 key={course.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex-shrink-0 w-64"
+                className="flex-shrink-0 w-64 h-full min-h-0"
               >
                 <CourseCard
+                  className="h-full"
                   course={course}
                   onClick={() => handleCourseClick(course)}
                 />
@@ -217,7 +218,7 @@ export default function StudentDashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Card className="glass-panel border-0 shadow-glass">
+          <Card className="border-0">
             <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div>

@@ -28,21 +28,16 @@ export default function BottomNav() {
             className="relative flex flex-col items-center justify-center flex-1 h-full"
           >
             <motion.div
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.96 }}
               className={cn(
-                'flex flex-col items-center gap-1 transition-colors',
-                isActive(item.page) ? 'text-primary' : 'text-muted-foreground opacity-70'
+                'relative flex flex-col items-center gap-1 rounded-2xl border px-5 py-2 text-xs font-normal transition-all duration-200',
+                isActive(item.page)
+                  ? 'border-white/50 bg-white/70 text-foreground shadow-[0_2px_12px_-4px_rgba(15,23,42,0.08)] backdrop-blur-md'
+                  : 'border-transparent text-muted-foreground hover:border-white/35 hover:bg-white/45 hover:text-foreground hover:backdrop-blur-sm'
               )}
             >
               <item.icon className="h-6 w-6 stroke-[1.5]" />
-              <span className="text-xs font-normal">{item.label}</span>
-              
-              {isActive(item.page) && (
-                <motion.div
-                  layoutId="activeTab"
-                  className="absolute -top-px left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-primary"
-                />
-              )}
+              <span className="font-normal">{item.label}</span>
             </motion.div>
           </Link>
         ))}

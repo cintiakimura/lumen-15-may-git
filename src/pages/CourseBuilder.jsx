@@ -50,7 +50,7 @@ export default function CourseBuilder() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl space-y-8 px-4 py-8">
+      <div className="mx-auto max-w-4xl space-y-5 px-0 py-5 text-left md:px-10 md:py-8">
       <div>
         <h1 className="text-2xl font-light tracking-tight text-foreground">Course builder</h1>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -59,7 +59,7 @@ export default function CourseBuilder() {
         </p>
       </div>
 
-      <Card className="glass-panel border-0 shadow-sm">
+      <Card className="border-0">
         <CardHeader>
           <CardTitle className="text-lg">1. Upload & structure</CardTitle>
         </CardHeader>
@@ -86,7 +86,7 @@ export default function CourseBuilder() {
         </CardContent>
       </Card>
 
-      <Card className="glass-panel border-0 shadow-sm">
+      <Card className="border-0">
         <CardHeader>
           <CardTitle className="text-lg">2. Assign learners</CardTitle>
         </CardHeader>

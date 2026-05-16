@@ -2,16 +2,29 @@ import React from 'react';
 import { Menu, LogOut } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'Dashboard' }) {
+export default function Header({ user, onMenuToggle, sidebarOpen, showSidebar = false, pageTitle = 'Dashboard' }) {
   const { logout } = useAuth();
 
   const handleLogout = async () => {
     await logout(true);
   };
 
+  const insetLeft =
+    showSidebar && sidebarOpen
+      ? 'lg:pl-[calc(15rem+2rem)]'
+      : showSidebar && !sidebarOpen
+        ? 'lg:pl-[calc(4rem+2rem)]'
+        : '';
+
   return (
-    <header className="lumen-glass-nav fixed inset-x-0 top-0 z-40 flex h-14 items-center px-3 supports-[padding:max(0px)]:pt-[max(0px,env(safe-area-inset-top))] sm:px-4">
+    <header
+      className={cn(
+        'lumen-glass-nav fixed inset-x-0 top-0 z-40 flex h-14 items-center pl-4 pr-4 md:pr-10 supports-[padding:max(0px)]:pt-[max(0px,env(safe-area-inset-top))]',
+        insetLeft
+      )}
+    >
       <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
         <Button
           type="button"
@@ -26,7 +39,7 @@ export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'D
         </Button>
 
         <div className="flex min-w-0 items-center gap-2 sm:gap-2.5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] border border-black/[0.08] bg-white/70 text-[10px] font-normal text-primary sm:h-9 sm:w-9 sm:text-[11px]">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/55 bg-white/65 text-[10px] font-normal text-foreground shadow-[0_2px_8px_-4px_rgba(15,23,42,0.08)] backdrop-blur-md sm:h-9 sm:w-9 sm:text-[11px]">
             L
           </div>
           <h1 className="accurat-thin truncate text-[15px] leading-snug sm:text-base">{pageTitle}</h1>

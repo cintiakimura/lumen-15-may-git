@@ -57,26 +57,26 @@ export default function Sidebar({ open, role, onNavigate }) {
       <aside
         className={cn(
           'fixed left-0 top-14 z-30 h-[calc(100dvh-var(--app-header-h))] overflow-y-auto border-r border-black/[0.06] bg-white/45 py-4 shadow-[2px_0_24px_-8px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-[transform,width] duration-layout ease-layout',
-          'w-[min(240px,88vw)] max-md:shadow-[0_8px_28px_-8px_rgba(0,0,0,0.08)]',
-          open ? 'max-md:translate-x-0' : 'max-md:pointer-events-none max-md:-translate-x-full',
-          open ? 'md:w-60' : 'md:w-16'
+          'w-[min(240px,88vw)] max-lg:shadow-[0_8px_28px_-8px_rgba(0,0,0,0.08)]',
+          open ? 'max-lg:translate-x-0' : 'max-lg:pointer-events-none max-lg:-translate-x-full',
+          open ? 'lg:w-60' : 'lg:w-16'
         )}
       >
-        <nav className="flex flex-col gap-0.5 px-1.5 md:px-2">
+        <nav className="flex flex-col gap-0.5 px-1.5 lg:px-2">
           {links.map((link) => (
             <Link
               key={link.key}
               to={link.path}
               onClick={() => onNavigate?.()}
               className={cn(
-                'flex min-h-touch items-center gap-2.5 rounded-[6px] px-2.5 py-2.5 text-sm font-normal transition-colors duration-200 ease-out md:min-h-0 md:py-2',
-                open ? 'justify-start md:justify-start' : 'justify-center md:justify-center',
+                'flex min-h-touch items-center gap-2.5 rounded-xl border border-transparent px-2.5 py-2.5 text-sm font-normal text-foreground/90 transition-all duration-200 ease-out lg:min-h-0 lg:py-2',
+                open ? 'justify-start lg:justify-start' : 'justify-center lg:justify-center',
                 isActive(link.path)
-                  ? 'bg-primary/10 text-primary ring-1 ring-inset ring-black/[0.06]'
-                  : 'text-sidebar-foreground hover:bg-white/60'
+                  ? 'border-white/50 bg-white/70 text-foreground shadow-[0_2px_12px_-4px_rgba(15,23,42,0.08)] backdrop-blur-md'
+                  : 'hover:border-white/35 hover:bg-white/45 hover:backdrop-blur-sm hover:text-foreground'
               )}
             >
-              <link.Icon className="h-[18px] w-[18px] shrink-0 stroke-[1.5] opacity-80" aria-hidden />
+              <link.Icon className="h-[18px] w-[18px] shrink-0 stroke-[1.5] text-foreground/70" aria-hidden />
               {open && <span className="truncate">{link.label}</span>}
             </Link>
           ))}

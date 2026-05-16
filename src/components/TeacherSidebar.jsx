@@ -84,13 +84,12 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
               className="block no-underline"
             >
               <motion.div
-                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className={cn(
-                  'flex items-center gap-3 rounded-[6px] px-4 py-2.5 text-sm font-normal transition-colors duration-200 ease-out',
+                  'flex items-center gap-3 rounded-xl border border-transparent px-4 py-2.5 text-sm font-normal text-foreground/90 transition-all duration-200 ease-out',
                   isActive(item.page)
-                    ? 'bg-primary/10 text-primary ring-1 ring-inset ring-black/[0.06]'
-                    : 'text-sidebar-foreground hover:bg-white/60'
+                    ? 'border-white/50 bg-white/70 text-foreground shadow-[0_2px_12px_-4px_rgba(15,23,42,0.08)] backdrop-blur-md'
+                    : 'hover:border-white/35 hover:bg-white/45 hover:backdrop-blur-sm hover:text-foreground'
                 )}
               >
                 <item.icon className="h-5 w-5 shrink-0 stroke-[1.5]" />
@@ -102,7 +101,7 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
 
         <div className="space-y-1 border-t border-black/[0.06] p-4">
           <Link to={createPageUrl('Settings')} className="block no-underline">
-            <div className="flex items-center gap-3 rounded-[6px] px-4 py-2.5 text-sm font-normal text-sidebar-foreground transition-colors duration-200 hover:bg-white/60">
+            <div className="flex items-center gap-3 rounded-xl border border-transparent px-4 py-2.5 text-sm font-normal text-foreground/90 transition-all duration-200 hover:border-white/35 hover:bg-white/45 hover:backdrop-blur-sm hover:text-foreground">
               <Settings className="h-5 w-5 shrink-0 stroke-[1.5]" />
               <span>Settings</span>
             </div>
@@ -110,7 +109,7 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
           <button
             type="button"
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-[6px] border-0 bg-transparent px-4 py-2.5 text-left text-sm font-normal text-sidebar-foreground transition-colors duration-200 hover:bg-white/60"
+            className="flex w-full items-center gap-3 rounded-xl border border-transparent bg-transparent px-4 py-2.5 text-left text-sm font-normal text-foreground/90 transition-all duration-200 hover:border-white/35 hover:bg-white/45 hover:backdrop-blur-sm hover:text-foreground"
           >
             <LogOut className="h-5 w-5 shrink-0 stroke-[1.5]" />
             <span>Logout</span>

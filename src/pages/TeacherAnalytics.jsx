@@ -90,11 +90,11 @@ export default function TeacherAnalytics() {
   ];
 
   return (
-    <div className="min-h-screen bg-background lg:flex">
+    <div className="min-h-screen bg-background lg:flex lg:gap-8">
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
       
-      <main className="flex-1">
-        <header className="lumen-glass-nav px-6 py-4 lg:px-8">
+      <main className="min-w-0 flex-1">
+        <header className="lumen-glass-nav px-4 py-4 md:px-10">
           <div className="lg:hidden" />
           <div>
             <h1 className="text-2xl font-light text-foreground">Analytics</h1>
@@ -102,9 +102,9 @@ export default function TeacherAnalytics() {
           </div>
         </header>
 
-        <div className="p-6 lg:p-8 space-y-8">
+        <div className="space-y-5 px-4 py-5 md:px-10 md:py-8">
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+          <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.title}
@@ -112,8 +112,8 @@ export default function TeacherAnalytics() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="glass-card border border-black/[0.06]">
-                  <CardContent className="p-5">
+                <Card>
+                  <CardContent>
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex h-10 w-10 items-center justify-center rounded-[6px] border border-black/[0.06] bg-primary/10">
                         <stat.icon className="h-5 w-5 stroke-[1.5] text-primary" />
@@ -134,9 +134,9 @@ export default function TeacherAnalytics() {
           </div>
 
           {/* Charts Row */}
-          <div className="grid lg:grid-cols-2 gap-6">
+          <div className="grid gap-5 lg:grid-cols-2">
             {/* Weekly Activity */}
-            <Card className="glass-card border border-black/[0.06]">
+            <Card>
               <CardHeader>
                 <CardTitle className="text-lg text-foreground">Weekly Activity</CardTitle>
               </CardHeader>
@@ -162,7 +162,7 @@ export default function TeacherAnalytics() {
             </Card>
 
             {/* Mastery Distribution */}
-            <Card className="glass-card border border-black/[0.06]">
+            <Card>
               <CardHeader>
                 <CardTitle className="text-lg text-foreground">Mastery Distribution</CardTitle>
               </CardHeader>
@@ -204,7 +204,7 @@ export default function TeacherAnalytics() {
           </div>
 
           {/* Course Completion */}
-          <Card className="glass-card border border-black/[0.06]">
+          <Card>
             <CardHeader>
               <CardTitle className="text-lg text-foreground">Course Completion Rates</CardTitle>
             </CardHeader>
@@ -232,7 +232,7 @@ export default function TeacherAnalytics() {
           </Card>
 
           {/* Top Performers */}
-          <Card className="glass-card border border-black/[0.06]">
+          <Card>
             <CardHeader>
               <CardTitle className="text-lg text-foreground">Top Performing Students</CardTitle>
             </CardHeader>

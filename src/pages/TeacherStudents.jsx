@@ -77,11 +77,11 @@ export default function TeacherStudents() {
   };
 
   return (
-    <div className="min-h-screen bg-background lg:flex">
+    <div className="min-h-screen bg-background lg:flex lg:gap-8">
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
       
-      <main className="flex-1">
-        <header className="lumen-glass-nav px-6 py-4 lg:px-8">
+      <main className="min-w-0 flex-1">
+        <header className="lumen-glass-nav px-4 py-4 md:px-10">
           <div className="flex items-center justify-between">
             <div className="lg:hidden" />
             <div>
@@ -101,7 +101,7 @@ export default function TeacherStudents() {
           </div>
         </header>
 
-        <div className="p-6 lg:p-8 space-y-6">
+        <div className="space-y-5 px-4 py-5 md:px-10 md:py-8">
           {/* Search and Filters */}
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">

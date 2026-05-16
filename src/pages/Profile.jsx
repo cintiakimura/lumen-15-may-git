@@ -78,7 +78,7 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-background pb-64">
       {/* Header */}
-      <div className="lumen-glass-nav rounded-b-3xl px-6 pb-24 pt-12">
+      <div className="lumen-glass-nav rounded-b-3xl px-0 pb-24 pt-12 text-left">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-xl font-normal text-foreground">Profile</h1>
           <div className="flex gap-2">
@@ -110,14 +110,14 @@ export default function Profile() {
         </motion.div>
       </div>
 
-      <div className="px-6 -mt-16 space-y-6">
+      <div className="-mt-16 space-y-5 text-left">
         {/* Stats Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <Card className="glass-card border border-black/[0.06]">
+          <Card>
             <CardContent className="p-0">
               <div className="grid grid-cols-3 divide-x divide-border">
                 {[
@@ -145,7 +145,7 @@ export default function Profile() {
           transition={{ delay: 0.2 }}
         >
           <h3 className="mb-3 text-lg font-normal text-foreground">Achievements</h3>
-          <Card className="glass-card border border-black/[0.06]">
+          <Card>
             <CardContent className="p-4">
               <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2">
                 {[
@@ -179,7 +179,7 @@ export default function Profile() {
           transition={{ delay: 0.3 }}
         >
           <h3 className="mb-3 text-lg font-normal text-foreground">Settings</h3>
-          <Card className="glass-card border border-black/[0.06]">
+          <Card>
             <CardContent className="divide-y divide-border p-0">
               {menuItems.map((item) => (
                 <button

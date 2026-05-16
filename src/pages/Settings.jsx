@@ -78,7 +78,7 @@ export default function Settings() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="lumen-glass-nav sticky top-0 z-30 rounded-none border-b px-4 py-4 sm:px-6">
+      <header className="lumen-glass-nav sticky top-0 z-30 rounded-none border-b px-0 py-4 md:px-10">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={goBack} className="text-foreground hover:bg-black/[0.04]">
             <ArrowLeft className="h-5 w-5 stroke-[1.5]" />
@@ -87,8 +87,8 @@ export default function Settings() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-2xl space-y-6 p-4 sm:p-6">
-        <Card className="glass-panel border-0 shadow-none">
+      <div className="mx-auto max-w-2xl space-y-5 px-0 py-5 text-left md:px-10 md:py-8">
+        <Card className="border-0">
           <CardHeader>
             <CardTitle>Branding</CardTitle>
           </CardHeader>
@@ -174,7 +174,7 @@ export default function Settings() {
           </CardContent>
         </Card>
 
-        <Card className="glass-panel border border-black/[0.06] shadow-none">
+        <Card>
           <CardHeader>
             <CardTitle>Preview</CardTitle>
           </CardHeader>

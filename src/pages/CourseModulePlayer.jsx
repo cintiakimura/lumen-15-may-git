@@ -284,7 +284,7 @@ export default function CourseModulePlayer() {
           </div>
         </aside>
 
-        <main className="min-w-0 flex-1 bg-background px-3 py-5 sm:px-4 sm:py-6 md:px-6 lg:px-8 lg:py-8">
+        <main className="min-w-0 flex-1 bg-background px-4 py-5 text-left md:px-10 md:py-8">
           {activeLesson ? (
             <AnimatePresence mode="wait">
               {!showChat ? (
@@ -354,7 +354,7 @@ export default function CourseModulePlayer() {
                     </p>
                   )}
                   {isMentalLesson ? (
-                    <Card className="glass-panel mb-8 overflow-hidden border-0 shadow-glass">
+                    <Card className="mb-8 overflow-hidden border-0">
                       <CardContent className="p-8 sm:p-10">
                         <div className="mx-auto max-w-lg text-center">
                           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
@@ -368,7 +368,7 @@ export default function CourseModulePlayer() {
                       </CardContent>
                     </Card>
                   ) : (
-                    <Card className="glass-panel mb-8 overflow-hidden border-0 shadow-glass">
+                    <Card className="mb-8 overflow-hidden border-0">
                       <CardContent className="p-0">
                         {displayFormat === 'video' ? (
                          <div className="aspect-video bg-slate-900">
@@ -416,7 +416,7 @@ export default function CourseModulePlayer() {
                   )}
 
                   {/* Lesson Content */}
-                  <Card className="glass-panel mb-8 border-0 shadow-glass">
+                  <Card className="mb-8 border-0">
                     <CardContent className="p-5 sm:p-6 md:p-8">
                       <h3 className="mb-4 text-sm font-medium uppercase tracking-wide text-muted-foreground">Key points</h3>
                       <p className="text-pretty leading-relaxed text-muted-foreground">{activeLesson.content}</p>

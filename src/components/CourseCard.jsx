@@ -3,13 +3,7 @@ import { Clock, BookOpen, Award, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
-export default function CourseCard({ 
-  course, 
-  progress,
-  onClick,
-  variant = 'default',
-  className 
-}) {
+export default function CourseCard({ course, progress, onClick, variant = 'default', className }) {
   const totalLessons = course.lessons?.length || 0;
   const completedLessons = progress?.completed_lessons?.length || 0;
   const progressPercent = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
@@ -20,48 +14,28 @@ export default function CourseCard({
     welding: 'Welding',
     sales: 'Sales',
     accounting: 'Accounting',
-    other: 'General'
+    other: 'General',
   };
 
   if (variant === 'compact') {
     return (
       <motion.div
-        whileHover={{ scale: 1.02 }}
         onClick={onClick}
-        className={cn('cursor-pointer transition-all', className)}
-        style={{ 
-          background: 'var(--glass-bg)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid var(--glass-border)',
-          borderRadius: '16px',
-          padding: '24px',
-          boxShadow: 'var(--card-shadow)'
-        }}
+        className={cn('glass-card-surface flex h-full min-h-0 cursor-pointer flex-col p-6', className)}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ 
-            width: '48px', 
-            height: '48px', 
-            borderRadius: '12px', 
-            background: 'hsl(var(--primary))', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            flexShrink: 0
-          }}>
-            <BookOpen style={{ width: '24px', height: '24px', color: 'hsl(var(--primary-foreground))' }} />
+        <div className="flex items-center gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary">
+            <BookOpen className="h-6 w-6 text-primary-foreground" />
           </div>
-          
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <h4 style={{ fontSize: '16px', fontWeight: '600', color: 'var(--text)', marginBottom: '4px' }}>
-              {course.title}
-            </h4>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '14px', color: 'var(--text-muted)' }}>
+
+          <div className="min-w-0 flex-1">
+            <h4 className="mb-1 text-base font-normal text-foreground">{course.title}</h4>
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span>{totalLessons} lessons</span>
               <span>{totalDuration} min</span>
             </div>
           </div>
-          <ChevronRight style={{ width: '20px', height: '20px', color: 'var(--text-muted)' }} />
+          <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
         </div>
       </motion.div>
     );
@@ -69,108 +43,60 @@ export default function CourseCard({
 
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
       onClick={onClick}
-      className={cn('cursor-pointer transition-all overflow-hidden', className)}
-      style={{
-        background: 'var(--glass-bg)',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid var(--glass-border)',
-        borderRadius: '16px',
-        boxShadow: 'var(--card-shadow)'
-      }}
+      className={cn('glass-card-surface flex h-full min-h-0 cursor-pointer flex-col overflow-hidden', className)}
     >
-      {/* Thumbnail */}
-      <div style={{ position: 'relative', height: '160px', overflow: 'hidden' }}>
+      <div className="relative h-40 overflow-hidden">
         {course.thumbnail ? (
-          <img 
-            src={course.thumbnail} 
-            alt={course.title}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
+          <img src={course.thumbnail} alt={course.title} className="h-full w-full object-cover" />
         ) : (
-          <div style={{ 
-            width: '100%', 
-            height: '100%', 
-            background: 'linear-gradient(135deg, hsl(var(--surface)) 0%, hsl(var(--surface-light)) 100%)' 
-          }} />
+          <div className="h-full w-full bg-gradient-to-br from-muted to-muted/60" />
         )}
-        
-        {/* Category badge */}
-        <span 
-          style={{ 
-            position: 'absolute',
-            top: '12px',
-            left: '12px',
-            padding: '6px 12px',
-            borderRadius: '8px',
-            fontSize: '12px',
-            background: 'hsl(var(--primary))', 
-            color: 'hsl(var(--primary-foreground))',
-            fontWeight: '600',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em'
-          }}>
+
+        <span className="absolute left-3 top-3 rounded-lg bg-primary px-3 py-1.5 text-xs font-normal uppercase tracking-wide text-primary-foreground">
           {categoryLabels[course.category] || 'Course'}
         </span>
 
-        {/* Certificate badge if completed */}
         {progressPercent === 100 && (
-          <div style={{ position: 'absolute', top: '12px', right: '12px' }}>
-            <div style={{ 
-              width: '32px', 
-              height: '32px', 
-              background: 'hsl(var(--primary))', 
-              borderRadius: '8px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              boxShadow: 'var(--card-shadow)'
-            }}>
-              <Award style={{ width: '16px', height: '16px', color: 'hsl(var(--primary-foreground))' }} />
+          <div className="absolute right-3 top-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shadow-sm">
+              <Award className="h-4 w-4 text-primary-foreground" />
             </div>
           </div>
         )}
       </div>
 
-      {/* Content */}
-      <div style={{ padding: '24px' }}>
-        <h3 style={{ fontSize: '32px', fontWeight: '600', color: 'var(--text)', marginBottom: '8px' }}>
-          {course.title}
-        </h3>
-        
-        <p style={{ fontSize: '16px', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: '1.5' }}>
+      <div className="flex min-h-0 flex-1 flex-col p-6">
+        <h3 className="mb-2 text-2xl font-normal leading-tight text-foreground sm:text-3xl">{course.title}</h3>
+
+        <p className="mb-4 min-h-0 flex-1 text-base font-normal leading-relaxed text-muted-foreground">
           {course.description || 'No description available'}
         </p>
 
-        {/* Meta info */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '14px', color: 'var(--text-muted)', marginBottom: '16px' }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <BookOpen style={{ width: '16px', height: '16px' }} />
+        <div className="mb-4 flex items-center gap-4 text-sm font-normal text-muted-foreground">
+          <span className="flex items-center gap-1.5">
+            <BookOpen className="h-4 w-4" />
             {totalLessons} lessons
           </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Clock style={{ width: '16px', height: '16px' }} />
+          <span className="flex items-center gap-1.5">
+            <Clock className="h-4 w-4" />
             {totalDuration} min
           </span>
         </div>
 
-        {/* Progress */}
         {progress && (
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-              <span style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
+            <div className="mb-2 flex items-center justify-between text-sm font-normal text-muted-foreground">
+              <span>
                 {completedLessons}/{totalLessons} completed
               </span>
-              <span style={{ fontSize: '14px', fontWeight: '600', color: 'hsl(var(--primary))' }}>
-                {Math.round(progressPercent)}%
-              </span>
+              <span className="text-primary">{Math.round(progressPercent)}%</span>
             </div>
             <div className="progress-bar">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPercent}%` }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
                 className="progress-fill"
               />
             </div>

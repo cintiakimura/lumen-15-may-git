@@ -38,8 +38,8 @@ export default function Certificate() {
   });
 
   return (
-    <div className="min-h-screen bg-background px-4 py-8">
-      <div className="mx-auto max-w-2xl space-y-8">
+    <div className="min-h-screen bg-background text-left">
+      <div className="mx-auto max-w-2xl space-y-5 py-5 md:py-8">
         <div>
           <h1 className="text-2xl font-light tracking-tight text-foreground">Certificates</h1>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -53,9 +53,9 @@ export default function Certificate() {
         </p>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         {completed.map((row) => (
-          <Card key={row.id} className="glass-panel border border-black/[0.06] shadow-sm">
+          <Card key={row.id}>
             <CardHeader className="flex flex-row items-center gap-3 space-y-0 pb-2">
               <div className="flex h-12 w-12 items-center justify-center rounded-[6px] border border-black/[0.06] bg-primary/10 text-primary">
                 <Award className="h-6 w-6 stroke-[1.5]" />

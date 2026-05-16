@@ -28,7 +28,7 @@ export default function Layout({ children, currentPageName }) {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (window.matchMedia('(max-width: 767px)').matches) {
+    if (window.matchMedia('(max-width: 1023px)').matches) {
       setSidebarOpen(false);
     }
   }, []);
@@ -54,7 +54,12 @@ export default function Layout({ children, currentPageName }) {
 
   const showSidebar = user && !isLandingLike;
 
-  const mainPadLeft = showSidebar ? (sidebarOpen ? 'md:pl-60' : 'md:pl-16') : '';
+  /** Sidebar width (15rem / 4rem) + exactly 32px (2rem) to main content — see Sidebar `lg:w-60` / `lg:w-16`. */
+  const mainPadLeft = showSidebar
+    ? sidebarOpen
+      ? 'lg:pl-[calc(15rem+2rem)]'
+      : 'lg:pl-[calc(4rem+2rem)]'
+    : '';
 
   const showMobileBackdrop = showSidebar && sidebarOpen;
 
@@ -67,6 +72,7 @@ export default function Layout({ children, currentPageName }) {
           user={user}
           onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
           sidebarOpen={sidebarOpen}
+          showSidebar={showSidebar}
           pageTitle={formatPageTitle(currentPageName)}
         />
       )}
@@ -75,7 +81,7 @@ export default function Layout({ children, currentPageName }) {
         <button
           type="button"
           aria-label="Close menu"
-          className="fixed inset-x-0 bottom-0 top-14 z-[19] bg-black/15 backdrop-blur-sm transition-opacity duration-layout ease-layout md:hidden"
+          className="fixed inset-x-0 bottom-0 top-14 z-[19] bg-black/15 backdrop-blur-sm transition-opacity duration-layout ease-layout lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -86,7 +92,7 @@ export default function Layout({ children, currentPageName }) {
             open={sidebarOpen}
             role={normalizedRole || 'learner'}
             onNavigate={() => {
-              if (typeof window !== 'undefined' && window.innerWidth < 768) {
+              if (typeof window !== 'undefined' && window.innerWidth < 1024) {
                 setSidebarOpen(false);
               }
             }}
@@ -102,9 +108,10 @@ export default function Layout({ children, currentPageName }) {
         >
           <div
             className={cn(
-              'min-h-0 min-w-0 flex-1 overflow-y-auto',
+              'lumen-main min-h-0 min-w-0 flex-1 overflow-y-auto text-left',
+              !isLandingPageOnly && '[&_h1]:mb-6 [&_h2]:mb-6',
               user && 'max-md:pb-safe md:pb-6',
-              isLandingPageOnly ? 'p-0' : 'px-4 py-5 md:px-6 md:py-6 lg:px-8'
+              isLandingPageOnly ? 'p-0' : 'px-4 py-5 md:px-10 md:py-8'
             )}
           >
             {children}
@@ -120,7 +127,7 @@ export default function Layout({ children, currentPageName }) {
               />
               <aside
                 className={cn(
-                  'flex min-h-0 flex-col border-border bg-card',
+                  'glass-card-static flex min-h-0 flex-col',
                   'fixed inset-x-0 bottom-0 z-50 max-h-[88dvh] rounded-t-2xl border-x border-t shadow-2xl',
                   'md:static md:z-auto md:max-h-none md:h-[calc(100dvh-var(--app-header-h))] md:w-[min(32vw,420px)] md:min-w-[260px] md:max-w-[32vw] md:flex-none md:rounded-none md:border-x-0 md:border-l md:border-t-0 md:border-b-0 md:shadow-none'
                 )}

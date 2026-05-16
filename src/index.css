@@ -3,37 +3,40 @@
 @tailwind utilities;
 
 /**
- * Light theme only — canvas aligned with design-system-v0 (`#F5F4F0` family).
+ * Light theme — soft off-white canvas + shared glass tokens.
+ * Glass: rgba(255,255,255,0.75), border rgba(255,255,255,0.6), blur 12px.
  */
 @layer base {
   :root {
-    --background: 48 7% 96%;
-    --foreground: 240 10% 8%;
+    /* ~#fafafa */
+    --background: 0 0% 98%;
+    --foreground: 240 10% 6%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 8%;
+    --card-foreground: 240 10% 6%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 8%;
+    --popover-foreground: 240 10% 6%;
     --primary: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 48 6% 92%;
-    --muted-foreground: 240 5% 38%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 240 10% 6%;
+    /* ~#f4f4f5 for muted bands */
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 5% 34%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 240 10% 6%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 40 6% 86%;
-    --input: 40 6% 86%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.375rem;
-    --sidebar-background: 48 8% 97%;
-    --sidebar-foreground: 240 10% 8%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 10% 6%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 240 5.9% 90%;
+    --sidebar-accent: 0 0% 96%;
+    --sidebar-accent-foreground: 240 10% 6%;
+    --sidebar-border: 240 6% 90%;
     --sidebar-ring: 240 5.9% 10%;
     --chart-1: 25 95% 53%;
     --chart-2: 173 58% 39%;
@@ -46,8 +49,10 @@
     --card-shadow: 0 1px 2px hsl(0 0% 0% / 0.04);
     --text: hsl(var(--foreground));
     --text-muted: hsl(var(--muted-foreground));
-    --glass-bg: hsl(0 0% 100% / 0.55);
-    --glass-border: hsl(240 5.9% 10% / 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --glass-blur: 12px;
+    --glass-shadow: 0 4px 24px -8px rgba(15, 23, 42, 0.07), 0 2px 8px -4px rgba(15, 23, 42, 0.04);
     --bg: hsl(var(--background));
     --app-header-h: 3.5rem;
   }
@@ -68,10 +73,24 @@
   body {
     @apply min-h-screen bg-background font-sans text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-weight: 400;
   }
 
   #root {
     @apply min-h-screen;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-normal text-foreground;
+  }
+
+  button {
+    font-weight: 400;
   }
 }
 
@@ -87,21 +106,80 @@
 }
 
 @layer utilities {
-  .glass-panel {
-    @apply rounded-[6px] border border-border/70 bg-white/60 shadow-sm backdrop-blur-xl;
+  /**
+   * Glass containers — 18px radius, soft blur, subtle border, dark non-bold text.
+   * - glass-card-surface / glass-panel / glass-card: + hover lift (fine pointer only).
+   * - glass-card-static: same look, no motion (chat shell, docked panels).
+   */
+  .glass-card-static {
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background-color: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px -10px rgba(15, 23, 42, 0.08), 0 2px 10px -4px rgba(15, 23, 42, 0.05);
+    color: hsl(var(--foreground));
+    font-weight: 400;
+  }
+
+  .glass-card-surface,
+  .glass-panel,
+  .glass-card {
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background-color: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px -10px rgba(15, 23, 42, 0.08), 0 2px 10px -4px rgba(15, 23, 42, 0.05);
+    color: hsl(var(--foreground));
+    font-weight: 400;
+    transition:
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .glass-card-surface:hover,
+    .glass-panel:hover,
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 48px -16px rgba(15, 23, 42, 0.14), 0 10px 24px -10px rgba(15, 23, 42, 0.08);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass-card-surface,
+    .glass-panel,
+    .glass-card {
+      transition: none;
+    }
+
+    .glass-card-surface:hover,
+    .glass-panel:hover,
+    .glass-card:hover {
+      transform: none;
+      box-shadow: 0 4px 24px -10px rgba(15, 23, 42, 0.08), 0 2px 10px -4px rgba(15, 23, 42, 0.05);
+    }
   }
 
   .glass-subtle {
-    @apply rounded-[6px] border border-border/60 bg-white/45 backdrop-blur-md;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    box-shadow: var(--glass-shadow);
+    @apply text-foreground font-normal;
   }
 
-  .glass-card {
-    @apply glass-panel;
-  }
-
-  /** Sticky bars — matches design-system-v0 mobile nav treatment */
+  /** Sticky bars — light glass header / top nav */
   .lumen-glass-nav {
-    @apply border-b border-black/[0.06] bg-white/55 shadow-[0_8px_32px_rgba(0,0,0,0.04)] backdrop-blur-xl;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+    background-color: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 4px 24px -12px rgba(15, 23, 42, 0.06), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    color: hsl(var(--foreground));
   }
 
   .hide-mobile {
@@ -135,10 +213,70 @@
   }
 
   .btn-primary {
-    @apply inline-flex min-h-touch cursor-pointer items-center justify-center rounded-[6px] border border-primary/20 bg-primary/95 px-6 py-3 text-sm font-normal text-primary-foreground shadow-sm backdrop-blur-sm transition-all duration-200 ease-out hover:bg-primary active:scale-[0.99];
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background-color: rgba(255, 255, 255, 0.72);
+    color: hsl(var(--foreground));
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 12px -4px rgba(15, 23, 42, 0.08);
+    @apply inline-flex min-h-touch cursor-pointer items-center justify-center rounded-lg px-6 py-3 text-sm font-normal transition-all duration-200 ease-out hover:-translate-y-px hover:bg-white/90 hover:shadow-[0_6px_20px_-6px_rgba(15,23,42,0.12)] active:translate-y-0 active:shadow-sm;
   }
 
   .btn-outline {
-    @apply inline-flex min-h-touch cursor-pointer items-center justify-center rounded-[6px] border border-border/80 bg-white/55 px-6 py-3 text-sm font-normal text-foreground shadow-sm backdrop-blur-md transition-all duration-200 ease-out hover:bg-white/80 hover:text-foreground;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background-color: rgba(255, 255, 255, 0.72);
+    color: hsl(var(--foreground));
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 12px -4px rgba(15, 23, 42, 0.08);
+    @apply inline-flex min-h-touch cursor-pointer items-center justify-center rounded-lg px-6 py-3 text-sm font-normal transition-all duration-200 ease-out hover:-translate-y-px hover:bg-white/90 hover:shadow-[0_6px_20px_-6px_rgba(15,23,42,0.12)] active:translate-y-0;
+  }
+
+  /**
+   * Glass foundation for primitives that use Tailwind semantic colors (no JSX changes).
+   */
+  /* shadcn Card + any surface using bg-card (no hover lift — shells / chat) */
+  .bg-card {
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.72) !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 4px 24px -10px rgba(15, 23, 42, 0.08), 0 2px 10px -4px rgba(15, 23, 42, 0.05);
+  }
+
+  .border-border.bg-card {
+    border-color: var(--glass-border) !important;
+  }
+
+  .bg-popover {
+    background-color: var(--glass-bg) !important;
+    border-color: var(--glass-border) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Sidebars (learner + teacher) */
+  aside.backdrop-blur-xl {
+    background-color: var(--glass-bg) !important;
+    border-color: var(--glass-border) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+    backdrop-filter: blur(var(--glass-blur)) !important;
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Bottom navigation */
+  nav.border-t.backdrop-blur-xl {
+    background-color: var(--glass-bg) !important;
+    border-top-color: var(--glass-border) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+    backdrop-filter: blur(var(--glass-blur)) !important;
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Landing marketing root uses Tailwind arbitrary bg-[#F5F4F0] — align with global canvas */
+  .bg-\[\#F5F4F0\] {
+    background-color: hsl(var(--background)) !important;
   }
 }
