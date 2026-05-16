@@ -85,12 +85,12 @@ export default function Onboarding() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#212121',
+      background: 'hsl(var(--background))',
       padding: '40px 20px',
       fontFamily: 'Inter, system-ui, sans-serif'
     }}>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <h1 style={{ color: '#00c600', fontSize: '32px', marginBottom: '32px', fontWeight: '100' }}>
+        <h1 style={{ color: 'hsl(var(--primary))', fontSize: '32px', marginBottom: '32px', fontWeight: '100' }}>
           Setup Your Academy
         </h1>
 
@@ -102,7 +102,7 @@ export default function Onboarding() {
               style={{
                 height: '4px',
                 flex: 1,
-                background: s <= step ? '#00c600' : '#333333',
+                background: s <= step ? 'hsl(var(--primary))' : 'hsl(var(--muted))',
                 borderRadius: '2px',
                 transition: 'background 0.3s'
               }}
@@ -119,10 +119,10 @@ export default function Onboarding() {
               onChange={(e) => setCompany(e.target.value)}
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid #333333',
+                border: '1px solid hsl(var(--border))',
                 borderRadius: '12px',
                 padding: '12px',
-                color: '#E0E0E0',
+                color: 'hsl(var(--foreground))',
                 fontSize: '14px'
               }}
             />
@@ -133,10 +133,10 @@ export default function Onboarding() {
               onChange={(e) => setVat(e.target.value)}
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid #333333',
+                border: '1px solid hsl(var(--border))',
                 borderRadius: '12px',
                 padding: '12px',
-                color: '#E0E0E0',
+                color: 'hsl(var(--foreground))',
                 fontSize: '14px'
               }}
             />
@@ -146,10 +146,10 @@ export default function Onboarding() {
               onChange={(e) => setAddress(e.target.value)}
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid #333333',
+                border: '1px solid hsl(var(--border))',
                 borderRadius: '12px',
                 padding: '12px',
-                color: '#E0E0E0',
+                color: 'hsl(var(--foreground))',
                 fontSize: '14px',
                 fontFamily: 'inherit',
                 minHeight: '100px',
@@ -163,10 +163,10 @@ export default function Onboarding() {
               onChange={(e) => setEmail(e.target.value)}
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid #333333',
+                border: '1px solid hsl(var(--border))',
                 borderRadius: '12px',
                 padding: '12px',
-                color: '#E0E0E0',
+                color: 'hsl(var(--foreground))',
                 fontSize: '14px'
               }}
             />
@@ -177,10 +177,10 @@ export default function Onboarding() {
               onChange={(e) => setPhone(e.target.value)}
               style={{
                 background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid #333333',
+                border: '1px solid hsl(var(--border))',
                 borderRadius: '12px',
                 padding: '12px',
-                color: '#E0E0E0',
+                color: 'hsl(var(--foreground))',
                 fontSize: '14px'
               }}
             />
@@ -189,7 +189,7 @@ export default function Onboarding() {
 
         {step === 2 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <p style={{ color: '#E0E0E0' }}>Add Teacher Emails</p>
+            <p style={{ color: 'hsl(var(--foreground))' }}>Add Teacher Emails</p>
             {teachers.map((teacher, idx) => (
               <input
                 key={idx}
@@ -199,10 +199,10 @@ export default function Onboarding() {
                 onChange={(e) => handleTeacherChange(idx, e.target.value)}
                 style={{
                   background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid #333333',
+                  border: '1px solid hsl(var(--border))',
                   borderRadius: '12px',
                   padding: '12px',
-                  color: '#E0E0E0',
+                  color: 'hsl(var(--foreground))',
                   fontSize: '14px'
                 }}
               />
@@ -211,10 +211,10 @@ export default function Onboarding() {
               onClick={handleAddTeacher}
               style={{
                 background: 'transparent',
-                border: '1px dashed #333333',
+                border: '1px dashed hsl(var(--border))',
                 borderRadius: '12px',
                 padding: '12px',
-                color: '#00c600',
+                color: 'hsl(var(--primary))',
                 cursor: 'pointer',
                 fontSize: '14px'
               }}
@@ -227,17 +227,17 @@ export default function Onboarding() {
         {step === 3 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>
-              <p style={{ color: '#E0E0E0', marginBottom: '8px' }}>Logo</p>
+              <p style={{ color: 'hsl(var(--foreground))', marginBottom: '8px' }}>Logo</p>
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleLogoUpload}
                 style={{
                   background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid #333333',
+                  border: '1px solid hsl(var(--border))',
                   borderRadius: '12px',
                   padding: '12px',
-                  color: '#E0E0E0',
+                  color: 'hsl(var(--foreground))',
                   fontSize: '14px',
                   width: '100%'
                 }}
@@ -251,7 +251,7 @@ export default function Onboarding() {
               )}
             </div>
             <div>
-              <p style={{ color: '#E0E0E0', marginBottom: '8px' }}>Accent Color</p>
+              <p style={{ color: 'hsl(var(--foreground))', marginBottom: '8px' }}>Accent Color</p>
               <input
                 type="color"
                 value={color}
@@ -266,16 +266,16 @@ export default function Onboarding() {
               />
             </div>
             <div>
-              <p style={{ color: '#E0E0E0', marginBottom: '8px' }}>Font</p>
+              <p style={{ color: 'hsl(var(--foreground))', marginBottom: '8px' }}>Font</p>
               <select
                 value={font}
                 onChange={(e) => setFont(e.target.value)}
                 style={{
                   background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid #333333',
+                  border: '1px solid hsl(var(--border))',
                   borderRadius: '12px',
                   padding: '12px',
-                  color: '#E0E0E0',
+                  color: 'hsl(var(--foreground))',
                   fontSize: '14px',
                   width: '100%'
                 }}
@@ -290,7 +290,7 @@ export default function Onboarding() {
 
         {step === 4 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <p style={{ color: '#E0E0E0', marginBottom: '8px' }}>Add Teachers</p>
+            <p style={{ color: 'hsl(var(--foreground))', marginBottom: '8px' }}>Add Teachers</p>
             {teachers.map((teacher, idx) => (
               <div key={idx} style={{ display: 'flex', gap: '8px' }}>
                 <input
@@ -301,10 +301,10 @@ export default function Onboarding() {
                   style={{
                     flex: 1,
                     background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid #333333',
+                    border: '1px solid hsl(var(--border))',
                     borderRadius: '12px',
                     padding: '12px',
-                    color: '#E0E0E0',
+                    color: 'hsl(var(--foreground))',
                     fontSize: '14px'
                   }}
                 />
@@ -313,10 +313,10 @@ export default function Onboarding() {
                     onClick={() => handleRemoveTeacher(idx)}
                     style={{
                       background: 'transparent',
-                      border: '1px solid #333333',
+                      border: '1px solid hsl(var(--border))',
                       borderRadius: '12px',
                       padding: '12px 16px',
-                      color: '#E0E0E0',
+                      color: 'hsl(var(--foreground))',
                       cursor: 'pointer',
                       fontSize: '14px'
                     }}
@@ -330,10 +330,10 @@ export default function Onboarding() {
               onClick={handleAddTeacher}
               style={{
                 background: 'transparent',
-                border: '1px dashed #333333',
+                border: '1px dashed hsl(var(--border))',
                 borderRadius: '12px',
                 padding: '12px',
-                color: '#00c600',
+                color: 'hsl(var(--primary))',
                 cursor: 'pointer',
                 fontSize: '14px'
               }}
@@ -351,10 +351,10 @@ export default function Onboarding() {
               style={{
                 flex: 1,
                 background: 'transparent',
-                border: '1px solid #333333',
+                border: '1px solid hsl(var(--border))',
                 borderRadius: '12px',
                 padding: '12px',
-                color: '#E0E0E0',
+                color: 'hsl(var(--foreground))',
                 cursor: 'pointer',
                 fontSize: '14px'
               }}
@@ -367,7 +367,7 @@ export default function Onboarding() {
               onClick={() => setStep(step + 1)}
               style={{
                 flex: 1,
-                background: '#00c600',
+                background: 'hsl(var(--primary))',
                 border: 'none',
                 borderRadius: '12px',
                 padding: '12px',
@@ -383,7 +383,7 @@ export default function Onboarding() {
               onClick={handleFinish}
               style={{
                 flex: 1,
-                background: '#00c600',
+                background: 'hsl(var(--primary))',
                 border: 'none',
                 borderRadius: '12px',
                 padding: '12px',

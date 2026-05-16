@@ -1,31 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+    setMounted(true);
+  }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-  };
+  if (!mounted) {
+    return (
+      <div
+        className="flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-muted/30"
+        aria-hidden
+      />
+    );
+  }
+
+  const isDark = resolvedTheme === 'dark';
 
   return (
     <button
-      onClick={toggleTheme}
-      className="w-12 h-12 rounded-xl flex items-center justify-center transition-all hover:scale-105"
-      style={{ 
-        background: 'var(--glass-bg)', 
-        border: '1px solid var(--glass-border)',
-        color: 'var(--text)'
-      }}
-      aria-label="Toggle theme"
+      type="button"
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      className="flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-card/60 text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-accent hover:text-accent-foreground"
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
     </button>
   );
 }

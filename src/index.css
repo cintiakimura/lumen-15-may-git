@@ -2,99 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * Light theme: HSL triples aligned to design-system-v0/styles/globals.css :root
+ * (oklch neutrals → shadcn-style HSL equivalents; charts match v0 hue intent).
+ *
+ * Dark theme: requested canvas #292B31 + cyan foreground; other tokens derived for contrast.
+ */
 @layer base {
   :root {
-    /* Warm off-white shell (v0-inspired, HSL for Tailwind v3) */
-    --background: 40 33% 97%;
-    --foreground: 240 8% 12%;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 240 8% 12%;
+    --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 8% 12%;
-    /* Brand green, tuned for light UI */
-    --primary: 142 71% 38%;
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 142 71% 32%;
-    --secondary: 40 20% 94%;
-    --secondary-foreground: 240 8% 12%;
-    --muted: 40 18% 93%;
-    --muted-foreground: 240 5% 45%;
-    --accent: 40 22% 92%;
-    --accent-foreground: 240 8% 12%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 40 14% 88%;
-    --input: 40 14% 88%;
-    --ring: 142 71% 38%;
-    --chart-1: 12 76% 61%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.625rem;
+    /* v0 uses --sidebar; mapped to existing Tailwind sidebar-* keys */
+    --sidebar-background: 0 0% 98.5%;
+    --sidebar-foreground: 240 10% 3.9%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
+    --sidebar-ring: 240 5.9% 10%;
+    /* v0 chart oklch hues → HSL */
+    --chart-1: 25 95% 53%;
     --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.75rem;
-    --sidebar-background: 40 30% 98%;
-    --sidebar-foreground: 240 6% 22%;
-    --sidebar-primary: 142 71% 38%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 40 20% 94%;
-    --sidebar-accent-foreground: 240 8% 12%;
-    --sidebar-border: 40 14% 90%;
-    --sidebar-ring: 142 71% 38%;
+    --chart-3: 197 40% 32%;
+    --chart-4: 48 96% 53%;
+    --chart-5: 32 90% 50%;
 
-    /* Surfaces & legacy helpers (inline styles use these as full colors) */
-    --surface: 40 18% 93%;
-    --surface-light: 40 26% 97%;
-    --card-shadow: 0 18px 50px -18px hsl(240 8% 12% / 0.08);
+    --surface: 240 4.8% 95.9%;
+    --surface-light: 0 0% 98%;
+    --card-shadow: 0 1px 2px hsl(0 0% 0% / 0.04);
     --text: hsl(var(--foreground));
     --text-muted: hsl(var(--muted-foreground));
-    --glass-bg: hsl(0 0% 100% / 0.55);
-    --glass-border: hsl(var(--border) / 0.85);
+    --glass-bg: hsl(0 0% 100% / 0.45);
+    --glass-border: hsl(240 5.9% 10% / 0.08);
     --bg: hsl(var(--background));
+    --app-header-h: 3.5rem;
   }
 
   .dark {
-    --background: 240 8% 9%;
-    --foreground: 40 15% 96%;
-    --card: 240 7% 12%;
-    --card-foreground: 40 15% 96%;
-    --popover: 240 7% 12%;
-    --popover-foreground: 40 15% 96%;
-    --primary: 142 65% 48%;
-    --primary-foreground: 240 8% 6%;
-    --primary-hover: 142 65% 42%;
-    --secondary: 240 5% 16%;
-    --secondary-foreground: 40 15% 96%;
-    --muted: 240 5% 16%;
-    --muted-foreground: 240 5% 58%;
-    --accent: 240 5% 18%;
-    --accent-foreground: 40 15% 96%;
-    --destructive: 0 62% 45%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 240 5% 18%;
-    --input: 240 5% 18%;
-    --ring: 142 65% 48%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 6% 10%;
-    --sidebar-foreground: 40 10% 95%;
-    --sidebar-primary: 142 65% 48%;
-    --sidebar-primary-foreground: 240 8% 6%;
-    --sidebar-accent: 240 5% 15%;
-    --sidebar-accent-foreground: 40 10% 95%;
-    --sidebar-border: 240 5% 16%;
-    --sidebar-ring: 142 65% 48%;
+    /* #292B31 → HSL(222, 9%, 18%) */
+    --background: 222 9% 18%;
+    --foreground: 185 78% 72%;
+    --card: 222 8% 22%;
+    --card-foreground: 185 78% 72%;
+    --popover: 222 8% 22%;
+    --popover-foreground: 185 78% 72%;
+    --primary: 186 86% 52%;
+    --primary-foreground: 222 12% 12%;
+    --secondary: 222 8% 24%;
+    --secondary-foreground: 185 70% 78%;
+    --muted: 222 7% 22%;
+    --muted-foreground: 185 32% 52%;
+    --accent: 222 9% 26%;
+    --accent-foreground: 185 78% 72%;
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 6% 30%;
+    --input: 222 6% 30%;
+    --ring: 186 86% 52%;
+    --sidebar-background: 222 9% 16%;
+    --sidebar-foreground: 185 78% 72%;
+    --sidebar-primary: 186 86% 52%;
+    --sidebar-primary-foreground: 222 12% 12%;
+    --sidebar-accent: 222 8% 24%;
+    --sidebar-accent-foreground: 185 78% 72%;
+    --sidebar-border: 222 6% 28%;
+    --sidebar-ring: 186 86% 52%;
+    /* v0 .dark chart oklch hues → HSL */
+    --chart-1: 262 70% 58%;
+    --chart-2: 162 55% 48%;
+    --chart-3: 45 90% 55%;
+    --chart-4: 300 60% 58%;
+    --chart-5: 16 72% 52%;
 
-    --surface: 240 5% 16%;
-    --surface-light: 240 5% 20%;
+    --surface: 222 8% 21%;
+    --surface-light: 222 7% 24%;
     --card-shadow: 0 18px 50px -18px hsl(0 0% 0% / 0.45);
     --text: hsl(var(--foreground));
     --text-muted: hsl(var(--muted-foreground));
-    --glass-bg: hsl(240 6% 14% / 0.55);
-    --glass-border: hsl(var(--border) / 0.6);
+    --glass-bg: hsl(222 9% 14% / 0.55);
+    --glass-border: hsl(185 40% 50% / 0.12);
     --bg: hsl(var(--background));
+    --app-header-h: 3.5rem;
   }
 }
 
@@ -115,18 +122,39 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
+  /* Exact dark canvas requested */
+  .dark body {
+    background-color: #292b31;
+  }
+
   #root {
     @apply min-h-screen;
   }
 }
 
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer utilities {
   .glass-panel {
-    @apply border border-border/60 bg-card/70 shadow-sm backdrop-blur-xl backdrop-saturate-150;
+    @apply border border-border/50 bg-card/55 shadow-sm backdrop-blur-md dark:border-border/40 dark:bg-card/50;
   }
 
   .glass-subtle {
-    @apply border border-border/50 bg-background/40 backdrop-blur-md;
+    @apply border border-border/40 bg-background/35 backdrop-blur-sm dark:border-border/30 dark:bg-background/40;
+  }
+
+  /* Legacy class name used across pages → same treatment as glass-panel */
+  .glass-card {
+    @apply glass-panel rounded-2xl;
   }
 
   .hide-mobile {
@@ -135,6 +163,14 @@
 
   .hide-small {
     @apply max-[480px]:hidden;
+  }
+
+  .pb-safe {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
   }
 }
 
@@ -148,14 +184,14 @@
   }
 
   .accurat-thin {
-    @apply font-extralight tracking-tight;
+    @apply font-medium tracking-tight text-foreground;
   }
 
   .btn-primary {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-xl border-0 bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition hover:bg-primary/90 hover:shadow active:scale-[0.99];
+    @apply inline-flex cursor-pointer items-center justify-center rounded-md border-0 bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-sm transition-all duration-200 ease-out hover:bg-primary/90 active:scale-[0.99];
   }
 
   .btn-outline {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-xl border border-primary bg-transparent px-6 py-3 text-sm font-semibold text-primary transition hover:bg-primary hover:text-primary-foreground;
+    @apply inline-flex cursor-pointer items-center justify-center rounded-md border border-input bg-background px-6 py-3 text-sm font-medium text-foreground shadow-sm transition-all duration-200 ease-out hover:bg-accent hover:text-accent-foreground;
   }
 }

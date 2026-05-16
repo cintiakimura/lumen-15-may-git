@@ -4,7 +4,8 @@ const KEYS = {
   BRANDING: 'lumen_branding',
   COURSES: 'lumen_courses',
   PROGRESS: 'lumen_progress',
-  ONBOARDED: 'lumen_onboarded'
+  ONBOARDED: 'lumen_onboarded',
+  COURSE_ASSIGNMENTS: 'lumen_course_assignments',
 };
 
 export const storageService = {
@@ -63,7 +64,15 @@ export const storageService = {
           { id: 'l2', title: 'Brake Pad Inspection', format: 'slides', content: 'Visual inspection techniques, measuring pad thickness, identifying wear patterns.', duration: 5 },
           { id: 'l3', title: 'Rotor Assessment', format: 'video', content: 'How to check rotors for warping, scoring, and minimum thickness specs.', duration: 5 },
           { id: 'l4', title: 'Brake Fluid Basics', format: 'infographic', content: 'Types of brake fluid, checking levels, bleeding procedures.', duration: 5 },
-          { id: 'l5', title: 'Hands-On: Pad Replacement', format: 'video', content: 'Step-by-step guide to replacing brake pads safely.', duration: 5 }
+          { id: 'l5', title: 'Hands-On: Pad Replacement', format: 'video', content: 'Step-by-step guide to replacing brake pads safely.', duration: 5 },
+          {
+            id: 'l6',
+            title: 'Mental scenario: Smoke at startup',
+            format: 'mental_practice',
+            content:
+              'Ground topics for scenarios: thick black exhaust smoke right after start, customer says it just began; multimeter on battery reads very low with no crank; roadside crank-no-start with strong fuel smell. Coach will pick one beat at a time and ask what you would check or do first.',
+            duration: 8,
+          },
         ],
         is_published: true
       },
@@ -104,9 +113,11 @@ export const storageService = {
 
   addCourse(course) {
     const courses = this.getCourses();
-    courses.push({ ...course, id: Date.now().toString() });
+    const id = course.id || `${Date.now()}`;
+    const row = { ...course, id };
+    courses.push(row);
     this.setCourses(courses);
-    return courses;
+    return row;
   },
 
   // Progress tracking
@@ -131,6 +142,35 @@ export const storageService = {
   getAllProgress() {
     const data = localStorage.getItem(KEYS.PROGRESS);
     return data ? JSON.parse(data) : {};
+  },
+
+  getCourseAssignmentMap() {
+    const data = localStorage.getItem(KEYS.COURSE_ASSIGNMENTS);
+    return data ? JSON.parse(data) : {};
+  },
+
+  setCourseAssignmentMap(map) {
+    localStorage.setItem(KEYS.COURSE_ASSIGNMENTS, JSON.stringify(map));
+  },
+
+  /** Replace assigned student ids for a course (empty array = all learners may see it). */
+  setCourseStudents(courseId, studentIds) {
+    const map = this.getCourseAssignmentMap();
+    map[courseId] = studentIds;
+    this.setCourseAssignmentMap(map);
+  },
+
+  /** Course ids this learner may access (published + assignment rules). */
+  getAssignedCourseIdsForStudent(studentId) {
+    const courses = this.getCourses().filter((c) => c.is_published);
+    const map = this.getCourseAssignmentMap();
+    return courses
+      .filter((c) => {
+        const ids = map[c.id];
+        if (!ids || ids.length === 0) return true;
+        return ids.includes(studentId);
+      })
+      .map((c) => c.id);
   },
 
   // Mock students for teacher view

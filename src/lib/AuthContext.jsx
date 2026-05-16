@@ -4,6 +4,7 @@ import { appParams } from '@/lib/app-params';
 import { clientEnv } from '@/lib/env';
 import { createAxiosClient } from '@lumen/sdk/dist/utils/axios-client';
 import { isDemoMode, withDemoParam } from '@/lib/demoMode';
+import { normalizeRole, can as roleCan, ROLES } from '@/lib/roles';
 import { createPageUrl } from '@/utils';
 import authService from '@/components/services/authService';
 
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
           id: u.id,
           email: u.email,
           full_name: u.name,
-          role: u.role,
+          role: u.role || 'learner',
         });
         setIsAuthenticated(true);
       } else {
@@ -133,7 +134,10 @@ export const AuthProvider = ({ children }) => {
       // Now check if the user is authenticated
       setIsLoadingAuth(true);
       const currentUser = await lumen.auth.me();
-      setUser(currentUser);
+      setUser({
+        ...currentUser,
+        role: currentUser?.role || 'learner',
+      });
       setIsAuthenticated(true);
       setIsLoadingAuth(false);
     } catch (error) {
@@ -179,6 +183,12 @@ export const AuthProvider = ({ children }) => {
     lumen.auth.redirectToLogin(window.location.href);
   };
 
+  const normalizedRole = user ? normalizeRole(user.role) : null;
+  const can = (permission) => (normalizedRole ? roleCan(normalizedRole, permission) : false);
+  const hasRole = (...roles) =>
+    !!normalizedRole &&
+    (normalizedRole === ROLES.SUPER_ADMIN || roles.some((r) => normalizedRole === r));
+
   return (
     <AuthContext.Provider value={{ 
       user, 
@@ -189,7 +199,10 @@ export const AuthProvider = ({ children }) => {
       appPublicSettings,
       logout,
       navigateToLogin,
-      checkAppState
+      checkAppState,
+      normalizedRole,
+      can,
+      hasRole,
     }}>
       {children}
     </AuthContext.Provider>

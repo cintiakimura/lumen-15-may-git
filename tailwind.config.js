@@ -31,8 +31,27 @@ module.exports = {
   			],
   		},
   		boxShadow: {
-  			soft: '0 18px 50px -18px hsl(240 8% 12% / 0.08)',
-  			glass: '0 8px 32px -8px hsl(240 8% 12% / 0.06)',
+  			/* v0-style: light float (card.tsx uses shadow-sm; this is optional depth) */
+  			soft: '0 12px 40px -12px hsl(240 6% 10% / 0.06)',
+  			glass: '0 8px 28px -8px hsl(240 6% 10% / 0.05)',
+  		},
+  		transitionDuration: {
+  			layout: '280ms',
+  		},
+  		transitionTimingFunction: {
+  			layout: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  		},
+  		minHeight: {
+  			touch: '44px',
+  		},
+  		minWidth: {
+  			touch: '44px',
+  		},
+  		maxWidth: {
+  			'content-reading': '72rem',
+  		},
+  		spacing: {
+  			header: '3.5rem',
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

@@ -79,7 +79,7 @@ export default function UploadForm({ onCourseCreated, onClose }) {
   const saveCourse = async () => {
     try {
       const user = await runtimeAuthMe();
-      await runtimeCreateCourse({
+      const created = await runtimeCreateCourse({
         title: courseData.title,
         description: courseData.description || '',
         content: courseData.content,
@@ -90,7 +90,7 @@ export default function UploadForm({ onCourseCreated, onClose }) {
         is_published: true
       });
       
-      onCourseCreated?.();
+      onCourseCreated?.(created);
     } catch (err) {
       setError('Failed to save course. Please try again.');
       console.error(err);

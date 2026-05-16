@@ -15,8 +15,7 @@ export default function Login() {
   if (!isDemoMode()) {
     return (
       <div
-        className="min-h-screen flex items-center justify-center px-4 text-center"
-        style={{ background: '#212121', color: '#E0E0E0' }}
+        className="min-h-screen flex items-center justify-center px-4 text-center bg-background text-foreground"
       >
         <p>Redirecting to hosted sign-in…</p>
       </div>

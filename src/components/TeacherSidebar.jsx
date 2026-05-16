@@ -10,6 +10,7 @@ import {
   BookOpen,
   Menu,
   X,
+  Wrench,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -22,6 +23,7 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
 
   const navItems = [
     { icon: LayoutDashboard, label: 'Dashboard', page: 'TeacherDashboard' },
+    { icon: Wrench, label: 'Course builder', page: 'CourseBuilder' },
     { icon: BookOpen, label: 'My Courses', page: 'TeacherCourses' },
     { icon: Users, label: 'Students', page: 'TeacherStudents' },
     { icon: BarChart3, label: 'Analytics', page: 'TeacherAnalytics' },
@@ -52,7 +54,7 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm lg:hidden"
             onClick={onToggle}
           />
         )}
@@ -60,9 +62,9 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
 
       <motion.aside
         initial={false}
-        animate={{ x: isOpen ? 0 : -280 }}
+        animate={{ x: isOpen ? 0 : -240 }}
         className={cn(
-          'sidebar fixed left-0 top-0 z-40 flex h-full w-[280px] flex-col border-r border-border/60 bg-sidebar/85 backdrop-blur-xl backdrop-saturate-150 lg:static lg:translate-x-0'
+          'sidebar fixed left-0 top-0 z-40 flex h-full w-60 flex-col border-r border-border/50 bg-sidebar/55 backdrop-blur-md lg:static lg:translate-x-0'
         )}
       >
         <div className="sidebar-header flex items-center border-b border-border/60 px-6 py-4">
@@ -85,9 +87,9 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className={cn(
-                  'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-colors',
+                  'flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-200 ease-out',
                   isActive(item.page)
-                    ? 'bg-primary text-primary-foreground shadow-soft'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
                     : 'text-sidebar-foreground hover:bg-sidebar-accent/90'
                 )}
               >
@@ -100,7 +102,7 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
 
         <div className="space-y-1 border-t border-border/60 p-4">
           <Link to={createPageUrl('Settings')} className="block no-underline">
-            <div className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-sidebar-foreground transition-colors hover:bg-sidebar-accent/90">
+            <div className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-sidebar-foreground transition-colors duration-200 hover:bg-sidebar-accent/90">
               <Settings className="h-5 w-5 shrink-0" />
               <span>Settings</span>
             </div>
@@ -108,7 +110,7 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
           <button
             type="button"
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-xl border-0 bg-transparent px-4 py-3 text-left text-sm font-semibold text-sidebar-foreground transition-colors hover:bg-sidebar-accent/90"
+            className="flex w-full items-center gap-3 rounded-lg border-0 bg-transparent px-4 py-2.5 text-left text-sm font-medium text-sidebar-foreground transition-colors duration-200 hover:bg-sidebar-accent/90"
           >
             <LogOut className="h-5 w-5 shrink-0" />
             <span>Logout</span>

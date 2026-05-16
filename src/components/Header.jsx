@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu } from 'lucide-react';
+import { Menu, LogOut } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 import { Button } from '@/components/ui/button';
 
@@ -11,41 +11,47 @@ export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'D
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-30 flex h-16 items-center border-b border-border/60 bg-background/75 px-4 backdrop-blur-xl backdrop-saturate-150 sm:px-6">
-      <div className="flex flex-1 items-center gap-4">
+    <header className="fixed inset-x-0 top-0 z-40 flex h-14 items-center border-b border-border/50 bg-background/80 px-3 backdrop-blur-md supports-[padding:max(0px)]:pt-[max(0px,env(safe-area-inset-top))] sm:px-4">
+      <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
         <Button
           type="button"
           variant="ghost"
           size="icon"
-          className="shrink-0 text-foreground"
+          className="touch-target h-11 w-11 shrink-0 text-foreground sm:h-10 sm:w-10"
           onClick={onMenuToggle}
           aria-expanded={sidebarOpen}
-          aria-label="Toggle sidebar"
+          aria-label="Toggle navigation"
         >
           <Menu className="h-5 w-5" />
         </Button>
 
-        <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold text-primary">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-2.5">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border/50 bg-muted/30 text-[10px] font-medium text-primary sm:h-9 sm:w-9 sm:text-[11px]">
             L
           </div>
-          <div className="hidden h-8 w-px bg-border sm:block" aria-hidden />
-          <h1 className="accurat-thin truncate text-xl text-primary sm:text-2xl">{pageTitle}</h1>
+          <h1 className="accurat-thin truncate text-[15px] leading-snug sm:text-base">{pageTitle}</h1>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-          {user?.full_name?.charAt(0) || 'U'}
-        </div>
-        <div className="hidden min-w-0 flex-col gap-0.5 sm:flex">
-          <p className="truncate text-sm font-medium leading-tight text-foreground">{user?.full_name || 'User'}</p>
-          <span className="w-fit rounded-md bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
-            {user?.role === 'teacher' ? 'Teacher' : 'Student'}
-          </span>
-        </div>
-        <Button type="button" variant="outline" size="sm" className="shrink-0 border-primary/40 text-primary hover:bg-primary hover:text-primary-foreground" onClick={handleLogout}>
-          Logout
+      <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="touch-target h-11 w-11 text-foreground sm:hidden"
+          onClick={handleLogout}
+          aria-label="Log out"
+        >
+          <LogOut className="h-5 w-5" />
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="hidden h-9 px-3 sm:inline-flex"
+          onClick={handleLogout}
+        >
+          Log out
         </Button>
       </div>
     </header>

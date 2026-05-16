@@ -6,6 +6,9 @@
  */
 import AppLayout from '@/components/Layout';
 import CourseDetail from './pages/CourseDetail';
+import CourseModulePlayer from './pages/CourseModulePlayer';
+import CourseBuilder from './pages/CourseBuilder';
+import Certificate from './pages/Certificate';
 import Courses from './pages/Courses';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -21,6 +24,9 @@ import TeacherStudents from './pages/TeacherStudents';
 export const PAGES = {
   Login,
   CourseDetail,
+  CourseModule: CourseModulePlayer,
+  CourseBuilder,
+  Certificate,
   Courses,
   Landing,
   Onboarding,

@@ -84,27 +84,21 @@ export default function TeacherDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 lg:flex" style={{ background: '#212121' }}>
+    <div className="min-h-screen bg-background lg:flex">
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
-      
+
       <main className="flex-1 lg:ml-0">
-        {/* Header */}
-        <header style={{ background: 'rgba(33, 33, 33, 0.8)', borderBottom: '1px solid #333333', padding: '16px 24px' }}>
+        <header className="border-b border-border bg-background/80 px-4 py-4 backdrop-blur-md sm:px-6">
           <div className="flex items-center justify-between">
-            <div className="lg:hidden" /> {/* Spacer for mobile menu button */}
+            <div className="lg:hidden" />
             <div>
-              <h1 style={{ fontSize: '24px', fontWeight: '100', color: '#00c600' }}>Dashboard</h1>
-              <p style={{ fontSize: '14px', color: '#999999' }}>Welcome back, {user?.name || 'Teacher'}</p>
+              <h1 className="text-2xl font-medium tracking-tight text-foreground">Dashboard</h1>
+              <p className="text-sm text-muted-foreground">Welcome back, {user?.name || 'Teacher'}</p>
             </div>
-            <button
-              onClick={() => setShowUploadForm(true)}
-              style={{ background: '#00c600', color: '#000000', border: 'none', borderRadius: '12px', padding: '12px 24px', cursor: 'pointer', fontSize: '14px', fontWeight: 'normal' }}
-              onMouseEnter={(e) => e.currentTarget.style.background = '#00e600'}
-              onMouseLeave={(e) => e.currentTarget.style.background = '#00c600'}
-            >
-              <Plus className="w-4 h-4 mr-2 inline" />
+            <Button onClick={() => setShowUploadForm(true)} className="gap-2 rounded-xl">
+              <Plus className="mr-0 inline h-4 w-4" />
               New Course
-            </button>
+            </Button>
           </div>
         </header>
 

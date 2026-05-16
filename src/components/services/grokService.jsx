@@ -1,5 +1,27 @@
 import { lumen } from '@/api/lumenClient';
 import { isDemoMode } from '@/lib/demoMode';
+import {
+  analyzeLearnerSignals,
+  buildCoachLessonTurnPrompt,
+  buildCoachFreeChatPrompt,
+  buildCoachEvaluateFeedbackPrompt,
+  coachThinkingDelay,
+  coachDemoLessonReply,
+  coachDemoFreeTextReply,
+  formatSignalsForPrompt,
+  COACH_REASSURANCE_CLOSE,
+  COACH_TRY_OR_SAVE,
+} from '@/lib/grokCoach';
+import {
+  buildLearnerProfilePromptAddendum,
+  profileExtraDelayMs,
+  sleepMs,
+} from '@/lib/learnerProfile';
+import {
+  buildMentalScenarioTurnPrompt,
+  mentalScenarioSidebarHint,
+} from '@/lib/mentalScenario';
+import { applyMasteryUnlockGate } from '@/lib/assessmentRemediation';
 
 export const grokService = {
   // Structure course content into lessons using Lumen Academy method
@@ -101,40 +123,43 @@ Return structured course following the format.`,
     };
   },
 
-  // Chat with student - assess mastery
-  async chatWithStudent(lessonContent, conversationHistory, studentMessage) {
+  /**
+   * Lesson-scoped Coach (Grok) — persona + adaptive layer from `src/lib/grokCoach.ts`.
+   */
+  async chatWithStudent(lessonContent, conversationHistory, studentMessage, opts = {}) {
+    const { learnerProfileDoc = null } = opts;
+    const prior = Array.isArray(conversationHistory) ? conversationHistory : [];
+    const signals = analyzeLearnerSignals({
+      lastUserMessage: studentMessage,
+      priorMessages: prior,
+    });
+
     if (isDemoMode()) {
-      return {
-        response: 'Demo mode: tutor reply placeholder.',
-        mastery_score: 72,
-        is_frustrated: false,
-        ready_for_next: false,
-        suggestion: 'Review the key terms from this lesson.',
-      };
+      return applyMasteryUnlockGate(coachDemoLessonReply(signals));
     }
 
-    const historyText = conversationHistory.map(m => `${m.role}: ${m.content}`).join('\n');
-    
+    if (learnerProfileDoc) {
+      await sleepMs(profileExtraDelayMs(learnerProfileDoc.profile));
+    }
+
+    const historyText = prior.map((m) => `${m.role}: ${m.content}`).join('\n');
+    await coachThinkingDelay();
+
+    const userTurns = learnerProfileDoc?.history?.length ?? 0;
+    const learnerProfileAddendum = learnerProfileDoc
+      ? buildLearnerProfilePromptAddendum(learnerProfileDoc, { userTurnCount: userTurns })
+      : undefined;
+
+    const prompt = buildCoachLessonTurnPrompt({
+      lessonContent,
+      historyText,
+      studentMessage,
+      signals,
+      learnerProfileAddendum,
+    });
+
     const response = await lumen.integrations.Core.InvokeLLM({
-      prompt: `You are a friendly, encouraging vocational training tutor powered by Grok. You're helping a student understand this lesson:
-
-LESSON CONTENT:
-${lessonContent}
-
-CONVERSATION SO FAR:
-${historyText}
-
-STUDENT'S MESSAGE:
-${studentMessage}
-
-Your task:
-1. Respond naturally and helpfully to their message
-2. Silently assess their understanding (don't tell them the score)
-3. If they seem frustrated, be extra supportive and suggest taking a break
-4. Ask follow-up questions to gauge mastery
-5. Keep responses concise and practical
-
-Provide your response and your internal assessment of their mastery level (0-100).`,
+      prompt,
       response_json_schema: {
         type: "object",
         properties: {
@@ -142,11 +167,117 @@ Provide your response and your internal assessment of their mastery level (0-100
           mastery_score: { type: "number" },
           is_frustrated: { type: "boolean" },
           ready_for_next: { type: "boolean" },
-          suggestion: { type: "string" }
-        }
-      }
+          suggestion: { type: "string" },
+        },
+      },
     });
-    return response;
+    return applyMasteryUnlockGate(response);
+  },
+
+  /**
+   * Mental scenario simulation — same JSON shape as lesson chat, Coach + imagination rules.
+   */
+  async mentalScenarioTurn(lessonContent, conversationHistory, studentMessage, opts = {}) {
+    const {
+      learnerProfileDoc = null,
+      courseTitle = 'Course',
+      lessonTitle = 'Lesson',
+    } = opts;
+    const prior = Array.isArray(conversationHistory) ? conversationHistory : [];
+    const signals = analyzeLearnerSignals({
+      lastUserMessage: studentMessage,
+      priorMessages: prior,
+    });
+
+    if (isDemoMode()) {
+      return applyMasteryUnlockGate(coachDemoLessonReply(signals));
+    }
+
+    if (learnerProfileDoc) {
+      await sleepMs(profileExtraDelayMs(learnerProfileDoc.profile));
+    }
+
+    const historyText = prior.map((m) => `${m.role}: ${m.content}`).join('\n');
+    await coachThinkingDelay();
+
+    const userTurns = learnerProfileDoc?.history?.length ?? 0;
+    const learnerProfileAddendum = learnerProfileDoc
+      ? buildLearnerProfilePromptAddendum(learnerProfileDoc, { userTurnCount: userTurns })
+      : undefined;
+
+    const adaptiveBlock = [
+      formatSignalsForPrompt(signals),
+      learnerProfileAddendum,
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    const prompt = buildMentalScenarioTurnPrompt({
+      courseTitle,
+      lessonTitle,
+      lessonContent,
+      historyText,
+      studentMessage,
+      adaptiveBlock: adaptiveBlock || undefined,
+    });
+
+    const response = await lumen.integrations.Core.InvokeLLM({
+      prompt,
+      response_json_schema: {
+        type: 'object',
+        properties: {
+          response: { type: 'string' },
+          mastery_score: { type: 'number' },
+          is_frustrated: { type: 'boolean' },
+          ready_for_next: { type: 'boolean' },
+          suggestion: { type: 'string' },
+        },
+      },
+    });
+    return applyMasteryUnlockGate(response);
+  },
+
+  /**
+   * Global sidebar Coach — same rules, no lesson body unless you pass `extraContext`.
+   */
+  async coachFreeChat(conversationHistory, studentMessage, extraContext = '', opts = {}) {
+    const { learnerProfileDoc = null, mentalSimulation = false } = opts;
+    const prior = Array.isArray(conversationHistory) ? conversationHistory : [];
+    const signals = analyzeLearnerSignals({
+      lastUserMessage: studentMessage,
+      priorMessages: prior,
+    });
+
+    if (isDemoMode()) {
+      return coachDemoFreeTextReply(signals, studentMessage);
+    }
+
+    if (learnerProfileDoc) {
+      await sleepMs(profileExtraDelayMs(learnerProfileDoc.profile));
+    }
+
+    const historyText = prior.map((m) => `${m.role}: ${m.content}`).join('\n');
+    await coachThinkingDelay();
+
+    const userTurns = learnerProfileDoc?.history?.length ?? 0;
+    const learnerProfileAddendum = learnerProfileDoc
+      ? buildLearnerProfilePromptAddendum(learnerProfileDoc, { userTurnCount: userTurns })
+      : undefined;
+
+    const mergedContext = [extraContext?.trim(), mentalSimulation ? mentalScenarioSidebarHint() : '']
+      .filter(Boolean)
+      .join('\n\n');
+
+    const prompt = buildCoachFreeChatPrompt({
+      historyText,
+      studentMessage,
+      signals,
+      extraContext: mergedContext || undefined,
+      learnerProfileAddendum,
+    });
+
+    const response = await lumen.integrations.Core.InvokeLLM({ prompt });
+    return typeof response === 'string' ? response : JSON.stringify(response);
   },
 
   // Generate mastery assessment questions
@@ -164,11 +295,11 @@ Provide your response and your internal assessment of their mastery level (0-100
     }
 
     const response = await lumen.integrations.Core.InvokeLLM({
-      prompt: `Create 3 practical assessment questions for this vocational training lesson:
+      prompt: `Create exactly 3 conversational assessment prompts for this vocational training lesson (for oral / chat use — NOT multiple choice, no A/B/C options).
 
 ${lessonContent}
 
-Questions should test real-world application, not just memorization. Make them conversational and practical.`,
+Each item must be usable as a spoken scenario or "teach it back" style check. Prefer "what would you do if…" or "explain to a mate how…". Hints should suggest how to answer without giving the full solution.`,
       response_json_schema: {
         type: "object",
         properties: {
@@ -189,36 +320,42 @@ Questions should test real-world application, not just memorization. Make them c
     return response;
   },
 
-  // Evaluate student's answer
+  // Evaluate student's answer (Coach voice in feedback text)
   async evaluateAnswer(question, answer, keyConceptsToCover) {
+    const signals = analyzeLearnerSignals({
+      lastUserMessage: answer,
+      priorMessages: [],
+    });
+
     if (isDemoMode()) {
       return {
         score: 80,
-        feedback: 'Demo mode feedback.',
+        feedback: `Demo mode, mate—I'd dig into this properly when live.\n\n${COACH_REASSURANCE_CLOSE}\n\n${COACH_TRY_OR_SAVE}`,
         conceptsCovered: keyConceptsToCover.slice(0, 1),
         conceptsMissed: [],
       };
     }
 
+    await coachThinkingDelay();
+
+    const prompt = buildCoachEvaluateFeedbackPrompt({
+      question,
+      answer,
+      keyConceptsToCover,
+      signals,
+    });
+
     const response = await lumen.integrations.Core.InvokeLLM({
-      prompt: `Evaluate this student's answer to a vocational training question:
-
-QUESTION: ${question}
-
-KEY CONCEPTS TO COVER: ${keyConceptsToCover.join(', ')}
-
-STUDENT'S ANSWER: ${answer}
-
-Assess their understanding (0-100 score) and provide brief, encouraging feedback. If they missed key concepts, gently point them out with practical examples.`,
+      prompt,
       response_json_schema: {
         type: "object",
         properties: {
           score: { type: "number" },
           feedback: { type: "string" },
           conceptsCovered: { type: "array", items: { type: "string" } },
-          conceptsMissed: { type: "array", items: { type: "string" } }
-        }
-      }
+          conceptsMissed: { type: "array", items: { type: "string" } },
+        },
+      },
     });
     return response;
   }

@@ -72,10 +72,10 @@ export default function Profile() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-[#212121] pb-64">
+    <div className="min-h-screen bg-background pb-64">
       {/* Header */}
       <div 
-        className="px-6 pt-12 pb-24 rounded-b-3xl bg-gradient-to-br from-[#00c600] to-[#00a600]"
+        className="px-6 pt-12 pb-24 rounded-b-3xl bg-gradient-to-br from-primary to-primary/80"
       >
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-white">Profile</h1>
@@ -116,9 +116,9 @@ export default function Profile() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <Card className="glass-card border border-[#333333]">
+          <Card className="glass-card border border-border">
             <CardContent className="p-0">
-              <div className="grid grid-cols-3 divide-x divide-[#333333]">
+              <div className="grid grid-cols-3 divide-x divide-border">
                 {[
                   { icon: Award, value: completedCourses, label: 'Certificates' },
                   { icon: BookOpen, value: totalLessonsCompleted, label: 'Lessons' },
@@ -126,9 +126,9 @@ export default function Profile() {
                 ].map((stat, index) => (
                   <div key={stat.label} className="p-5 text-center">
                     <stat.icon 
-                      className="w-6 h-6 mx-auto mb-2 text-[#00c600]"
+                      className="w-6 h-6 mx-auto mb-2 text-primary"
                     />
-                    <p className="text-xl font-bold text-[#e0e0e0]">{stat.value}</p>
+                    <p className="text-xl font-bold text-foreground">{stat.value}</p>
                     <p className="text-xs text-[#a0a0a0]">{stat.label}</p>
                   </div>
                 ))}
@@ -143,8 +143,8 @@ export default function Profile() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <h3 className="text-lg font-bold text-[#e0e0e0] mb-3">Achievements</h3>
-          <Card className="glass-card border border-[#333333]">
+          <h3 className="text-lg font-bold text-foreground mb-3">Achievements</h3>
+          <Card className="glass-card border border-border">
             <CardContent className="p-4">
               <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
                 {[
@@ -157,7 +157,7 @@ export default function Profile() {
                   <div 
                     key={achievement.label}
                     className={`flex-shrink-0 w-20 text-center p-3 rounded-xl ${
-                      achievement.earned ? 'bg-[#00c600]/20 border border-[#00c600]' : 'bg-[#333333] opacity-50'
+                      achievement.earned ? 'border border-primary bg-primary/15' : 'bg-muted opacity-50'
                     }`}
                   >
                     <span className="text-2xl">{achievement.emoji}</span>
@@ -175,23 +175,23 @@ export default function Profile() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <h3 className="text-lg font-bold text-[#e0e0e0] mb-3">Settings</h3>
-          <Card className="glass-card border border-[#333333]">
-            <CardContent className="p-0 divide-y divide-[#333333]">
+          <h3 className="text-lg font-bold text-foreground mb-3">Settings</h3>
+          <Card className="glass-card border border-border">
+            <CardContent className="p-0 divide-y divide-border">
               {menuItems.map((item) => (
                 <button 
                   key={item.label}
-                  className="w-full flex items-center gap-4 p-4 hover:bg-[#333333] transition-colors"
+                  className="w-full flex items-center gap-4 p-4 hover:bg-muted transition-colors"
                 >
-                  <div className="w-10 h-10 bg-[#333333] rounded-xl flex items-center justify-center">
+                  <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
                     <item.icon className="w-5 h-5 text-[#a0a0a0]" />
                   </div>
-                  <span className="flex-1 text-left font-medium text-[#e0e0e0]">
+                  <span className="flex-1 text-left font-medium text-foreground">
                     {item.label}
                   </span>
                   {item.badge ? (
                     <span 
-                      className="px-2 py-0.5 rounded-full text-xs font-semibold bg-[#00c600] text-[#212121]"
+                      className="px-2 py-0.5 rounded-full text-xs font-semibold bg-primary text-primary-foreground"
                     >
                       {item.badge}
                     </span>

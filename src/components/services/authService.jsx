@@ -8,15 +8,23 @@ export const authService = {
       throw new Error('Email and password are required');
     }
 
-    // Determine role based on email
-    const isTeacher = email.toLowerCase().endsWith('@teacher.com');
-    
+    const lower = email.toLowerCase();
+    const isSuperAdmin =
+      lower.endsWith('@lumen.admin') ||
+      lower.includes('superadmin') ||
+      lower === 'admin@lumen.local';
+    const isTeacher = lower.endsWith('@teacher.com') || lower.endsWith('@instructor.com');
+
+    let role = 'learner';
+    if (isSuperAdmin) role = 'super_admin';
+    else if (isTeacher) role = 'teacher';
+
     const user = {
       id: Date.now().toString(),
-      email: email.toLowerCase(),
-      name: email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-      role: isTeacher ? 'teacher' : 'student',
-      createdAt: new Date().toISOString()
+      email: lower,
+      name: email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+      role,
+      createdAt: new Date().toISOString(),
     };
 
     storageService.setUser(user);
@@ -33,16 +41,16 @@ export const authService = {
     return storageService.getUser();
   },
 
-  // Check if user is teacher
   isTeacher() {
     const user = storageService.getUser();
-    return user?.role === 'teacher';
+    const r = user?.role;
+    return r === 'teacher' || r === 'super_admin' || r === 'instructor';
   },
 
-  // Check if user is student
   isStudent() {
     const user = storageService.getUser();
-    return user?.role === 'student';
+    const r = user?.role;
+    return r === 'student' || r === 'learner';
   },
 
   // Logout

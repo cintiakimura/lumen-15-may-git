@@ -62,11 +62,11 @@ export default function TeacherCourses() {
   );
 
   return (
-    <div className="min-h-screen bg-[#212121] lg:flex">
+    <div className="min-h-screen bg-background lg:flex">
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
       
       <main className="flex-1">
-        <header className="glass-card border-b border-[#333333] px-6 py-4 lg:px-8">
+        <header className="glass-card border-b border-border px-6 py-4 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="lg:hidden" />
             <div>

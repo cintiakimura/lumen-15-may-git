@@ -53,7 +53,7 @@ export default function Courses() {
   });
 
   const handleCourseClick = (course) => {
-    navigate(createPageUrl('CourseDetail') + `?id=${course.id}`);
+    navigate(createPageUrl('CourseModule') + `?id=${course.id}`);
   };
 
   return (

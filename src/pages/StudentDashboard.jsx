@@ -22,6 +22,7 @@ import {
   runtimeAuthIsAuthenticated,
   runtimeRedirectToLogin,
   runtimePublishedCourses,
+  runtimeAssignedCoursesForStudent,
 } from '@/lib/appRuntime';
 import { useQuery } from '@tanstack/react-query';
 
@@ -40,13 +41,17 @@ export default function StudentDashboard() {
     });
   }, [navigate]);
 
-  const { data: courses = [] } = useQuery({
-    queryKey: ['all-courses'],
-    queryFn: () => runtimePublishedCourses(),
-    initialData: []
+  const { data: enrolledCourses = [] } = useQuery({
+    queryKey: ['assigned-courses'],
+    queryFn: () => runtimeAssignedCoursesForStudent(),
+    initialData: [],
   });
 
-  const enrolledCourses = courses.slice(0, 3); // Mock enrolled courses
+  const { data: browseCourses = [] } = useQuery({
+    queryKey: ['published-courses'],
+    queryFn: () => runtimePublishedCourses(),
+    initialData: [],
+  });
   
   const totalLessons = enrolledCourses.reduce((sum, c) => sum + (c.lessons?.length || 0), 0);
   const completedLessons = Object.values(progress).reduce(
@@ -57,7 +62,7 @@ export default function StudentDashboard() {
     : 0;
 
   const handleCourseClick = (course) => {
-    navigate(createPageUrl('CourseDetail') + `?id=${course.id}`);
+    navigate(createPageUrl('CourseModule') + `?id=${course.id}`);
   };
 
   // Get current lesson to continue
@@ -191,7 +196,7 @@ export default function StudentDashboard() {
           </div>
 
           <div className="flex gap-4 overflow-x-auto pb-2 -mx-6 px-6 scrollbar-hide">
-            {courses.slice(0, 4).map((course, index) => (
+            {browseCourses.slice(0, 4).map((course, index) => (
               <motion.div
                 key={course.id}
                 initial={{ opacity: 0, scale: 0.9 }}

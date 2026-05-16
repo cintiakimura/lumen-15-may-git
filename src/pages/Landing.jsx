@@ -47,7 +47,7 @@ export default function Landing() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#212121' }}>
+    <div className="min-h-screen bg-background">
       <section className="relative flex items-center" style={{ minHeight: '67vh', padding: '32px' }}>
         <div className="absolute inset-0">
           <div className="grid grid-cols-2 h-full">
@@ -71,13 +71,7 @@ export default function Landing() {
 
         <div className="relative z-10 max-w-6xl mx-auto text-left">
           <h1
-            style={{
-              fontSize: '30px',
-              color: '#00c600',
-              marginBottom: '24px',
-              lineHeight: 1.1,
-              fontWeight: '100',
-            }}
+            className="mb-6 text-[30px] font-extralight leading-tight text-white drop-shadow-md"
           >
             Learning made for you, and just for you
           </h1>
@@ -116,16 +110,8 @@ export default function Landing() {
       <section className="px-6 lg:px-8" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3" style={{ gap: '24px' }}>
-            <div
-              style={{
-                padding: '24px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid #333333',
-                borderRadius: '16px',
-              }}
-            >
-              <h3 style={{ fontSize: '28.8px', color: '#00c600', marginBottom: '12px', fontWeight: '100' }}>
+            <div className="glass-panel rounded-2xl p-6">
+              <h3 className="mb-3 text-[28.8px] font-extralight text-primary">
                 Nobody learns the same way
               </h3>
               <p style={{ fontSize: '19.2px', color: '#FFFFFF', lineHeight: 1.6 }}>
@@ -137,16 +123,8 @@ export default function Landing() {
               </p>
             </div>
 
-            <div
-              style={{
-                padding: '24px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid #333333',
-                borderRadius: '16px',
-              }}
-            >
-              <h3 style={{ fontSize: '28.8px', color: '#00c600', marginBottom: '12px', fontWeight: '100' }}>
+            <div className="glass-panel rounded-2xl p-6">
+              <h3 className="mb-3 text-[28.8px] font-extralight text-primary">
                 Your brain your choice
               </h3>
               <p style={{ fontSize: '19.2px', color: '#FFFFFF', lineHeight: 1.6 }}>
@@ -158,16 +136,8 @@ export default function Landing() {
               </p>
             </div>
 
-            <div
-              style={{
-                padding: '24px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid #333333',
-                borderRadius: '16px',
-              }}
-            >
-              <h3 style={{ fontSize: '28.8px', color: '#00c600', marginBottom: '12px', fontWeight: '100' }}>
+            <div className="glass-panel rounded-2xl p-6">
+              <h3 className="mb-3 text-[28.8px] font-extralight text-primary">
                 Empowering teachers
               </h3>
               <p style={{ fontSize: '19.2px', color: '#FFFFFF', lineHeight: 1.6 }}>
@@ -182,22 +152,20 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="py-12 px-6 lg:px-8 bg-[#0D0D0D]">
+      <section className="bg-muted px-6 py-12 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-2xl lg:text-3xl text-white mb-4" style={{ fontWeight: '100' }}>
+          <h2 className="mb-4 text-2xl font-extralight text-foreground lg:text-3xl">
             A method backed by more than 103 studies
           </h2>
 
           <div className="space-y-8 text-left max-w-2xl mx-auto">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-[#00D100] rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-[#1A1A1A] text-xl">AI</span>
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary">
+                <span className="text-xl text-primary-foreground">AI</span>
               </div>
               <div>
-                <h3 className="text-xl mb-2" style={{ color: '#00c600', fontWeight: '100' }}>
-                  You are not a number
-                </h3>
-                <p style={{ color: '#FFFFFF' }}>
+                <h3 className="mb-2 text-xl font-extralight text-primary">You are not a number</h3>
+                <p className="text-muted-foreground">
                   For the first time a the learning experience designed to completely adapt to each individual user,
                   same content unique experiences. From podcasts, videos, slides until deep conversations, you choose
                   what works for you
@@ -206,14 +174,12 @@ export default function Landing() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-[#00D100] rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-[#1A1A1A] text-xl">🧠</span>
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary">
+                <span className="text-xl text-primary-foreground">🧠</span>
               </div>
               <div>
-                <h3 className="text-xl mb-2" style={{ color: '#00c600', fontWeight: '100' }}>
-                  You are not alone
-                </h3>
-                <p style={{ color: '#FFFFFF' }}>
+                <h3 className="mb-2 text-xl font-extralight text-primary">You are not alone</h3>
+                <p className="text-muted-foreground">
                   We will support and adapt until you succeed, no judgement, no pressure, because knowledge is yours,
                   forever
                 </p>
