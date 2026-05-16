@@ -113,11 +113,11 @@ export default function VoiceButton({
       disabled={disabled}
       title={isListening ? 'Stop recording' : 'Start voice input'}
       className={cn(
-        'relative rounded-full flex items-center justify-center transition-all duration-300',
+        'group relative flex items-center justify-center rounded-full transition-all duration-300',
         sizeClasses[size],
         isListening 
           ? 'bg-red-50 border-2 border-red-500' 
-          : 'bg-white border-2 border-[var(--primary)] hover:bg-[var(--primary)]',
+          : 'border-2 border-primary bg-background hover:bg-primary hover:text-primary-foreground',
         disabled && 'opacity-50 cursor-not-allowed',
         className
       )}
@@ -130,7 +130,7 @@ export default function VoiceButton({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
           >
-            <Loader2 className={cn('animate-spin text-[var(--primary)]', iconSizes[size])} />
+            <Loader2 className={cn('animate-spin text-primary', iconSizes[size])} />
           </motion.div>
         ) : isListening ? (
           <motion.div
@@ -147,9 +147,8 @@ export default function VoiceButton({
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
-            className="group-hover:text-white"
           >
-            <Mic className={cn('text-[var(--primary)] transition-colors', iconSizes[size])} />
+            <Mic className={cn('text-primary transition-colors group-hover:text-primary-foreground', iconSizes[size])} />
           </motion.div>
         )}
       </AnimatePresence>

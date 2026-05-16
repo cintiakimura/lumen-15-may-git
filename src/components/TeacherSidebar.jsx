@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { 
-  LayoutDashboard, 
-  Users, 
-  BarChart3, 
+import {
+  LayoutDashboard,
+  Users,
+  BarChart3,
   Settings,
   LogOut,
   BookOpen,
   Menu,
-  X
+  X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,7 +19,7 @@ import { useAuth } from '@/lib/AuthContext';
 export default function TeacherSidebar({ isOpen, onToggle }) {
   const location = useLocation();
   const { logout } = useAuth();
-  
+
   const navItems = [
     { icon: LayoutDashboard, label: 'Dashboard', page: 'TeacherDashboard' },
     { icon: BookOpen, label: 'My Courses', page: 'TeacherCourses' },
@@ -37,117 +37,81 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
 
   return (
     <>
-      {/* Mobile toggle */}
       <Button
         variant="ghost"
         size="icon"
-        className="fixed top-4 left-4 z-50 lg:hidden"
+        className="fixed left-4 top-4 z-50 lg:hidden"
         onClick={onToggle}
       >
-        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </Button>
 
-      {/* Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
             onClick={onToggle}
           />
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
       <motion.aside
         initial={false}
         animate={{ x: isOpen ? 0 : -280 }}
         className={cn(
-          'sidebar fixed top-0 left-0 h-full z-40 flex flex-col',
-          'lg:translate-x-0 lg:static'
+          'sidebar fixed left-0 top-0 z-40 flex h-full w-[280px] flex-col border-r border-border/60 bg-sidebar/85 backdrop-blur-xl backdrop-saturate-150 lg:static lg:translate-x-0'
         )}
-        style={{ 
-          background: 'var(--glass-bg)', 
-          backdropFilter: 'blur(10px)', 
-          borderRight: '1px solid var(--glass-border)' 
-        }}
       >
-        {/* Logo */}
-        <div className="sidebar-header flex items-center px-6 border-b" style={{ borderColor: 'var(--glass-border)' }}>
-          <img 
+        <div className="sidebar-header flex items-center border-b border-border/60 px-6 py-4">
+          <img
             src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/lumen-prod/public/69816fdfc8b62c2372da0c4b/1cf3c4952_lumenlogo.png"
             alt="LUMEN"
-            style={{ height: '40px' }}
+            className="h-10 w-auto"
           />
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 space-y-1 p-4">
           {navItems.map((item) => (
             <Link
               key={item.page}
               to={createPageUrl(item.page)}
               onClick={() => window.innerWidth < 1024 && onToggle()}
-              style={{ textDecoration: 'none' }}
+              className="block no-underline"
             >
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  transition: 'all 0.2s ease',
-                  background: isActive(item.page) ? 'var(--primary)' : 'transparent',
-                  color: isActive(item.page) ? '#000000' : 'var(--text)'
-                }}
+                className={cn(
+                  'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-colors',
+                  isActive(item.page)
+                    ? 'bg-primary text-primary-foreground shadow-soft'
+                    : 'text-sidebar-foreground hover:bg-sidebar-accent/90'
+                )}
               >
-                <item.icon style={{ width: '20px', height: '20px' }} />
-                <span style={{ fontWeight: '600' }}>{item.label}</span>
+                <item.icon className="h-5 w-5 shrink-0" />
+                <span>{item.label}</span>
               </motion.div>
             </Link>
           ))}
         </nav>
 
-        {/* Footer */}
-        <div className="p-4 border-t" style={{ borderColor: 'var(--glass-border)' }}>
-          <Link to={createPageUrl('Settings')} style={{ textDecoration: 'none' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '12px 16px',
-              borderRadius: '12px',
-              color: 'var(--text)',
-              transition: 'all 0.2s ease',
-              marginBottom: '8px'
-            }}>
-              <Settings style={{ width: '20px', height: '20px' }} />
-              <span style={{ fontWeight: '600' }}>Settings</span>
+        <div className="space-y-1 border-t border-border/60 p-4">
+          <Link to={createPageUrl('Settings')} className="block no-underline">
+            <div className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-sidebar-foreground transition-colors hover:bg-sidebar-accent/90">
+              <Settings className="h-5 w-5 shrink-0" />
+              <span>Settings</span>
             </div>
           </Link>
           <button
+            type="button"
             onClick={handleLogout}
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '12px 16px',
-              borderRadius: '12px',
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--text)',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
+            className="flex w-full items-center gap-3 rounded-xl border-0 bg-transparent px-4 py-3 text-left text-sm font-semibold text-sidebar-foreground transition-colors hover:bg-sidebar-accent/90"
           >
-            <LogOut style={{ width: '20px', height: '20px' }} />
-            <span style={{ fontWeight: '600' }}>Logout</span>
+            <LogOut className="h-5 w-5 shrink-0" />
+            <span>Logout</span>
           </button>
         </div>
       </motion.aside>

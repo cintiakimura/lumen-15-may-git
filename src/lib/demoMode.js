@@ -1,3 +1,5 @@
+import { clientEnv } from '@/lib/env';
+
 const SESSION_KEY = 'lumen_demo_mode';
 /** When set, use real hosted auth (lumen) — opt in via `?demo=false`. */
 const FORCE_REAL_AUTH_KEY = 'lumen_force_real_auth';
@@ -32,10 +34,10 @@ export function isDemoMode() {
     return false;
   }
   if (typeof window === 'undefined') {
-    return import.meta.env.VITE_DEMO_MODE === 'true' || true;
+    return clientEnv.demoModeFlag || true;
   }
   if (sessionStorage.getItem(SESSION_KEY) === '1') return true;
-  if (import.meta.env.VITE_DEMO_MODE === 'true') return true;
+  if (clientEnv.demoModeFlag) return true;
   return true;
 }
 

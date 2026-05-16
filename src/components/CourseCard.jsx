@@ -43,13 +43,13 @@ export default function CourseCard({
             width: '48px', 
             height: '48px', 
             borderRadius: '12px', 
-            background: 'var(--primary)', 
+            background: 'hsl(var(--primary))', 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
             flexShrink: 0
           }}>
-            <BookOpen style={{ width: '24px', height: '24px', color: '#000000' }} />
+            <BookOpen style={{ width: '24px', height: '24px', color: 'hsl(var(--primary-foreground))' }} />
           </div>
           
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -92,7 +92,7 @@ export default function CourseCard({
           <div style={{ 
             width: '100%', 
             height: '100%', 
-            background: 'linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%)' 
+            background: 'linear-gradient(135deg, hsl(var(--surface)) 0%, hsl(var(--surface-light)) 100%)' 
           }} />
         )}
         
@@ -105,8 +105,8 @@ export default function CourseCard({
             padding: '6px 12px',
             borderRadius: '8px',
             fontSize: '12px',
-            background: 'var(--primary)', 
-            color: '#000000',
+            background: 'hsl(var(--primary))', 
+            color: 'hsl(var(--primary-foreground))',
             fontWeight: '600',
             textTransform: 'uppercase',
             letterSpacing: '0.05em'
@@ -120,14 +120,14 @@ export default function CourseCard({
             <div style={{ 
               width: '32px', 
               height: '32px', 
-              background: 'var(--primary)', 
+              background: 'hsl(var(--primary))', 
               borderRadius: '8px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
               boxShadow: 'var(--card-shadow)'
             }}>
-              <Award style={{ width: '16px', height: '16px', color: '#000000' }} />
+              <Award style={{ width: '16px', height: '16px', color: 'hsl(var(--primary-foreground))' }} />
             </div>
           </div>
         )}
@@ -162,7 +162,7 @@ export default function CourseCard({
               <span style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
                 {completedLessons}/{totalLessons} completed
               </span>
-              <span style={{ fontSize: '14px', fontWeight: '600', color: 'var(--primary)' }}>
+              <span style={{ fontSize: '14px', fontWeight: '600', color: 'hsl(var(--primary))' }}>
                 {Math.round(progressPercent)}%
               </span>
             </div>

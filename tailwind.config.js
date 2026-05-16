@@ -4,6 +4,36 @@ module.exports = {
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
   	extend: {
+  		fontFamily: {
+  			sans: [
+  				'"Geist Sans"',
+  				'ui-sans-serif',
+  				'system-ui',
+  				'-apple-system',
+  				'BlinkMacSystemFont',
+  				'"Segoe UI"',
+  				'Roboto',
+  				'"Helvetica Neue"',
+  				'Arial',
+  				'"Noto Sans"',
+  				'sans-serif',
+  			],
+  			mono: [
+  				'"Geist Mono"',
+  				'ui-monospace',
+  				'SFMono-Regular',
+  				'Menlo',
+  				'Monaco',
+  				'Consolas',
+  				'"Liberation Mono"',
+  				'"Courier New"',
+  				'monospace',
+  			],
+  		},
+  		boxShadow: {
+  			soft: '0 18px 50px -18px hsl(240 8% 12% / 0.08)',
+  			glass: '0 8px 32px -8px hsl(240 8% 12% / 0.06)',
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

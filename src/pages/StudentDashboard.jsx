@@ -67,14 +67,10 @@ export default function StudentDashboard() {
   const currentLesson = currentCourse?.lessons?.[currentLessonIndex];
 
   return (
-    <div className="min-h-screen pb-64" style={{ background: '#212121' }}>
+    <div className="min-h-screen bg-background pb-64">
       {/* Header */}
-      <header 
-        className="px-6 pt-12 pb-8"
-        style={{ 
-          background: 'linear-gradient(135deg, var(--primary), var(--primary-hover))',
-          borderRadius: '0 0 40px 40px'
-        }}
+      <header
+        className="rounded-b-[2.5rem] bg-gradient-to-br from-primary to-primary/85 px-6 pb-8 pt-12 shadow-soft"
       >
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -90,18 +86,18 @@ export default function StudentDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <Card style={{ background: 'var(--primary)', border: 0, boxShadow: 'var(--card-shadow)' }}>
+              <Card className="border-0 shadow-soft" style={{ background: 'hsl(var(--primary))' }}>
                 <CardContent className="p-4">
-                  <p className="text-xs mb-2 uppercase tracking-wider" style={{ color: 'var(--bg)', opacity: 0.7 }}>Continue Learning</p>
+                  <p className="mb-2 text-xs uppercase tracking-wider text-primary-foreground/80">Continue Learning</p>
                   <div className="flex items-center gap-4">
                     <div className="flex-1">
-                      <h3 className="font-semibold" style={{ color: 'var(--bg)' }}>{currentLesson.title}</h3>
-                      <p className="text-sm" style={{ color: 'var(--bg)', opacity: 0.7 }}>{currentCourse.title}</p>
+                      <h3 className="font-semibold text-primary-foreground">{currentLesson.title}</h3>
+                      <p className="text-sm text-primary-foreground/75">{currentCourse.title}</p>
                     </div>
                     <Button
                       onClick={() => handleCourseClick(currentCourse)}
-                      style={{ background: 'var(--bg)', color: 'var(--text)' }}
                       className="font-semibold hover:opacity-90"
+                      style={{ background: 'hsl(var(--background))', color: 'hsl(var(--foreground))' }}
                     >
                       <Play className="w-4 h-4 mr-1" />
                       Resume
@@ -124,9 +120,9 @@ export default function StudentDashboard() {
 
       <div className="px-6 -mt-4 space-y-6">
         {/* Quick Stats */}
-        <Card style={{ background: 'rgba(255, 255, 255, 0.05)', backdropFilter: 'blur(8px)', border: '1px solid #333333', maxWidth: '100%', width: '100%', padding: 0, margin: 0, borderRadius: '16px' }}>
+        <Card className="glass-panel max-w-full overflow-hidden border-0 p-0 shadow-glass">
           <CardContent className="p-0">
-            <div className="grid grid-cols-3 divide-x" style={{ borderColor: 'var(--glass-border)' }}>
+            <div className="grid grid-cols-3 divide-x divide-border/80">
               {[
                 { icon: BookOpen, value: enrolledCourses.length, label: 'Courses' },
                 { icon: Trophy, value: completedLessons, label: 'Lessons' },
@@ -139,9 +135,9 @@ export default function StudentDashboard() {
                   transition={{ delay: 0.1 + index * 0.1 }}
                   className="p-5 text-center"
                 >
-                  <stat.icon className="w-6 h-6 mx-auto mb-2" style={{ color: 'var(--primary)' }} />
-                  <p className="text-xl font-bold" style={{ color: 'var(--text)' }}>{stat.value}</p>
-                  <p className="text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{stat.label}</p>
+                  <stat.icon className="mx-auto mb-2 h-6 w-6 text-primary" />
+                  <p className="text-xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground">{stat.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -151,12 +147,11 @@ export default function StudentDashboard() {
         {/* My Courses */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold" style={{ color: 'var(--text)' }}>My Courses</h2>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-sm"
-              style={{ color: 'var(--primary)' }}
+            <h2 className="text-xl font-bold text-foreground">My Courses</h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-sm text-primary hover:text-primary/90"
               onClick={() => navigate(createPageUrl('Courses'))}
             >
               See All
@@ -190,8 +185,8 @@ export default function StudentDashboard() {
         <section>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5" style={{ color: 'var(--primary)' }} />
-              <h2 className="text-xl font-bold" style={{ color: 'var(--text)' }}>Recommended</h2>
+              <Sparkles className="h-5 w-5 text-primary" />
+              <h2 className="text-xl font-bold text-foreground">Recommended</h2>
             </div>
           </div>
 
@@ -219,16 +214,16 @@ export default function StudentDashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Card style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid #333333', backdropFilter: 'blur(8px)', borderRadius: '16px' }}>
+          <Card className="glass-panel border-0 shadow-glass">
             <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Daily Goal</p>
-                  <p className="text-3xl font-bold mt-1" style={{ color: 'var(--text)' }}>
+                  <p className="text-sm uppercase tracking-wider text-muted-foreground">Daily Goal</p>
+                  <p className="mt-1 text-3xl font-bold text-foreground">
                     {completedLessons} / 3 lessons
                   </p>
                 </div>
-                <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ background: 'var(--primary)' }}>
+                <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary">
                   <Clock className="w-8 h-8 text-white" />
                 </div>
               </div>

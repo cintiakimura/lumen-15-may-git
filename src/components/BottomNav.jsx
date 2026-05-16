@@ -19,7 +19,7 @@ export default function BottomNav() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[var(--primary)] border-opacity-20 safe-area-pb">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/80 bg-background/90 backdrop-blur-xl safe-area-pb">
       <div className="flex items-center justify-around h-16 max-w-lg mx-auto">
         {navItems.map((item) => (
           <Link
@@ -31,7 +31,7 @@ export default function BottomNav() {
               whileTap={{ scale: 0.9 }}
               className={cn(
                 'flex flex-col items-center gap-1 transition-colors',
-                isActive(item.page) ? 'text-[var(--primary)]' : 'text-[var(--text)] opacity-40'
+                isActive(item.page) ? 'text-primary' : 'text-muted-foreground opacity-70'
               )}
             >
               <item.icon className="w-6 h-6" />
@@ -40,7 +40,7 @@ export default function BottomNav() {
               {isActive(item.page) && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute -top-px left-1/2 -translate-x-1/2 w-8 h-0.5 bg-[var(--accent)] rounded-full"
+                  className="absolute -top-px left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-primary"
                 />
               )}
             </motion.div>

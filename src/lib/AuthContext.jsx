@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { lumen } from '@/api/lumenClient';
 import { appParams } from '@/lib/app-params';
+import { clientEnv } from '@/lib/env';
 import { createAxiosClient } from '@lumen/sdk/dist/utils/axios-client';
 import { isDemoMode, withDemoParam } from '@/lib/demoMode';
 import { createPageUrl } from '@/utils';
@@ -51,7 +52,17 @@ export const AuthProvider = ({ children }) => {
     try {
       setIsLoadingPublicSettings(true);
       setAuthError(null);
-      
+
+      if (!appParams.appId) {
+        setAuthError({
+          type: 'auth_required',
+          message: `Missing app id (set VITE_LUMEN_APP_ID or pass ?app_id=). Mode: ${clientEnv.mode}. See .env.example.`,
+        });
+        setIsLoadingPublicSettings(false);
+        setIsLoadingAuth(false);
+        return;
+      }
+
       // First, check app public settings (with token if available)
       // This will tell us if auth is required, user not registered, etc.
       const appClient = createAxiosClient({
