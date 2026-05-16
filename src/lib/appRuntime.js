@@ -21,7 +21,7 @@ export async function runtimeAuthIsAuthenticated() {
 
 export function runtimeRedirectToLogin() {
   if (isDemoMode()) {
-    window.location.assign(withDemoParam(createPageUrl('Login')));
+    window.location.assign(withDemoParam(createPageUrl('Landing')));
     return;
   }
   lumen.auth.redirectToLogin();

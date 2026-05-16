@@ -43,7 +43,8 @@ export default defineConfig(({ mode }) => {
         legacySDKImports: process.env.LUMEN_LEGACY_SDK_IMPORTS === 'true',
         hmrNotifier: true,
         navigationNotifier: true,
-        visualEditAgent: true
+        visualEditAgent: true,
+        analyticsTracker: false,
       }),
       react(),
     ],

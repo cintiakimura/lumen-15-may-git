@@ -20,6 +20,14 @@ export const AuthProvider = ({ children }) => {
     if (isDemoMode()) {
       setIsLoadingPublicSettings(false);
       setAuthError(null);
+      // Temporary: auto sign-in as demo teacher so Render works without hosted auth / app id
+      if (!authService.isAuthenticated()) {
+        try {
+          authService.login('demo.teacher@teacher.com', 'render-demo');
+        } catch {
+          /* ignore */
+        }
+      }
       const u = authService.getCurrentUser();
       if (u) {
         setUser({
@@ -153,7 +161,8 @@ export const AuthProvider = ({ children }) => {
 
   const navigateToLogin = () => {
     if (isDemoMode()) {
-      window.location.assign(withDemoParam(createPageUrl('Login')));
+      // Avoid /Login loop; demo users are auto-signed in from Landing
+      window.location.assign(withDemoParam(createPageUrl('Landing')));
       return;
     }
     lumen.auth.redirectToLogin(window.location.href);

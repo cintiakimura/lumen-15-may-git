@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
 import { createPageUrl } from '@/utils';
+import { isDemoMode } from '@/lib/demoMode';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import GrokChat from './GrokChat';
@@ -35,9 +36,27 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#212121' }}>
       <meta name="referrer" content="no-referrer" />
+      {isDemoMode() && (
+        <div
+          role="status"
+          style={{
+            background: '#b45309',
+            color: '#fffbeb',
+            padding: '10px 16px',
+            textAlign: 'center',
+            fontSize: '13px',
+            fontWeight: 600,
+            letterSpacing: '0.02em',
+            borderBottom: '1px solid #92400e',
+            zIndex: 100,
+          }}
+        >
+          DEMO MODE — Login disabled (auto demo teacher). Add{' '}
+          <code style={{ background: 'rgba(0,0,0,0.2)', padding: '2px 6px', borderRadius: 4 }}>?demo=false</code> to
+          the URL to use real hosted login (requires app env).
+        </div>
+      )}
       <style>{`
-        @import url('https://fonts.cdnfonts.com/css/akkurat');
-
         * {
           margin: 0;
           padding: 0;
