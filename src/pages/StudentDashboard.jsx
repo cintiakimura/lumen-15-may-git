@@ -74,16 +74,14 @@ export default function StudentDashboard() {
   return (
     <div className="min-h-screen bg-background pb-64">
       {/* Header */}
-      <header
-        className="rounded-b-[2.5rem] bg-gradient-to-br from-primary to-primary/85 px-6 pb-8 pt-12 shadow-soft"
-      >
+      <header className="lumen-glass-nav rounded-b-[2.5rem] px-6 pb-8 pt-12 shadow-soft">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <p className="text-sm uppercase tracking-wider text-primary-foreground/70">Welcome back,</p>
-          <h1 className="mb-6 text-3xl font-bold text-primary-foreground">{user?.name || 'Learner'}</h1>
-          
+          <p className="text-sm uppercase tracking-wider text-muted-foreground">Welcome back,</p>
+          <h1 className="mb-6 text-3xl font-light text-foreground">{user?.name || 'Learner'}</h1>
+
           {/* Continue Learning Card */}
           {currentLesson && (
             <motion.div
@@ -91,20 +89,20 @@ export default function StudentDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <Card className="border-0 shadow-soft" style={{ background: 'hsl(var(--primary))' }}>
+              <Card className="glass-panel border border-black/[0.06] shadow-sm">
                 <CardContent className="p-4">
-                  <p className="mb-2 text-xs uppercase tracking-wider text-primary-foreground/80">Continue Learning</p>
+                  <p className="mb-2 text-xs uppercase tracking-wider text-muted-foreground">Continue Learning</p>
                   <div className="flex items-center gap-4">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-primary-foreground">{currentLesson.title}</h3>
-                      <p className="text-sm text-primary-foreground/75">{currentCourse.title}</p>
+                      <h3 className="font-normal text-foreground">{currentLesson.title}</h3>
+                      <p className="text-sm text-muted-foreground">{currentCourse.title}</p>
                     </div>
                     <Button
                       onClick={() => handleCourseClick(currentCourse)}
-                      className="font-semibold hover:opacity-90"
-                      style={{ background: 'hsl(var(--background))', color: 'hsl(var(--foreground))' }}
+                      className="font-normal"
+                      variant="default"
                     >
-                      <Play className="w-4 h-4 mr-1" />
+                      <Play className="mr-1 h-4 w-4" />
                       Resume
                     </Button>
                   </div>
@@ -141,7 +139,7 @@ export default function StudentDashboard() {
                   className="p-5 text-center"
                 >
                   <stat.icon className="mx-auto mb-2 h-6 w-6 text-primary" />
-                  <p className="text-xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-xl font-light text-foreground">{stat.value}</p>
                   <p className="text-xs uppercase tracking-wider text-muted-foreground">{stat.label}</p>
                 </motion.div>
               ))}
@@ -152,7 +150,7 @@ export default function StudentDashboard() {
         {/* My Courses */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-foreground">My Courses</h2>
+            <h2 className="text-xl font-normal text-foreground">My Courses</h2>
             <Button
               variant="ghost"
               size="sm"
@@ -191,7 +189,7 @@ export default function StudentDashboard() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-bold text-foreground">Recommended</h2>
+              <h2 className="text-xl font-normal text-foreground">Recommended</h2>
             </div>
           </div>
 
@@ -224,12 +222,12 @@ export default function StudentDashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm uppercase tracking-wider text-muted-foreground">Daily Goal</p>
-                  <p className="mt-1 text-3xl font-bold text-foreground">
+                  <p className="mt-1 text-3xl font-light text-foreground">
                     {completedLessons} / 3 lessons
                   </p>
                 </div>
-                <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary">
-                  <Clock className="h-8 w-8 text-primary-foreground" />
+                <div className="flex h-16 w-16 items-center justify-center rounded-[6px] border border-black/[0.06] bg-white/70 shadow-sm backdrop-blur-sm">
+                  <Clock className="h-8 w-8 stroke-[1.5] text-primary" />
                 </div>
               </div>
               <div className="mt-4">

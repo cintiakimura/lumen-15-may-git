@@ -49,9 +49,10 @@ export default function CourseBuilder() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-4 py-8">
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto max-w-4xl space-y-8 px-4 py-8">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Course builder</h1>
+        <h1 className="text-2xl font-light tracking-tight text-foreground">Course builder</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Upload raw content → AI structures modules → you review in the modal → assign learners → they see it on their
           dashboard.
@@ -130,6 +131,7 @@ export default function CourseBuilder() {
           }}
         />
       )}
+      </div>
     </div>
   );
 }

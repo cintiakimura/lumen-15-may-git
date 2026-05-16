@@ -33,6 +33,7 @@ import {
   runtimeAppendCoachVerifiedLesson,
   runtimeAuthMe,
 } from '@/lib/appRuntime';
+import { cn } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { isMentalScenarioLesson } from '@/lib/mentalScenario';
 
@@ -177,18 +178,18 @@ export default function CourseModulePlayer() {
   return (
     <div className="min-h-0 flex-1 bg-background pb-6 max-md:pb-safe">
       {/* Course bar: minimal — back, title, progress */}
-      <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border/50 bg-background/85 px-3 backdrop-blur-xl supports-[padding:max(0px)]:pt-[max(0px,env(safe-area-inset-top))] sm:gap-4 sm:px-4">
+      <header className="lumen-glass-nav sticky top-0 z-20 flex h-14 items-center gap-3 px-3 supports-[padding:max(0px)]:pt-[max(0px,env(safe-area-inset-top))] sm:gap-4 sm:px-4">
         <Button
           variant="ghost"
           size="icon"
           onClick={() => navigate(createPageUrl('StudentDashboard'))}
-          className="touch-target h-11 w-11 shrink-0 text-foreground hover:bg-muted sm:h-10 sm:w-10"
+          className="touch-target h-11 w-11 shrink-0 text-foreground hover:bg-black/[0.04] sm:h-10 sm:w-10"
           aria-label="Back to dashboard"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft className="h-5 w-5 stroke-[1.5]" />
         </Button>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-[15px] font-semibold leading-snug text-foreground sm:text-base">{course.title}</h1>
+          <h1 className="truncate text-[15px] font-normal leading-snug text-foreground sm:text-base">{course.title}</h1>
           <p className="truncate text-xs text-muted-foreground sm:text-sm">
             {completedCount}/{totalLessons} lessons
           </p>
@@ -200,7 +201,7 @@ export default function CourseModulePlayer() {
 
       {/* Mobile: main lesson first (reverse column); desktop: lesson rail left */}
       <div className="flex flex-col-reverse lg:flex-row lg:min-h-[calc(100dvh-var(--app-header-h)-3.5rem)]">
-        <aside className="shrink-0 border-border/40 bg-muted/20 backdrop-blur-sm lg:min-h-0 lg:w-72 lg:border-r lg:bg-muted/25 xl:w-80">
+        <aside className="shrink-0 border-black/[0.06] bg-muted/20 backdrop-blur-sm lg:min-h-0 lg:w-72 lg:border-r lg:bg-muted/30 xl:w-80">
           <div className="p-3 sm:p-4 lg:py-6">
             <h2 className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground lg:mb-4 lg:text-sm lg:normal-case lg:tracking-normal">
               Lessons
@@ -218,32 +219,52 @@ export default function CourseModulePlayer() {
                     whileTap={canAccess ? { scale: 0.98 } : {}}
                     onClick={() => handleLessonClick(lesson, index)}
                     disabled={!canAccess}
-                    className="w-full min-h-[48px] rounded-xl p-3 text-left transition-all sm:p-4"
-                    style={{
-                      background: isActive ? 'hsl(var(--primary))' : 'hsl(var(--surface))',
-                      border: isActive ? '2px solid hsl(var(--primary))' : '2px solid transparent',
-                      opacity: canAccess ? 1 : 0.5
-                    }}
+                    className={cn(
+                      'w-full min-h-[48px] rounded-[6px] border p-3 text-left transition-all sm:p-4',
+                      !canAccess && 'cursor-not-allowed opacity-45',
+                      canAccess && 'cursor-pointer',
+                      isActive &&
+                        'border-black/[0.06] bg-primary/12 shadow-sm backdrop-blur-sm',
+                      canAccess &&
+                        !isActive &&
+                        'border-transparent bg-white/50 hover:border-black/[0.06] hover:bg-white/70',
+                      !canAccess && 'border-transparent bg-muted/25'
+                    )}
                   >
                     <div className="flex items-center gap-3">
-                      <div 
-                        className="w-8 h-8 rounded-lg flex items-center justify-center"
-                        style={{
-                          background: isCompleted ? 'hsl(var(--primary))' : isActive ? 'hsl(var(--primary))' : 'hsl(var(--surface))'
-                        }}
+                      <div
+                        className={cn(
+                          'flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px]',
+                          isCompleted && 'bg-primary text-primary-foreground',
+                          !isCompleted && isActive && canAccess && 'bg-primary/20 text-primary',
+                          !isCompleted && canAccess && !isActive &&
+                            'border border-black/[0.06] bg-white/60 text-foreground',
+                          !canAccess && 'bg-muted/60 text-muted-foreground'
+                        )}
                       >
                         {isCompleted ? (
-                          <CheckCircle className="h-4 w-4 text-primary-foreground" />
+                          <CheckCircle className="h-4 w-4 stroke-[1.5]" />
                         ) : canAccess ? (
-                          <span className="text-sm font-semibold text-primary-foreground">{index + 1}</span>
+                          <span
+                            className={cn(
+                              'text-sm font-medium',
+                              isActive && 'text-primary',
+                              !isActive && 'text-foreground'
+                            )}
+                          >
+                            {index + 1}
+                          </span>
                         ) : (
-                          <Lock className="h-4 w-4 text-muted-foreground" />
+                          <Lock className="h-4 w-4 stroke-[1.5]" />
                         )}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p 
-                          className="font-medium truncate"
-                          style={{ color: isActive ? 'hsl(var(--primary-foreground))' : 'hsl(var(--foreground))' }}
+                      <div className="min-w-0 flex-1">
+                        <p
+                          className={cn(
+                            'truncate font-medium',
+                            isActive && 'text-primary',
+                            !isActive && 'text-foreground'
+                          )}
                         >
                           {lesson.title}
                         </p>
@@ -378,11 +399,15 @@ export default function CourseModulePlayer() {
                            </div>
                          </div>
                         ) : (
-                          <div className="aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-50 flex items-center justify-center p-8">
+                          <div className="flex aspect-[4/3] items-center justify-center bg-muted/40 p-8">
                             <div className="text-center">
-                              {displayFormat === 'slides' && <FileText className="w-16 h-16 text-slate-300 mx-auto mb-4" />}
-                              {displayFormat === 'infographic' && <ImageIcon className="w-16 h-16 text-slate-300 mx-auto mb-4" />}
-                              <p className="text-slate-500">Interactive {displayFormat} content</p>
+                              {displayFormat === 'slides' && (
+                                <FileText className="mx-auto mb-4 h-16 w-16 stroke-[1.5] text-muted-foreground/60" />
+                              )}
+                              {displayFormat === 'infographic' && (
+                                <ImageIcon className="mx-auto mb-4 h-16 w-16 stroke-[1.5] text-muted-foreground/60" />
+                              )}
+                              <p className="text-muted-foreground">Interactive {displayFormat} content</p>
                             </div>
                           </div>
                         )}
@@ -472,20 +497,21 @@ export default function CourseModulePlayer() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={e => e.stopPropagation()}
-              className="bg-white rounded-3xl p-8 max-w-md w-full text-center"
+              className="w-full max-w-md rounded-[6px] border border-black/[0.06] bg-white/90 p-8 text-center shadow-glass backdrop-blur-xl"
             >
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: 'spring', delay: 0.2 }}
-                className="w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[6px] border border-black/[0.06] bg-primary/10"
               >
-                <Award className="w-12 h-12 text-white" />
+                <Award className="h-10 w-10 stroke-[1.5] text-primary" />
               </motion.div>
-              
-              <h2 className="text-2xl font-bold text-slate-800 mb-2">🎉 Congratulations!</h2>
-              <p className="text-slate-600 mb-6">
-                You've completed <strong>{course.title}</strong> with {progress.mastery}% mastery!
+
+              <h2 className="mb-2 text-2xl font-light text-foreground">Congratulations</h2>
+              <p className="mb-6 text-muted-foreground">
+                You&apos;ve completed <strong className="font-medium text-foreground">{course.title}</strong> with{' '}
+                {progress.mastery}% mastery.
               </p>
 
               <Button
@@ -497,15 +523,16 @@ export default function CourseModulePlayer() {
                     progress.mastery_score || progress.mastery || 85
                   );
                 }}
-                className="w-full py-6 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold"
+                className="w-full py-6 font-normal"
+                size="lg"
               >
-                <Download className="w-5 h-5 mr-2" />
-                Download Certificate
+                <Download className="mr-2 h-5 w-5 stroke-[1.5]" />
+                Download certificate
               </Button>
 
               <Button
                 variant="ghost"
-                className="w-full mt-3"
+                className="mt-3 w-full font-normal"
                 onClick={() => {
                   setShowCertificate(false);
                   navigate(createPageUrl('StudentDashboard'));

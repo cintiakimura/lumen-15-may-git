@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
 import { createPageUrl } from '@/utils';
-import { isDemoMode } from '@/lib/demoMode';
 import { cn } from '@/lib/utils';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -62,16 +61,6 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <meta name="referrer" content="no-referrer" />
-      {isDemoMode() && !isLandingPageOnly && (
-        <div
-          role="status"
-          className="z-[100] border-b border-amber-800/40 bg-amber-600/95 px-3 py-2 text-center text-xs font-medium tracking-wide text-amber-50 backdrop-blur-sm sm:px-4 sm:text-sm"
-        >
-          DEMO MODE — Login disabled (auto demo teacher). Add{' '}
-          <code className="rounded bg-black/15 px-1.5 py-0.5 text-[0.8125rem]">?demo=false</code> to the URL to use
-          real hosted login (requires app env).
-        </div>
-      )}
 
       {user && (
         <Header

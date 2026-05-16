@@ -66,12 +66,12 @@ export default function TeacherCourses() {
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
       
       <main className="flex-1">
-        <header className="glass-card border-b border-border px-6 py-4 lg:px-8">
+        <header className="lumen-glass-nav px-6 py-4 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="lg:hidden" />
             <div>
-              <h1 className="text-2xl font-bold text-slate-800">My Courses</h1>
-              <p className="text-sm text-slate-500">{courses.length} courses created</p>
+              <h1 className="text-2xl font-light text-foreground">My Courses</h1>
+              <p className="text-sm text-muted-foreground">{courses.length} courses created</p>
             </div>
             <Button
               onClick={() => setShowUploadForm(true)}
@@ -86,7 +86,7 @@ export default function TeacherCourses() {
         <div className="p-6 lg:p-8 space-y-6">
           {/* Search */}
           <div className="relative max-w-md">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 stroke-[1.5] text-muted-foreground" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}

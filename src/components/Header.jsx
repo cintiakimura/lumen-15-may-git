@@ -11,7 +11,7 @@ export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'D
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 flex h-14 items-center border-b border-border/50 bg-background/80 px-3 backdrop-blur-md supports-[padding:max(0px)]:pt-[max(0px,env(safe-area-inset-top))] sm:px-4">
+    <header className="lumen-glass-nav fixed inset-x-0 top-0 z-40 flex h-14 items-center px-3 supports-[padding:max(0px)]:pt-[max(0px,env(safe-area-inset-top))] sm:px-4">
       <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
         <Button
           type="button"
@@ -26,7 +26,7 @@ export default function Header({ user, onMenuToggle, sidebarOpen, pageTitle = 'D
         </Button>
 
         <div className="flex min-w-0 items-center gap-2 sm:gap-2.5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border/50 bg-muted/30 text-[10px] font-medium text-primary sm:h-9 sm:w-9 sm:text-[11px]">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] border border-black/[0.08] bg-white/70 text-[10px] font-normal text-primary sm:h-9 sm:w-9 sm:text-[11px]">
             L
           </div>
           <h1 className="accurat-thin truncate text-[15px] leading-snug sm:text-base">{pageTitle}</h1>

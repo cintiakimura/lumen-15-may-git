@@ -13,7 +13,12 @@ import {
   Bell,
   Shield,
   HelpCircle,
-  Palette
+  Palette,
+  Target,
+  Flame,
+  Star,
+  Trophy,
+  Dumbbell,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -73,19 +78,17 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-background pb-64">
       {/* Header */}
-      <div 
-        className="px-6 pt-12 pb-24 rounded-b-3xl bg-gradient-to-br from-primary to-primary/80"
-      >
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-normal text-primary-foreground">Profile</h1>
+      <div className="lumen-glass-nav rounded-b-3xl px-6 pb-24 pt-12">
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-xl font-normal text-foreground">Profile</h1>
           <div className="flex gap-2">
             <Button
               variant="ghost"
               size="icon"
-              className="text-primary-foreground hover:bg-primary-foreground/10"
+              className="text-foreground hover:bg-black/[0.04]"
               onClick={() => navigate(createPageUrl('Settings'))}
             >
-              <Settings className="w-5 h-5" />
+              <Settings className="h-5 w-5 stroke-[1.5]" />
             </Button>
           </div>
         </div>
@@ -96,12 +99,12 @@ export default function Profile() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-            <User className="w-12 h-12 text-slate-400" />
+          <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full border border-black/[0.06] bg-white/70 shadow-md backdrop-blur-md">
+            <User className="h-12 w-12 text-muted-foreground stroke-[1.5]" />
           </div>
-          <h2 className="text-2xl font-light text-primary-foreground">{user.name}</h2>
-          <p className="mt-1 flex items-center justify-center gap-2 text-primary-foreground/80">
-            <Mail className="w-4 h-4" />
+          <h2 className="text-2xl font-light text-foreground">{user.name}</h2>
+          <p className="mt-1 flex items-center justify-center gap-2 text-muted-foreground">
+            <Mail className="h-4 w-4 stroke-[1.5]" />
             {user.email}
           </p>
         </motion.div>
@@ -114,7 +117,7 @@ export default function Profile() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <Card className="glass-card border border-border">
+          <Card className="glass-card border border-black/[0.06]">
             <CardContent className="p-0">
               <div className="grid grid-cols-3 divide-x divide-border">
                 {[
@@ -126,8 +129,8 @@ export default function Profile() {
                     <stat.icon 
                       className="w-6 h-6 mx-auto mb-2 text-primary"
                     />
-                    <p className="text-xl font-bold text-foreground">{stat.value}</p>
-                    <p className="text-xs text-[#a0a0a0]">{stat.label}</p>
+                    <p className="text-xl font-light text-foreground">{stat.value}</p>
+                    <p className="text-xs text-muted-foreground">{stat.label}</p>
                   </div>
                 ))}
               </div>
@@ -141,25 +144,27 @@ export default function Profile() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <h3 className="text-lg font-bold text-foreground mb-3">Achievements</h3>
-          <Card className="glass-card border border-border">
+          <h3 className="mb-3 text-lg font-normal text-foreground">Achievements</h3>
+          <Card className="glass-card border border-black/[0.06]">
             <CardContent className="p-4">
-              <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
+              <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2">
                 {[
-                  { emoji: '🎯', label: 'First Lesson', earned: totalLessonsCompleted >= 1 },
-                  { emoji: '🔥', label: '3-Day Streak', earned: false },
-                  { emoji: '🌟', label: 'Perfect Score', earned: false },
-                  { emoji: '🏆', label: 'Course Complete', earned: completedCourses >= 1 },
-                  { emoji: '💪', label: '10 Lessons', earned: totalLessonsCompleted >= 10 }
+                  { Icon: Target, label: 'First Lesson', earned: totalLessonsCompleted >= 1 },
+                  { Icon: Flame, label: '3-Day Streak', earned: false },
+                  { Icon: Star, label: 'Perfect Score', earned: false },
+                  { Icon: Trophy, label: 'Course Complete', earned: completedCourses >= 1 },
+                  { Icon: Dumbbell, label: '10 Lessons', earned: totalLessonsCompleted >= 10 },
                 ].map((achievement) => (
-                  <div 
+                  <div
                     key={achievement.label}
-                    className={`flex-shrink-0 w-20 text-center p-3 rounded-xl ${
-                      achievement.earned ? 'border border-primary bg-primary/15' : 'bg-muted opacity-50'
+                    className={`flex w-20 flex-shrink-0 flex-col items-center rounded-[6px] p-3 text-center ${
+                      achievement.earned
+                        ? 'border border-primary/30 bg-white/70 shadow-sm backdrop-blur-sm'
+                        : 'border border-transparent bg-muted/50 opacity-60'
                     }`}
                   >
-                    <span className="text-2xl">{achievement.emoji}</span>
-                    <p className="text-xs text-[#a0a0a0] mt-1">{achievement.label}</p>
+                    <achievement.Icon className="h-6 w-6 stroke-[1.5] text-foreground/70" aria-hidden />
+                    <p className="mt-1 text-xs text-muted-foreground">{achievement.label}</p>
                   </div>
                 ))}
               </div>
@@ -173,28 +178,24 @@ export default function Profile() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <h3 className="text-lg font-bold text-foreground mb-3">Settings</h3>
-          <Card className="glass-card border border-border">
-            <CardContent className="p-0 divide-y divide-border">
+          <h3 className="mb-3 text-lg font-normal text-foreground">Settings</h3>
+          <Card className="glass-card border border-black/[0.06]">
+            <CardContent className="divide-y divide-border p-0">
               {menuItems.map((item) => (
-                <button 
+                <button
                   key={item.label}
-                  className="w-full flex items-center gap-4 p-4 hover:bg-muted transition-colors"
+                  className="flex w-full items-center gap-4 p-4 transition-colors hover:bg-white/50"
                 >
-                  <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
-                    <item.icon className="w-5 h-5 text-[#a0a0a0]" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[6px] border border-black/[0.06] bg-white/60 backdrop-blur-sm">
+                    <item.icon className="h-5 w-5 text-muted-foreground stroke-[1.5]" />
                   </div>
-                  <span className="flex-1 text-left font-medium text-foreground">
-                    {item.label}
-                  </span>
+                  <span className="flex-1 text-left font-normal text-foreground">{item.label}</span>
                   {item.badge ? (
-                    <span 
-                      className="px-2 py-0.5 rounded-full text-xs font-semibold bg-primary text-primary-foreground"
-                    >
+                    <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-normal text-primary-foreground">
                       {item.badge}
                     </span>
                   ) : (
-                    <ChevronRight className="w-5 h-5 text-[#a0a0a0]" />
+                    <ChevronRight className="h-5 w-5 text-muted-foreground stroke-[1.5]" />
                   )}
                 </button>
               ))}

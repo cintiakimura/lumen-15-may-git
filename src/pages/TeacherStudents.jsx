@@ -81,12 +81,12 @@ export default function TeacherStudents() {
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
       
       <main className="flex-1">
-        <header className="glass-card border-b border-border px-6 py-4 lg:px-8">
+        <header className="lumen-glass-nav px-6 py-4 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="lg:hidden" />
             <div>
-              <h1 className="text-2xl font-bold text-slate-800">Students</h1>
-              <p className="text-sm text-slate-500">{students.length} enrolled students</p>
+              <h1 className="text-2xl font-light text-foreground">Students</h1>
+              <p className="text-sm text-muted-foreground">{students.length} enrolled students</p>
             </div>
             <div className="flex gap-3">
               <Button variant="outline">

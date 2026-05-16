@@ -45,7 +45,7 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
         className="fixed left-4 top-4 z-50 lg:hidden"
         onClick={onToggle}
       >
-        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        {isOpen ? <X className="h-5 w-5 stroke-[1.5]" /> : <Menu className="h-5 w-5 stroke-[1.5]" />}
       </Button>
 
       <AnimatePresence>
@@ -64,10 +64,10 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
         initial={false}
         animate={{ x: isOpen ? 0 : -240 }}
         className={cn(
-          'sidebar fixed left-0 top-0 z-40 flex h-full w-60 flex-col border-r border-border/50 bg-sidebar/55 backdrop-blur-md lg:static lg:translate-x-0'
+          'sidebar fixed left-0 top-0 z-40 flex h-full w-60 flex-col border-r border-black/[0.06] bg-white/45 shadow-[2px_0_24px_-8px_rgba(0,0,0,0.06)] backdrop-blur-xl lg:static lg:translate-x-0'
         )}
       >
-        <div className="sidebar-header flex items-center border-b border-border/60 px-6 py-4">
+        <div className="sidebar-header flex items-center border-b border-black/[0.06] px-6 py-4">
           <img
             src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/lumen-prod/public/69816fdfc8b62c2372da0c4b/1cf3c4952_lumenlogo.png"
             alt="LUMEN"
@@ -87,32 +87,32 @@ export default function TeacherSidebar({ isOpen, onToggle }) {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className={cn(
-                  'flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-200 ease-out',
+                  'flex items-center gap-3 rounded-[6px] px-4 py-2.5 text-sm font-normal transition-colors duration-200 ease-out',
                   isActive(item.page)
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-sidebar-foreground hover:bg-sidebar-accent/90'
+                    ? 'bg-primary/10 text-primary ring-1 ring-inset ring-black/[0.06]'
+                    : 'text-sidebar-foreground hover:bg-white/60'
                 )}
               >
-                <item.icon className="h-5 w-5 shrink-0" />
+                <item.icon className="h-5 w-5 shrink-0 stroke-[1.5]" />
                 <span>{item.label}</span>
               </motion.div>
             </Link>
           ))}
         </nav>
 
-        <div className="space-y-1 border-t border-border/60 p-4">
+        <div className="space-y-1 border-t border-black/[0.06] p-4">
           <Link to={createPageUrl('Settings')} className="block no-underline">
-            <div className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-sidebar-foreground transition-colors duration-200 hover:bg-sidebar-accent/90">
-              <Settings className="h-5 w-5 shrink-0" />
+            <div className="flex items-center gap-3 rounded-[6px] px-4 py-2.5 text-sm font-normal text-sidebar-foreground transition-colors duration-200 hover:bg-white/60">
+              <Settings className="h-5 w-5 shrink-0 stroke-[1.5]" />
               <span>Settings</span>
             </div>
           </Link>
           <button
             type="button"
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-lg border-0 bg-transparent px-4 py-2.5 text-left text-sm font-medium text-sidebar-foreground transition-colors duration-200 hover:bg-sidebar-accent/90"
+            className="flex w-full items-center gap-3 rounded-[6px] border-0 bg-transparent px-4 py-2.5 text-left text-sm font-normal text-sidebar-foreground transition-colors duration-200 hover:bg-white/60"
           >
-            <LogOut className="h-5 w-5 shrink-0" />
+            <LogOut className="h-5 w-5 shrink-0 stroke-[1.5]" />
             <span>Logout</span>
           </button>
         </div>

@@ -38,13 +38,14 @@ export default function Certificate() {
   });
 
   return (
-    <div className="mx-auto max-w-2xl space-y-8 px-4 py-8">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Certificates</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Courses you&apos;ve fully completed — download a PDF for your records.
-        </p>
-      </div>
+    <div className="min-h-screen bg-background px-4 py-8">
+      <div className="mx-auto max-w-2xl space-y-8">
+        <div>
+          <h1 className="text-2xl font-light tracking-tight text-foreground">Certificates</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Courses you&apos;ve fully completed — download a PDF for your records.
+          </p>
+        </div>
 
       {!isDemoMode() && (
         <p className="text-sm text-muted-foreground">
@@ -54,10 +55,10 @@ export default function Certificate() {
 
       <div className="space-y-4">
         {completed.map((row) => (
-          <Card key={row.id} className="glass-panel border-0 shadow-sm">
+          <Card key={row.id} className="glass-panel border border-black/[0.06] shadow-sm">
             <CardHeader className="flex flex-row items-center gap-3 space-y-0 pb-2">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <Award className="h-6 w-6" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-[6px] border border-black/[0.06] bg-primary/10 text-primary">
+                <Award className="h-6 w-6 stroke-[1.5]" />
               </div>
               <div className="min-w-0 flex-1">
                 <CardTitle className="truncate text-base">{row.title}</CardTitle>
@@ -76,7 +77,7 @@ export default function Certificate() {
                   );
                 }}
               >
-                <Download className="mr-2 h-4 w-4" />
+                <Download className="mr-2 h-4 w-4 stroke-[1.5]" />
                 PDF
               </Button>
             </CardHeader>
@@ -92,6 +93,7 @@ export default function Certificate() {
           Finish a full course in the module player to unlock a certificate here.
         </p>
       )}
+      </div>
     </div>
   );
 }

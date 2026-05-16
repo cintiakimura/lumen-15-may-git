@@ -94,11 +94,11 @@ export default function TeacherAnalytics() {
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
       
       <main className="flex-1">
-        <header className="glass-card border-b border-border px-6 py-4 lg:px-8">
+        <header className="lumen-glass-nav px-6 py-4 lg:px-8">
           <div className="lg:hidden" />
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Analytics</h1>
-            <p className="text-sm text-[#a0a0a0]">Track student progress and course performance</p>
+            <h1 className="text-2xl font-light text-foreground">Analytics</h1>
+            <p className="text-sm text-muted-foreground">Track student progress and course performance</p>
           </div>
         </header>
 
@@ -112,13 +112,11 @@ export default function TeacherAnalytics() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="glass-card border border-border">
+                <Card className="glass-card border border-black/[0.06]">
                   <CardContent className="p-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <div 
-                        className="w-10 h-10 rounded-xl flex items-center justify-center bg-primary/15"
-                      >
-                        <stat.icon className="w-5 h-5 text-primary" />
+                    <div className="mb-3 flex items-center justify-between">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-[6px] border border-black/[0.06] bg-primary/10">
+                        <stat.icon className="h-5 w-5 stroke-[1.5] text-primary" />
                       </div>
                       <div className={`flex items-center gap-1 text-xs font-medium ${
                         stat.trend === 'up' ? 'text-primary' : 'text-red-400'
@@ -127,8 +125,8 @@ export default function TeacherAnalytics() {
                         {stat.change}
                       </div>
                     </div>
-                    <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                    <p className="text-sm text-[#a0a0a0]">{stat.title}</p>
+                    <p className="text-2xl font-light text-foreground">{stat.value}</p>
+                    <p className="text-sm text-muted-foreground">{stat.title}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -138,7 +136,7 @@ export default function TeacherAnalytics() {
           {/* Charts Row */}
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Weekly Activity */}
-            <Card className="glass-card border border-border">
+            <Card className="glass-card border border-black/[0.06]">
               <CardHeader>
                 <CardTitle className="text-lg text-foreground">Weekly Activity</CardTitle>
               </CardHeader>
@@ -164,7 +162,7 @@ export default function TeacherAnalytics() {
             </Card>
 
             {/* Mastery Distribution */}
-            <Card className="glass-card border border-border">
+            <Card className="glass-card border border-black/[0.06]">
               <CardHeader>
                 <CardTitle className="text-lg text-foreground">Mastery Distribution</CardTitle>
               </CardHeader>
@@ -196,7 +194,7 @@ export default function TeacherAnalytics() {
                     {masteryDistribution.map((item) => (
                       <div key={item.name} className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                        <span className="text-xs text-slate-600">{item.name}</span>
+                        <span className="text-xs text-muted-foreground">{item.name}</span>
                       </div>
                     ))}
                   </div>
@@ -206,7 +204,7 @@ export default function TeacherAnalytics() {
           </div>
 
           {/* Course Completion */}
-          <Card className="glass-card border border-border">
+          <Card className="glass-card border border-black/[0.06]">
             <CardHeader>
               <CardTitle className="text-lg text-foreground">Course Completion Rates</CardTitle>
             </CardHeader>
@@ -234,7 +232,7 @@ export default function TeacherAnalytics() {
           </Card>
 
           {/* Top Performers */}
-          <Card className="glass-card border border-border">
+          <Card className="glass-card border border-black/[0.06]">
             <CardHeader>
               <CardTitle className="text-lg text-foreground">Top Performing Students</CardTitle>
             </CardHeader>
@@ -244,7 +242,7 @@ export default function TeacherAnalytics() {
                   const progress = studentProgress.find(p => p.studentId === student.id);
                   return (
                     <div key={student.id} className="flex items-center gap-4 py-3">
-                      <span className="text-lg font-bold text-[#a0a0a0] w-6">#{index + 1}</span>
+                      <span className="w-6 text-lg font-normal text-muted-foreground">#{index + 1}</span>
                       <img 
                         src={student.avatar} 
                         alt={student.name}
@@ -252,7 +250,7 @@ export default function TeacherAnalytics() {
                       />
                       <div className="flex-1">
                         <p className="font-medium text-foreground">{student.name}</p>
-                        <p className="text-sm text-[#a0a0a0]">{student.email}</p>
+                        <p className="text-sm text-muted-foreground">{student.email}</p>
                       </div>
                       <div className={`px-3 py-1 rounded-full text-sm font-semibold ${
                         (progress?.mastery || 0) >= 85 

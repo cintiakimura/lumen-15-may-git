@@ -19,8 +19,8 @@ export default function BottomNav() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/80 bg-background/90 backdrop-blur-xl safe-area-pb">
-      <div className="flex items-center justify-around h-16 max-w-lg mx-auto">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/[0.06] bg-white/55 shadow-[0_-8px_32px_rgba(0,0,0,0.04)] backdrop-blur-xl safe-area-pb">
+      <div className="mx-auto flex h-16 max-w-lg items-center justify-around">
         {navItems.map((item) => (
           <Link
             key={item.page}
@@ -34,8 +34,8 @@ export default function BottomNav() {
                 isActive(item.page) ? 'text-primary' : 'text-muted-foreground opacity-70'
               )}
             >
-              <item.icon className="w-6 h-6" />
-              <span className="text-xs font-medium">{item.label}</span>
+              <item.icon className="h-6 w-6 stroke-[1.5]" />
+              <span className="text-xs font-normal">{item.label}</span>
               
               {isActive(item.page) && (
                 <motion.div

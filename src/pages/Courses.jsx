@@ -60,17 +60,17 @@ export default function Courses() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-border bg-card/95 px-6 py-4 backdrop-blur-md">
-        <h1 className="mb-4 text-2xl font-bold text-foreground">Explore Courses</h1>
-        
+      <header className="lumen-glass-nav sticky top-0 z-30 px-6 py-4">
+        <h1 className="mb-4 text-2xl font-light text-foreground">Explore Courses</h1>
+
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 stroke-[1.5] text-muted-foreground" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search courses..."
-            className="rounded-xl border-border py-5 pl-12"
+            className="rounded-[6px] border-border py-5 pl-12"
           />
         </div>
       </header>
@@ -85,7 +85,7 @@ export default function Courses() {
               size="sm"
               onClick={() => setActiveCategory(category.id)}
               className={cn(
-                'flex-shrink-0 rounded-full',
+                'flex-shrink-0 rounded-[6px] font-normal',
                 activeCategory === category.id && 'text-primary-foreground'
               )}
               style={activeCategory === category.id ? { backgroundColor: branding.primaryColor } : {}}

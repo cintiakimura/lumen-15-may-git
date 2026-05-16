@@ -53,34 +53,30 @@ export default function TeacherDashboard() {
   };
 
   const stats = [
-    { 
-      title: 'Total Courses', 
-      value: courses.length, 
-      icon: BookOpen, 
-      color: 'bg-blue-500',
-      trend: '+2 this month'
+    {
+      title: 'Total Courses',
+      value: courses.length,
+      icon: BookOpen,
+      trend: '+2 this month',
     },
-    { 
-      title: 'Active Students', 
-      value: students.length, 
-      icon: Users, 
-      color: 'bg-emerald-500',
-      trend: '+12% growth'
+    {
+      title: 'Active Students',
+      value: students.length,
+      icon: Users,
+      trend: '+12% growth',
     },
-    { 
-      title: 'Avg. Mastery', 
-      value: '84%', 
-      icon: TrendingUp, 
-      color: 'bg-violet-500',
-      trend: '+5% vs last week'
+    {
+      title: 'Avg. Mastery',
+      value: '84%',
+      icon: TrendingUp,
+      trend: '+5% vs last week',
     },
-    { 
-      title: 'Total Lessons', 
-      value: courses.reduce((sum, c) => sum + (c.lessons?.length || 0), 0), 
-      icon: Clock, 
-      color: 'bg-amber-500',
-      trend: `${courses.length * 5} minutes avg`
-    }
+    {
+      title: 'Total Lessons',
+      value: courses.reduce((sum, c) => sum + (c.lessons?.length || 0), 0),
+      icon: Clock,
+      trend: `${courses.length * 5} minutes avg`,
+    },
   ];
 
   return (
@@ -88,15 +84,15 @@ export default function TeacherDashboard() {
       <TeacherSidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
 
       <main className="flex-1 lg:ml-0">
-        <header className="border-b border-border bg-background/80 px-4 py-4 backdrop-blur-md sm:px-6">
+        <header className="lumen-glass-nav px-4 py-4 sm:px-6">
           <div className="flex items-center justify-between">
             <div className="lg:hidden" />
             <div>
-              <h1 className="text-2xl font-medium tracking-tight text-foreground">Dashboard</h1>
+              <h1 className="text-2xl font-light tracking-tight text-foreground">Dashboard</h1>
               <p className="text-sm text-muted-foreground">Welcome back, {user?.name || 'Teacher'}</p>
             </div>
-            <Button onClick={() => setShowUploadForm(true)} className="gap-2 rounded-xl">
-              <Plus className="mr-0 inline h-4 w-4" />
+            <Button onClick={() => setShowUploadForm(true)} className="gap-2 rounded-[6px] font-normal">
+              <Plus className="mr-0 inline h-4 w-4 stroke-[1.5]" />
               New Course
             </Button>
           </div>
@@ -112,18 +108,18 @@ export default function TeacherDashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="hover:shadow-lg transition-shadow">
+                <Card className="glass-panel border border-black/[0.06] shadow-none transition-shadow hover:shadow-sm">
                   <CardContent className="p-5">
                     <div className="flex items-start justify-between">
-                      <div className={`w-10 h-10 ${stat.color} rounded-xl flex items-center justify-center`}>
-                        <stat.icon className="w-5 h-5 text-white" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-[6px] border border-black/[0.06] bg-primary/10">
+                        <stat.icon className="h-5 w-5 stroke-[1.5] text-primary" />
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-emerald-500" />
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground stroke-[1.5]" />
                     </div>
                     <div className="mt-4">
-                      <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                      <p className="text-2xl font-light text-foreground">{stat.value}</p>
                       <p className="text-sm text-muted-foreground">{stat.title}</p>
-                      <p className="text-xs text-emerald-600 mt-1">{stat.trend}</p>
+                      <p className="mt-1 text-xs text-muted-foreground">{stat.trend}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -134,7 +130,7 @@ export default function TeacherDashboard() {
           {/* Recent Courses */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-foreground">Your Courses</h2>
+              <h2 className="text-lg font-normal text-foreground">Your Courses</h2>
               <Button variant="ghost" size="sm" className="text-primary">
                 View All
               </Button>
@@ -160,13 +156,13 @@ export default function TeacherDashboard() {
           {/* Student Progress */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-foreground">Student Progress</h2>
+              <h2 className="text-lg font-normal text-foreground">Student Progress</h2>
               <Button variant="ghost" size="sm" className="text-primary">
                 View All
               </Button>
             </div>
             
-            <Card>
+            <Card className="glass-panel overflow-hidden border border-black/[0.06] shadow-none">
               <CardContent className="p-0">
                 <div className="divide-y divide-border">
                   {students.slice(0, 5).map((student, index) => {

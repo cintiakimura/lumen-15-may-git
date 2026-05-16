@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 /**
- * Light theme only — HSL tokens for contrast (foreground vs background).
+ * Light theme only — canvas aligned with design-system-v0 (`#F5F4F0` family).
  */
 @layer base {
   :root {
-    --background: 0 0% 99%;
+    --background: 48 7% 96%;
     --foreground: 240 10% 8%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 8%;
@@ -17,17 +17,17 @@
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 5% 94%;
-    --muted-foreground: 240 4% 38%;
+    --muted: 48 6% 92%;
+    --muted-foreground: 240 5% 38%;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 88%;
-    --input: 240 5.9% 88%;
+    --border: 40 6% 86%;
+    --input: 40 6% 86%;
     --ring: 240 5.9% 10%;
     --radius: 0.375rem;
-    --sidebar-background: 0 0% 98.5%;
+    --sidebar-background: 48 8% 97%;
     --sidebar-foreground: 240 10% 8%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
@@ -97,6 +97,11 @@
 
   .glass-card {
     @apply glass-panel;
+  }
+
+  /** Sticky bars — matches design-system-v0 mobile nav treatment */
+  .lumen-glass-nav {
+    @apply border-b border-black/[0.06] bg-white/55 shadow-[0_8px_32px_rgba(0,0,0,0.04)] backdrop-blur-xl;
   }
 
   .hide-mobile {
