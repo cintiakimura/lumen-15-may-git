@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" suppressHydrationWarning>
   <head>
     <script>
       (function () {
         try {
           var t = localStorage.getItem("theme");
-          document.documentElement.classList.toggle("dark", t !== "light");
+          document.documentElement.classList.toggle("dark", t === "dark");
         } catch (e) {
-          document.documentElement.classList.add("dark");
+          document.documentElement.classList.remove("dark");
         }
       })();
     </script>

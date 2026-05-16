@@ -78,13 +78,13 @@ export default function Profile() {
         className="px-6 pt-12 pb-24 rounded-b-3xl bg-gradient-to-br from-primary to-primary/80"
       >
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-bold text-white">Profile</h1>
+          <h1 className="text-xl font-bold text-primary-foreground">Profile</h1>
           <div className="flex gap-2">
             <ThemeToggle />
             <Button
               variant="ghost"
               size="icon"
-              className="text-white hover:bg-white/10"
+              className="text-primary-foreground hover:bg-primary-foreground/10"
               onClick={() => navigate(createPageUrl('Settings'))}
             >
               <Settings className="w-5 h-5" />
@@ -101,8 +101,8 @@ export default function Profile() {
           <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
             <User className="w-12 h-12 text-slate-400" />
           </div>
-          <h2 className="text-2xl font-bold text-white">{user.name}</h2>
-          <p className="text-white/70 flex items-center justify-center gap-2 mt-1">
+          <h2 className="text-2xl font-bold text-primary-foreground">{user.name}</h2>
+          <p className="mt-1 flex items-center justify-center gap-2 text-primary-foreground/80">
             <Mail className="w-4 h-4" />
             {user.email}
           </p>

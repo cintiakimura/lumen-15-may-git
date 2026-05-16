@@ -50,6 +50,9 @@ export default function Layout({ children, currentPageName }) {
     location.pathname === createPageUrl('Landing') ||
     location.pathname === createPageUrl('Login');
 
+  const isLandingPageOnly =
+    location.pathname === '/' || location.pathname === createPageUrl('Landing');
+
   const showSidebar = user && !isLandingLike;
 
   const mainPadLeft = showSidebar ? (sidebarOpen ? 'md:pl-60' : 'md:pl-16') : '';
@@ -59,7 +62,7 @@ export default function Layout({ children, currentPageName }) {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <meta name="referrer" content="no-referrer" />
-      {isDemoMode() && (
+      {isDemoMode() && !isLandingPageOnly && (
         <div
           role="status"
           className="z-[100] border-b border-amber-800/40 bg-amber-600/95 px-3 py-2 text-center text-xs font-medium tracking-wide text-amber-50 backdrop-blur-sm dark:border-amber-500/30 dark:bg-amber-900/80 dark:text-amber-100 sm:px-4 sm:text-sm"

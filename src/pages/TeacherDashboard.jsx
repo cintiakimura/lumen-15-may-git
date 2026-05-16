@@ -121,8 +121,8 @@ export default function TeacherDashboard() {
                       <ArrowUpRight className="w-4 h-4 text-emerald-500" />
                     </div>
                     <div className="mt-4">
-                      <p className="text-2xl font-bold text-slate-800">{stat.value}</p>
-                      <p className="text-sm text-slate-500">{stat.title}</p>
+                      <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                      <p className="text-sm text-muted-foreground">{stat.title}</p>
                       <p className="text-xs text-emerald-600 mt-1">{stat.trend}</p>
                     </div>
                   </CardContent>
@@ -134,8 +134,8 @@ export default function TeacherDashboard() {
           {/* Recent Courses */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-slate-800">Your Courses</h2>
-              <Button variant="ghost" size="sm" className="text-blue-500">
+              <h2 className="text-lg font-bold text-foreground">Your Courses</h2>
+              <Button variant="ghost" size="sm" className="text-primary">
                 View All
               </Button>
             </div>
@@ -160,15 +160,15 @@ export default function TeacherDashboard() {
           {/* Student Progress */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-slate-800">Student Progress</h2>
-              <Button variant="ghost" size="sm" className="text-blue-500">
+              <h2 className="text-lg font-bold text-foreground">Student Progress</h2>
+              <Button variant="ghost" size="sm" className="text-primary">
                 View All
               </Button>
             </div>
             
             <Card>
               <CardContent className="p-0">
-                <div className="divide-y divide-slate-100">
+                <div className="divide-y divide-border">
                   {students.slice(0, 5).map((student, index) => {
                     const progress = studentProgress.find(p => p.studentId === student.id);
                     const course = courses.find(c => c.id === progress?.courseId);
@@ -179,7 +179,7 @@ export default function TeacherDashboard() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className="flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors"
+                        className="flex items-center gap-4 p-4 transition-colors hover:bg-muted/50"
                       >
                         <img 
                           src={student.avatar} 
@@ -187,8 +187,8 @@ export default function TeacherDashboard() {
                           className="w-10 h-10 rounded-full object-cover"
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-slate-800 truncate">{student.name}</p>
-                          <p className="text-sm text-slate-500 truncate">
+                          <p className="truncate font-medium text-foreground">{student.name}</p>
+                          <p className="truncate text-sm text-muted-foreground">
                             {course?.title || 'No course assigned'}
                           </p>
                         </div>
@@ -202,7 +202,7 @@ export default function TeacherDashboard() {
                         <span className={`text-sm font-semibold ${
                           (progress?.mastery || 0) >= 85 ? 'text-emerald-600' :
                           (progress?.mastery || 0) >= 50 ? 'text-amber-600' :
-                          'text-slate-500'
+                          'text-muted-foreground'
                         }`}>
                           {progress?.mastery || 0}%
                         </span>

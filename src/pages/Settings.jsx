@@ -43,7 +43,7 @@ export default function Settings() {
   const [saved, setSaved] = useState(false);
 
   const user = authService.getCurrentUser();
-  const activeTheme = theme === 'light' || theme === 'dark' ? theme : 'dark';
+  const activeTheme = theme === 'light' || theme === 'dark' ? theme : 'light';
 
   useEffect(() => {
     runtimeAuthIsAuthenticated().then((isAuth) => {

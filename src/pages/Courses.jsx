@@ -5,6 +5,7 @@ import { Search, BookOpen } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 import BottomNav from '@/components/BottomNav';
 import CourseCard from '@/components/CourseCard';
 import storageService from '@/components/services/storageService';
@@ -57,37 +58,36 @@ export default function Courses() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
+    <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <header className="sticky top-0 z-30 bg-white border-b border-slate-100 px-6 py-4">
-        <h1 className="text-2xl font-bold text-slate-800 mb-4">Explore Courses</h1>
+      <header className="sticky top-0 z-30 border-b border-border bg-card/95 px-6 py-4 backdrop-blur-md">
+        <h1 className="mb-4 text-2xl font-bold text-foreground">Explore Courses</h1>
         
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search courses..."
-            className="pl-12 py-5 rounded-xl border-slate-200"
+            className="rounded-xl border-border py-5 pl-12"
           />
         </div>
       </header>
 
       <div className="px-6 py-4">
         {/* Category Filters */}
-        <div className="flex gap-2 overflow-x-auto pb-4 -mx-6 px-6 scrollbar-hide">
+        <div className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-4 scrollbar-hide">
           {CATEGORIES.map((category) => (
             <Button
               key={category.id}
               variant={activeCategory === category.id ? 'default' : 'outline'}
               size="sm"
               onClick={() => setActiveCategory(category.id)}
-              className={`flex-shrink-0 rounded-full ${
-                activeCategory === category.id 
-                  ? 'text-white' 
-                  : 'text-slate-600'
-              }`}
+              className={cn(
+                'flex-shrink-0 rounded-full',
+                activeCategory === category.id && 'text-primary-foreground'
+              )}
               style={activeCategory === category.id ? { backgroundColor: branding.primaryColor } : {}}
             >
               {category.label}
@@ -96,7 +96,7 @@ export default function Courses() {
         </div>
 
         {/* Results count */}
-        <p className="text-sm text-slate-500 mb-4">
+        <p className="mb-4 text-sm text-muted-foreground">
           {filteredCourses.length} course{filteredCourses.length !== 1 ? 's' : ''} found
         </p>
 

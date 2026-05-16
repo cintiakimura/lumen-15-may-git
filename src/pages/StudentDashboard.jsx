@@ -81,8 +81,8 @@ export default function StudentDashboard() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <p className="text-white/60 text-sm uppercase tracking-wider">Welcome back,</p>
-          <h1 className="text-3xl font-bold text-white mb-6">{user?.name || 'Learner'}</h1>
+          <p className="text-sm uppercase tracking-wider text-primary-foreground/70">Welcome back,</p>
+          <h1 className="mb-6 text-3xl font-bold text-primary-foreground">{user?.name || 'Learner'}</h1>
           
           {/* Continue Learning Card */}
           {currentLesson && (
@@ -229,7 +229,7 @@ export default function StudentDashboard() {
                   </p>
                 </div>
                 <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary">
-                  <Clock className="w-8 h-8 text-white" />
+                  <Clock className="h-8 w-8 text-primary-foreground" />
                 </div>
               </div>
               <div className="mt-4">
