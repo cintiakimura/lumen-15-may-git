@@ -1,14 +1,11 @@
 <!doctype html>
-<html lang="en" suppressHydrationWarning>
+<html lang="en">
   <head>
     <script>
       (function () {
         try {
-          var t = localStorage.getItem("theme");
-          document.documentElement.classList.toggle("dark", t === "dark");
-        } catch (e) {
           document.documentElement.classList.remove("dark");
-        }
+        } catch (e) {}
       })();
     </script>
     <meta charset="UTF-8" />

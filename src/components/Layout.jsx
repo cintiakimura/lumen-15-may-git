@@ -65,7 +65,7 @@ export default function Layout({ children, currentPageName }) {
       {isDemoMode() && !isLandingPageOnly && (
         <div
           role="status"
-          className="z-[100] border-b border-amber-800/40 bg-amber-600/95 px-3 py-2 text-center text-xs font-medium tracking-wide text-amber-50 backdrop-blur-sm dark:border-amber-500/30 dark:bg-amber-900/80 dark:text-amber-100 sm:px-4 sm:text-sm"
+          className="z-[100] border-b border-amber-800/40 bg-amber-600/95 px-3 py-2 text-center text-xs font-medium tracking-wide text-amber-50 backdrop-blur-sm sm:px-4 sm:text-sm"
         >
           DEMO MODE — Login disabled (auto demo teacher). Add{' '}
           <code className="rounded bg-black/15 px-1.5 py-0.5 text-[0.8125rem]">?demo=false</code> to the URL to use
@@ -106,7 +106,8 @@ export default function Layout({ children, currentPageName }) {
 
         <div
           className={cn(
-            'flex min-h-0 min-w-0 flex-1 flex-col pt-14 transition-[padding] duration-layout ease-layout md:flex-row',
+            'flex min-h-0 min-w-0 flex-1 flex-col transition-[padding] duration-layout ease-layout md:flex-row',
+            user && 'pt-14',
             mainPadLeft
           )}
         >
@@ -114,7 +115,7 @@ export default function Layout({ children, currentPageName }) {
             className={cn(
               'min-h-0 min-w-0 flex-1 overflow-y-auto',
               user && 'max-md:pb-safe md:pb-6',
-              'px-4 py-5 md:px-6 md:py-6 lg:px-8'
+              isLandingPageOnly ? 'p-0' : 'px-4 py-5 md:px-6 md:py-6 lg:px-8'
             )}
           >
             {children}

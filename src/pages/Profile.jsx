@@ -19,7 +19,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import BottomNav from '@/components/BottomNav';
-import ThemeToggle from '@/components/ui/ThemeToggle';
 import authService from '@/components/services/authService';
 import storageService from '@/components/services/storageService';
 import {
@@ -78,9 +77,8 @@ export default function Profile() {
         className="px-6 pt-12 pb-24 rounded-b-3xl bg-gradient-to-br from-primary to-primary/80"
       >
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-xl font-bold text-primary-foreground">Profile</h1>
+          <h1 className="text-xl font-normal text-primary-foreground">Profile</h1>
           <div className="flex gap-2">
-            <ThemeToggle />
             <Button
               variant="ghost"
               size="icon"
@@ -101,7 +99,7 @@ export default function Profile() {
           <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
             <User className="w-12 h-12 text-slate-400" />
           </div>
-          <h2 className="text-2xl font-bold text-primary-foreground">{user.name}</h2>
+          <h2 className="text-2xl font-light text-primary-foreground">{user.name}</h2>
           <p className="mt-1 flex items-center justify-center gap-2 text-primary-foreground/80">
             <Mail className="w-4 h-4" />
             {user.email}

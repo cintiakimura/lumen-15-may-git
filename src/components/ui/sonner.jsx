@@ -1,23 +1,10 @@
 "use client";
-import { useEffect, useState } from "react"
-import { useTheme } from "next-themes"
 import { Toaster as Sonner } from "sonner"
 
-const Toaster = ({
-  ...props
-}) => {
-  const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const theme = mounted && resolvedTheme === "dark" ? "dark" : "light"
-
+const Toaster = ({ ...props }) => {
   return (
-    (<Sonner
-      theme={theme}
+    <Sonner
+      theme="light"
       className="toaster group"
       toastOptions={{
         classNames: {
@@ -30,7 +17,8 @@ const Toaster = ({
             "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
         },
       }}
-      {...props} />)
+      {...props}
+    />
   );
 }
 

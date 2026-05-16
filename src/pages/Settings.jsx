@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from 'next-themes';
 import { createPageUrl } from '@/utils';
 import {
   ArrowLeft,
@@ -37,13 +36,11 @@ const FONTS = [
 
 export default function Settings() {
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme();
   const [branding, setBranding] = useState(storageService.getBranding());
   const [logoPreview, setLogoPreview] = useState(branding.logo);
   const [saved, setSaved] = useState(false);
 
   const user = authService.getCurrentUser();
-  const activeTheme = theme === 'light' || theme === 'dark' ? theme : 'light';
 
   useEffect(() => {
     runtimeAuthIsAuthenticated().then((isAuth) => {
@@ -71,10 +68,6 @@ export default function Settings() {
     setTimeout(() => setSaved(false), 2000);
   };
 
-  const handleThemeChange = (newTheme) => {
-    setTheme(newTheme);
-  };
-
   const goBack = () => {
     if (user?.role === 'teacher') {
       navigate(createPageUrl('TeacherDashboard'));
@@ -95,40 +88,6 @@ export default function Settings() {
       </header>
 
       <div className="mx-auto max-w-2xl space-y-6 p-4 sm:p-6">
-        <Card className="glass-panel border-0 shadow-none">
-          <CardHeader>
-            <CardTitle>Theme</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex gap-4">
-              <button
-                type="button"
-                onClick={() => handleThemeChange('dark')}
-                className={`flex-1 rounded-xl border-2 p-6 transition-all ${
-                  activeTheme === 'dark'
-                    ? 'border-primary bg-primary/10'
-                    : 'border-border hover:border-primary/50'
-                }`}
-              >
-                <div className="mb-2 text-4xl">🌙</div>
-                <p className="font-medium text-foreground">Dark</p>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleThemeChange('light')}
-                className={`flex-1 rounded-xl border-2 p-6 transition-all ${
-                  activeTheme === 'light'
-                    ? 'border-primary bg-primary/10'
-                    : 'border-border hover:border-primary/50'
-                }`}
-              >
-                <div className="mb-2 text-4xl">☀️</div>
-                <p className="font-medium text-foreground">Light</p>
-              </button>
-            </div>
-          </CardContent>
-        </Card>
-
         <Card className="glass-panel border-0 shadow-none">
           <CardHeader>
             <CardTitle>Branding</CardTitle>

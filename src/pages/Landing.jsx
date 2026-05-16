@@ -1,187 +1,170 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { lumen } from '@/api/lumenClient';
 import { createPageUrl } from '@/utils';
 
+/** Hero background — matches `design-system-v0/app/page.tsx` (video + overlays). */
+const DESIGN_SYSTEM_HERO_VIDEO =
+  'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/agentic-hero-9yW3wnTNMfn2U6lsVhTTZSJFEvAoSj.mp4';
+
+const HERO_PAGE_BG = '#F5F4F0';
+const HERO_GRADIENT =
+  'linear-gradient(to top, #F5F4F0 0%, #F5F4F0 18%, rgba(245,244,240,0.85) 35%, rgba(245,244,240,0.5) 55%, rgba(245,244,240,0.15) 75%, transparent 100%)';
+
+const glassBtn =
+  'inline-flex min-h-touch items-center justify-center rounded-[6px] border border-border/70 bg-white/55 px-4 py-2.5 text-sm font-normal text-foreground shadow-sm backdrop-blur-xl transition-colors hover:bg-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2';
+
+const glassBtnPrimary =
+  'inline-flex min-h-touch items-center justify-center rounded-[6px] border border-primary/25 bg-primary/90 px-4 py-2.5 text-sm font-normal text-primary-foreground shadow-sm backdrop-blur-md transition-colors hover:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2';
+
 export default function Landing() {
-  const [showBooking, setShowBooking] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+
+  useEffect(() => {
+    const t = requestAnimationFrame(() => setVideoReady(true));
+    return () => cancelAnimationFrame(t);
+  }, []);
 
   const handlePlatformLogin = () => {
     lumen.auth.redirectToLogin();
   };
 
-  const getNextFriday2PM = () => {
-    const today = new Date();
-    const daysUntilFriday = (5 - today.getDay() + 7) % 7;
-    const nextFriday = new Date(today);
-    nextFriday.setDate(today.getDate() + (daysUntilFriday === 0 ? 7 : daysUntilFriday));
-    nextFriday.setHours(14, 0, 0, 0);
-    return nextFriday;
-  };
-
-  const handleBooking = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      const nextFriday = getNextFriday2PM();
-      localStorage.setItem(
-        'webinarBooking',
-        JSON.stringify({
-          name,
-          email,
-          date: nextFriday.toISOString(),
-        })
-      );
-      setShowBooking(false);
-      setName('');
-      setEmail('');
-      alert('Booking confirmed! Check your email.');
-    } catch (error) {
-      alert('Booking error. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-background">
-      <section className="relative flex items-center" style={{ minHeight: '67vh', padding: '32px' }}>
-        <div className="absolute inset-0">
-          <div className="grid grid-cols-2 h-full">
-            <div className="relative h-full">
-              <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/lumen-prod/public/69816fdfc8b62c2372da0c4b/ee482fc99_Screenshot2026-02-03at074623.png"
-                alt="Professional learning"
-                className="w-full h-full object-cover opacity-70"
-              />
-            </div>
-            <div className="relative h-full">
-              <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/lumen-prod/public/69816fdfc8b62c2372da0c4b/32b64ee3c_Screenshot2026-02-03at074745.png"
-                alt="Student learning"
-                className="w-full h-full object-cover opacity-70"
-              />
-            </div>
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1A1A1A]/80 via-[#1A1A1A]/60 to-[#1A1A1A]" />
-        </div>
+    <div className="flex min-h-screen flex-col text-foreground" style={{ backgroundColor: HERO_PAGE_BG }}>
+      {/* Top bar — actions live here */}
+      <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 border-b border-border/60 bg-white/60 px-4 py-3 backdrop-blur-xl sm:px-8">
+        <span className="font-light text-lg tracking-wide text-foreground">Lumen</span>
+        <nav className="flex flex-wrap items-center justify-end gap-2">
+          <button type="button" onClick={handlePlatformLogin} className={glassBtnPrimary}>
+            Sign in (hosted)
+          </button>
+          <Link to={`${createPageUrl('Login')}?demo=true`} className={glassBtn}>
+            Demo mode (local)
+          </Link>
+          <button type="button" onClick={() => (window.location.href = '#')} className={glassBtn}>
+            Try for free
+          </button>
+        </nav>
+      </header>
 
-        <div className="relative z-10 max-w-6xl mx-auto text-left">
-          <h1
-            className="mb-6 text-[30px] font-extralight leading-tight text-white drop-shadow-md"
-          >
+      {/* Hero — background from design-system-v0 (video + gradient + progressive blur) */}
+      <section className="relative min-h-[88vh] overflow-hidden border-b border-black/[0.06]">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 z-0 h-full w-full object-cover"
+          src={DESIGN_SYSTEM_HERO_VIDEO}
+          style={{
+            transform: videoReady ? 'scale(1.05)' : 'scale(0.85)',
+            transition: 'transform 2s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        />
+
+        {/* Progressive blur + light gradient rising from bottom (design-system-v0) */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10"
+          style={{ height: '65%', background: HERO_GRADIENT }}
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10"
+          style={{
+            height: '20%',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          }}
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10"
+          style={{
+            height: '38%',
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
+            maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          }}
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10"
+          style={{
+            height: '55%',
+            backdropFilter: 'blur(2px)',
+            WebkitBackdropFilter: 'blur(2px)',
+            maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          }}
+        />
+
+        <div className="relative z-20 mx-auto max-w-6xl px-4 pb-20 pt-16 text-left sm:px-8 sm:pb-24 sm:pt-24">
+          <h1 className="max-w-3xl font-light text-3xl leading-snug tracking-tight text-[#111] sm:text-4xl lg:text-[2.5rem]">
             Learning made for you, and just for you
           </h1>
-          <p style={{ fontSize: '24px', color: '#FFFFFF', maxWidth: '800px', marginBottom: '32px' }}>
-            Cutting-edge AI meets neuroscience to transform any course into a truly personalized learning
-            experience
+          <p className="mt-5 max-w-2xl font-normal text-base leading-relaxed text-black/50 sm:text-lg">
+            Cutting-edge AI meets neuroscience to transform any course into a truly personalized learning experience.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={handlePlatformLogin}
-              className="btn-primary uppercase tracking-wider"
-              style={{ height: '48px' }}
-            >
-              Sign in (hosted)
-            </button>
-            <Link
-              to={`${createPageUrl('Login')}?demo=true`}
-              className="btn-outline uppercase tracking-wider inline-flex items-center justify-center"
-              style={{ height: '48px', textDecoration: 'none' }}
-            >
-              Demo mode (local)
-            </Link>
-            <button
-              type="button"
-              onClick={() => (window.location.href = '#')}
-              className="btn-outline uppercase tracking-wider"
-              style={{ height: '48px' }}
-            >
-              Try for free
-            </button>
-          </div>
         </div>
       </section>
 
-      <section className="px-6 lg:px-8" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3" style={{ gap: '24px' }}>
-            <div className="glass-panel rounded-2xl p-6">
-              <h3 className="mb-3 text-[28.8px] font-extralight text-primary">
-                Nobody learns the same way
-              </h3>
-              <p style={{ fontSize: '19.2px', color: '#FFFFFF', lineHeight: 1.6 }}>
-                Some need to talk it out,
-                <br />
-                Some need to see it first,
-                <br />
-                Some need to imagine it step by step
-              </p>
+      {/* Feature cards — glass, 6px radius, readable contrast */}
+      <section className="px-4 py-10 sm:px-8 sm:py-12">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              title: 'Nobody learns the same way',
+              body: 'Some need to talk it out. Some need to see it first. Some need to imagine it step by step.',
+            },
+            {
+              title: 'Your brain, your choice',
+              body: 'You set your rhythm. We adapt to your pace, your style, even your mood — short bursts when you are overwhelmed, deeper dives when you are in flow.',
+            },
+            {
+              title: 'Empowering teachers',
+              body: 'Upload your content — videos, PDFs, text, anything. We reshape it so it fits you and every person on your team. Real retention, real mastery, real progress.',
+            },
+          ].map((card) => (
+            <div
+              key={card.title}
+              className="rounded-[6px] border border-border/70 bg-white/60 p-6 shadow-sm backdrop-blur-xl"
+            >
+              <h3 className="mb-3 font-light text-xl leading-snug tracking-tight text-foreground">{card.title}</h3>
+              <p className="font-normal text-base leading-relaxed text-muted-foreground">{card.body}</p>
             </div>
-
-            <div className="glass-panel rounded-2xl p-6">
-              <h3 className="mb-3 text-[28.8px] font-extralight text-primary">
-                Your brain your choice
-              </h3>
-              <p style={{ fontSize: '19.2px', color: '#FFFFFF', lineHeight: 1.6 }}>
-                You set your rhythm,
-                <br />
-                We adapt — to your pace, your style, even your mood,
-                <br />
-                Short bursts when you&apos;re overwhelmed. Deeper dives when you&apos;re in flow
-              </p>
-            </div>
-
-            <div className="glass-panel rounded-2xl p-6">
-              <h3 className="mb-3 text-[28.8px] font-extralight text-primary">
-                Empowering teachers
-              </h3>
-              <p style={{ fontSize: '19.2px', color: '#FFFFFF', lineHeight: 1.6 }}>
-                Upload your content (videos, PDFs, text, anything),
-                <br />
-                We reshape it so it fits you — and every person in your team.
-                <br />
-                The result: real retention, real mastery, real progress
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      <section className="bg-muted px-6 py-12 lg:px-8">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="mb-4 text-2xl font-extralight text-foreground lg:text-3xl">
+      <section className="border-t border-black/[0.06] px-4 py-12 sm:px-8" style={{ backgroundColor: 'rgba(245,244,240,0.92)' }}>
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-8 max-w-2xl text-left font-light text-2xl tracking-tight text-foreground lg:text-3xl">
             A method backed by more than 103 studies
           </h2>
 
-          <div className="space-y-8 text-left max-w-2xl mx-auto">
-            <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary">
-                <span className="text-xl text-primary-foreground">AI</span>
+          <div className="mx-auto max-w-2xl space-y-8 text-left">
+            <div className="flex gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[6px] border border-border/60 bg-white/55 text-sm font-normal text-foreground backdrop-blur-md">
+                AI
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-extralight text-primary">You are not a number</h3>
-                <p className="text-muted-foreground">
-                  For the first time a the learning experience designed to completely adapt to each individual user,
-                  same content unique experiences. From podcasts, videos, slides until deep conversations, you choose
-                  what works for you
+                <h3 className="mb-2 font-light text-lg text-foreground">You are not a number</h3>
+                <p className="font-normal text-base leading-relaxed text-muted-foreground">
+                  For the first time, a learning experience designed to adapt to each individual — same content,
+                  unique experiences. From podcasts and videos to deep conversations, you choose what works for you.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary">
-                <span className="text-xl text-primary-foreground">🧠</span>
+            <div className="flex gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[6px] border border-border/60 bg-white/55 text-lg backdrop-blur-md">
+                <span aria-hidden>🧠</span>
               </div>
               <div>
-                <h3 className="mb-2 text-xl font-extralight text-primary">You are not alone</h3>
-                <p className="text-muted-foreground">
-                  We will support and adapt until you succeed, no judgement, no pressure, because knowledge is yours,
-                  forever
+                <h3 className="mb-2 font-light text-lg text-foreground">You are not alone</h3>
+                <p className="font-normal text-base leading-relaxed text-muted-foreground">
+                  We support and adapt until you succeed — no judgement, no pressure, because knowledge is yours,
+                  forever.
                 </p>
               </div>
             </div>
