@@ -30,6 +30,9 @@ export default defineConfig(({ mode }) => {
       port: Number(process.env.PORT) || 4173,
       host: true,
       allowedHosts: [
+        'lumen2.eu',
+        'www.lumen2.eu',
+        '.lumen2.eu',
         'lumen-15-may-git.onrender.com',
         '.onrender.com',
         'localhost',
